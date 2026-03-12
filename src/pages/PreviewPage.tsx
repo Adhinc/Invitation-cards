@@ -229,21 +229,21 @@ export function Component() {
             initial={{ y: -60, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
-            className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#C85C6C] to-[#e8829a] text-white px-4 py-3 flex items-center justify-center gap-3 shadow-lg"
+            className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#C85C6C] to-[#e8829a] text-white px-3 md:px-4 py-2.5 md:py-3 flex items-center justify-center gap-2 md:gap-3 shadow-lg flex-wrap"
           >
-            <Sparkles size={16} className="shrink-0" />
-            <span className="text-sm font-semibold">
+            <Sparkles size={14} className="shrink-0 hidden sm:block" />
+            <span className="text-xs md:text-sm font-semibold">
               Free preview — Upgrade for shareable link
             </span>
             <button
               onClick={() => navigate('/pricing')}
-              className="ml-2 bg-white text-[#C85C6C] text-xs font-black uppercase tracking-wider px-4 py-1.5 rounded-full hover:bg-rose-50 transition-colors"
+              className="bg-white text-[#C85C6C] text-[10px] md:text-xs font-black uppercase tracking-wider px-3 md:px-4 py-1 md:py-1.5 rounded-full hover:bg-rose-50 transition-colors"
             >
               Activate Now
             </button>
             <button
               onClick={() => setBannerVisible(false)}
-              className="ml-2 p-1 hover:bg-white/20 rounded-full transition-colors"
+              className="p-1 hover:bg-white/20 rounded-full transition-colors"
               aria-label="Dismiss banner"
             >
               <X size={16} />
@@ -271,7 +271,7 @@ export function Component() {
           </p>
           <p className="text-sm text-slate-400 font-medium mb-6">{subtitle}</p>
 
-          <h1 className="font-serif text-4xl md:text-5xl text-[#C85C6C] font-bold leading-tight mb-4">
+          <h1 className="font-serif text-3xl md:text-5xl text-[#C85C6C] font-bold leading-tight mb-4 break-words">
             {names}
           </h1>
 

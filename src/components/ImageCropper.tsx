@@ -38,7 +38,12 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ image, onCropComplete, onCa
     >
       <div className="relative w-full max-w-2xl bg-white rounded-[32px] overflow-hidden flex flex-col h-[80vh]">
         <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-          <h2 className="serif text-xl font-black text-slate-800">Crop Image</h2>
+          <div className="flex items-center gap-3">
+            <h2 className="serif text-xl font-black text-slate-800">Crop Image</h2>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-[#C85C6C] px-2.5 py-1 rounded-lg">
+              {aspect === 1 ? 'Square' : aspect > 1 ? 'Landscape' : 'Portrait'}
+            </span>
+          </div>
           <button onClick={onCancel} className="p-2 hover:bg-rose-50 rounded-full transition-colors text-slate-400 hover:text-rose-500">
             <X size={20} />
           </button>

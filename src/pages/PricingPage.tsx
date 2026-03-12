@@ -137,7 +137,7 @@ export function Component() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="bg-rose-500 text-white rounded-2xl px-6 py-4 flex items-center justify-center gap-3 mb-14 text-center"
+          className="bg-rose-500 text-white rounded-2xl px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-14 text-center"
         >
           <Sparkles className="w-5 h-5 shrink-0" />
           <span className="font-medium text-sm md:text-base">
@@ -194,7 +194,7 @@ export function Component() {
                 whileHover={{ y: -4 }}
                 className={`relative bg-[var(--bg-secondary)] rounded-3xl p-8 text-center transition-shadow ${
                   isPreferred
-                    ? 'border-2 border-rose-400 shadow-xl scale-105 z-10'
+                    ? 'border-2 border-rose-400 shadow-xl md:scale-105 z-10'
                     : 'border border-[var(--border)] shadow-md'
                 }`}
               >

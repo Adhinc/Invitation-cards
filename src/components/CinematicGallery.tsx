@@ -2,6 +2,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
 import { motion } from 'framer-motion';
+import { ImageIcon } from 'lucide-react';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -11,9 +12,13 @@ import 'swiper/css/effect-fade';
 
 interface GalleryProps {
   images: string[];
+  maxPhotos?: number;
+  tier?: 'Basic' | 'Standard' | 'Premium';
 }
 
-const CinematicGallery: React.FC<GalleryProps> = ({ images }) => {
+const CinematicGallery: React.FC<GalleryProps> = ({ images, maxPhotos = 50, tier = 'Premium' }) => {
+  const limitedImages = images.slice(0, maxPhotos);
+
   return (
     <div className="cinematic-gallery-container w-full overflow-hidden rounded-3xl glass-card">
       <Swiper
@@ -26,7 +31,7 @@ const CinematicGallery: React.FC<GalleryProps> = ({ images }) => {
         autoplay={{ delay: 5000 }}
         className="h-[500px] w-full"
       >
-        {images.map((src, index) => (
+        {limitedImages.map((src, index) => (
           <SwiperSlide key={index}>
             <div className="relative h-full w-full">
               <img
@@ -47,6 +52,19 @@ const CinematicGallery: React.FC<GalleryProps> = ({ images }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {/* Photo count & tier info */}
+      <div className="px-6 py-3 flex items-center justify-between bg-white/80 border-t border-rose-50">
+        <div className="flex items-center gap-2 text-slate-400">
+          <ImageIcon size={14} />
+          <span className="text-[10px] font-bold uppercase tracking-wider">
+            {limitedImages.length} / {maxPhotos} photos
+          </span>
+        </div>
+        <span className="text-[10px] font-black uppercase tracking-wider text-[#C85C6C]/60">
+          {tier} Gallery
+        </span>
+      </div>
     </div>
   );
 };

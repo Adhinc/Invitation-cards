@@ -222,7 +222,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className="bg-white border border-[#EBBAB9]/30 p-4 rounded-2xl flex flex-col items-center gap-2 min-w-[120px] shadow-sm hover:border-[#C85C6C] group transition-all"
+      className="bg-white border border-[#EBBAB9]/30 p-3 md:p-4 rounded-2xl flex flex-col items-center gap-2 min-w-0 shadow-sm hover:border-[#C85C6C] group transition-all"
     >
       {icon ? (
         <img src={icon} alt={label} className="w-12 h-12 object-contain" />
@@ -477,8 +477,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
             </div>
 
             {/* Input Area */}
-            <div className="p-6 bg-white border-t border-slate-50 flex items-center gap-4">
-              <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 flex items-center focus-within:bg-white focus-within:border-rose-200 transition-all">
+            <div className="p-3 md:p-6 bg-white border-t border-slate-50 flex items-center gap-3 md:gap-4">
+              <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-4 md:px-6 py-3 md:py-4 flex items-center focus-within:bg-white focus-within:border-rose-200 transition-all">
                 <input
                   type="text"
                   value={input}
@@ -491,9 +491,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
               <button 
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isProcessing}
-                className="w-14 h-14 bg-[#C85C6C] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-rose-200 hover:bg-[#b04b5a] active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none"
+                className="w-12 h-12 md:w-14 md:h-14 bg-[#C85C6C] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-rose-200 hover:bg-[#b04b5a] active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none shrink-0"
               >
-                <Send size={24} />
+                <Send size={20} />
               </button>
             </div>
       </motion.div>

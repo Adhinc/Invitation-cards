@@ -432,7 +432,7 @@ function StatsBar({ event }: { event: EventConfig }) {
           whileInView="visible"
           viewport={{ once: true }}
           variants={stagger}
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
         >
           {stats.map((s) => (
             <motion.div key={s.label} variants={fadeUp} className="text-center">
@@ -457,7 +457,7 @@ function PricingSection({ event }: { event: EventConfig }) {
       <SectionTitle color={event.accentColor} sub="Simple, transparent pricing">
         Choose Your Plan
       </SectionTitle>
-      <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
         {PRICING_PLANS.map((plan) => (
           <motion.div
             key={plan.id}
@@ -522,10 +522,10 @@ function OfferBanner({ event }: { event: EventConfig }) {
             <Zap className="w-4 h-4" /> Limited Time Offer
           </span>
           <h3 className="text-2xl md:text-3xl font-bold">Premium features &mdash; 10% off for early birds</h3>
-          <div className="mt-4 flex justify-center gap-3 text-3xl font-mono font-bold">
+          <div className="mt-4 flex justify-center gap-2 md:gap-3 text-2xl md:text-3xl font-mono font-bold">
             {['03', '12', '45', '22'].map((v, i) => (
               <span key={i} className="inline-flex flex-col items-center">
-                <span className="bg-white/20 backdrop-blur rounded-lg px-3 py-2">{v}</span>
+                <span className="bg-white/20 backdrop-blur rounded-lg px-2 py-1.5 md:px-3 md:py-2">{v}</span>
                 <span className="text-[10px] mt-1 font-sans font-normal opacity-80">
                   {['Days', 'Hrs', 'Min', 'Sec'][i]}
                 </span>

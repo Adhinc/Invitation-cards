@@ -445,7 +445,7 @@ export function Component() {
               className="max-w-3xl mx-auto glass-card overflow-hidden"
               style={{ borderLeft: '4px solid #22c55e' }}
             >
-              <div className="grid grid-cols-3 text-center font-semibold p-4 border-b border-gray-100">
+              <div className="grid grid-cols-3 text-center font-semibold p-3 md:p-4 border-b border-gray-100 text-sm md:text-base">
                 <span>Feature</span>
                 <span>Paper</span>
                 <span className="text-green-600">Digital</span>
@@ -460,16 +460,16 @@ export function Component() {
               ].map((row, i) => (
                 <div
                   key={row.feature}
-                  className={`grid grid-cols-3 text-center p-4 text-sm ${
+                  className={`grid grid-cols-3 text-center p-3 md:p-4 text-xs md:text-sm ${
                     i % 2 === 0 ? 'bg-white/50' : ''
                   }`}
                 >
                   <span className="font-medium">{row.feature}</span>
                   <span className="flex items-center justify-center gap-1 text-red-400">
-                    <X size={16} /> {row.pLabel}
+                    <X size={14} className="shrink-0" /> <span className="hidden sm:inline">{row.pLabel}</span>
                   </span>
                   <span className="flex items-center justify-center gap-1 text-green-600">
-                    <Check size={16} /> {row.dLabel}
+                    <Check size={14} className="shrink-0" /> <span className="hidden sm:inline">{row.dLabel}</span>
                   </span>
                 </div>
               ))}

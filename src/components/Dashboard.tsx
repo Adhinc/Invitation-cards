@@ -140,15 +140,33 @@ const Dashboard: React.FC = () => {
         </button>
       </aside>
 
+      {/* Mobile Header */}
+      <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-rose-100">
+        <div className="serif text-xl font-black text-[#C85C6C] italic flex items-center gap-2">
+          <Sparkles size={18} /> BigDate
+        </div>
+        <div className="flex items-center gap-2">
+          <select
+            value={activeFilter}
+            onChange={(e) => setActiveFilter(e.target.value as EventFilter)}
+            className="text-xs font-bold border border-rose-100 rounded-lg px-2 py-1.5 bg-white text-slate-600"
+          >
+            {EVENT_FILTERS.map((f) => (
+              <option key={f} value={f}>{f}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       {/* Main Content */}
       <main className="flex-1 p-4 md:p-12 overflow-y-auto bg-[#FFF9F5]">
-        <header className="flex justify-between items-center mb-12">
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-12">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2 italic">Welcome back,</p>
-            <h1 className="text-4xl serif font-black text-slate-800 italic">Akhil Kottikkal</h1>
+            <h1 className="text-2xl md:text-4xl serif font-black text-slate-800 italic">Akhil Kottikkal</h1>
           </div>
-          <Link to="/" className="btn-premium flex items-center gap-3 px-8 py-4 shadow-xl shadow-rose-100">
-            <Plus size={20} className="stroke-[3]" /> Create New Invite
+          <Link to="/" className="btn-premium flex items-center gap-2 md:gap-3 px-5 md:px-8 py-3 md:py-4 shadow-xl shadow-rose-100 text-sm md:text-base shrink-0">
+            <Plus size={18} className="stroke-[3]" /> Create New Invite
           </Link>
         </header>
 
@@ -157,16 +175,16 @@ const Dashboard: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-between"
+            className="mb-8 p-4 md:p-5 bg-emerald-50 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
           >
             <div className="flex items-center gap-3">
-              <CheckCircle size={18} className="text-emerald-500" />
+              <CheckCircle size={18} className="text-emerald-500 shrink-0" />
               <div>
-                <p className="text-sm font-bold text-emerald-800">Subscription active — expires {formatExpiryDate(subscription.expiresAt)}</p>
+                <p className="text-xs md:text-sm font-bold text-emerald-800">Subscription active — expires {formatExpiryDate(subscription.expiresAt)}</p>
                 <p className="text-[11px] text-emerald-500 mt-0.5">Enjoy all premium features with your current plan</p>
               </div>
             </div>
-            <Link to="/pricing" className="px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-sm">
+            <Link to="/pricing" className="px-4 md:px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-sm shrink-0">
               Renew Early
             </Link>
           </motion.div>
@@ -176,16 +194,16 @@ const Dashboard: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 p-5 bg-red-50 border border-red-200 rounded-2xl flex items-center justify-between"
+            className="mb-8 p-4 md:p-5 bg-red-50 border border-red-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
           >
             <div className="flex items-center gap-3">
-              <AlertTriangle size={18} className="text-red-500" />
+              <AlertTriangle size={18} className="text-red-500 shrink-0" />
               <div>
-                <p className="text-sm font-bold text-red-800">Subscription expired</p>
+                <p className="text-xs md:text-sm font-bold text-red-800">Subscription expired</p>
                 <p className="text-[11px] text-red-400 mt-0.5">Renew your plan to keep your invitation links live</p>
               </div>
             </div>
-            <Link to="/pricing" className="px-6 py-2.5 bg-red-500 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-red-600 transition-colors shadow-sm">
+            <Link to="/pricing" className="px-4 md:px-6 py-2.5 bg-red-500 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-red-600 transition-colors shadow-sm shrink-0">
               Renew
             </Link>
           </motion.div>
@@ -195,16 +213,16 @@ const Dashboard: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8 p-5 bg-blue-50 border border-blue-200 rounded-2xl flex items-center justify-between"
+            className="mb-8 p-4 md:p-5 bg-blue-50 border border-blue-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
           >
             <div className="flex items-center gap-3">
-              <Info size={18} className="text-blue-500" />
+              <Info size={18} className="text-blue-500 shrink-0" />
               <div>
-                <p className="text-sm font-bold text-blue-800">You're on the free plan. Upgrade to remove ads and get a shareable link</p>
+                <p className="text-xs md:text-sm font-bold text-blue-800">You're on the free plan. Upgrade to remove ads and get a shareable link</p>
                 <p className="text-[11px] text-blue-400 mt-0.5">Choose from 1-month, 3-month, or 1-year plans</p>
               </div>
             </div>
-            <Link to="/pricing" className="px-6 py-2.5 bg-blue-500 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-blue-600 transition-colors shadow-sm">
+            <Link to="/pricing" className="px-4 md:px-6 py-2.5 bg-blue-500 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-blue-600 transition-colors shadow-sm shrink-0">
               Upgrade
             </Link>
           </motion.div>
@@ -220,8 +238,8 @@ const Dashboard: React.FC = () => {
               transition={{ delay: i * 0.1 }}
               className="bg-white p-4 md:p-8 rounded-2xl md:rounded-[32px] border border-rose-100 shadow-sm group hover:shadow-xl hover:shadow-rose-100/50 transition-all duration-500"
             >
-              <div className="flex justify-between items-start mb-6">
-                <div className={`p-4 rounded-2xl ${
+              <div className="flex justify-between items-start mb-4 md:mb-6">
+                <div className={`p-2.5 md:p-4 rounded-xl md:rounded-2xl ${
                   s.color === 'rose' ? 'bg-rose-50 text-rose-500' :
                   s.color === 'emerald' ? 'bg-emerald-50 text-emerald-500' :
                   s.color === 'amber' ? 'bg-amber-50 text-amber-500' : 'bg-slate-50 text-slate-500'
@@ -232,7 +250,7 @@ const Dashboard: React.FC = () => {
                   {s.trend}
                 </div>
               </div>
-              <div className="text-3xl font-black text-slate-800 mb-2">{s.value}</div>
+              <div className="text-xl md:text-3xl font-black text-slate-800 mb-2">{s.value}</div>
               <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">{s.label}</div>
             </motion.div>
           ))}
@@ -241,7 +259,7 @@ const Dashboard: React.FC = () => {
         {/* Active Websites Grid */}
         <div className="space-y-8">
           <div className="flex justify-between items-center">
-            <h3 className="serif text-3xl font-black text-slate-800 italic">
+            <h3 className="serif text-xl md:text-3xl font-black text-slate-800 italic">
               {activeFilter === 'All' ? 'Active Websites' : `${activeFilter} Invites`}
             </h3>
             <button className="text-[10px] font-black uppercase tracking-widest text-[#C85C6C] flex items-center gap-2 hover:gap-3 transition-all">
