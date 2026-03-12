@@ -20,7 +20,7 @@ export interface EventConfig {
 export const EVENTS: EventConfig[] = [
   {
     type: 'wedding', label: 'Wedding', slug: 'wedding',
-    urlPath: '/create-your-wedding-website',
+    urlPath: '/events/wedding',
     accentColor: '#e8dbdc',
     person1Label: 'Groom', person2Label: 'Bride', isCoupleEvent: true,
     tagline: 'Together with their families',
@@ -32,7 +32,7 @@ export const EVENTS: EventConfig[] = [
   },
   {
     type: 'betrothal', label: 'Betrothal', slug: 'betrothal',
-    urlPath: '/create-your-betrothal-website',
+    urlPath: '/events/betrothal',
     accentColor: '#c084fc',
     person1Label: 'Groom', person2Label: 'Bride', isCoupleEvent: true,
     tagline: 'With joy in our hearts',
@@ -44,7 +44,7 @@ export const EVENTS: EventConfig[] = [
   },
   {
     type: 'birthday', label: 'Birthday', slug: 'birthday',
-    urlPath: '/create-your-birthday-website',
+    urlPath: '/events/birthday',
     accentColor: '#8499dd',
     person1Label: 'Birthday Person', isCoupleEvent: false,
     tagline: "You're invited to celebrate",
@@ -56,7 +56,7 @@ export const EVENTS: EventConfig[] = [
   },
   {
     type: 'baptism', label: 'Baptism', slug: 'baptism',
-    urlPath: '/create-your-baptism-website',
+    urlPath: '/events/baptism',
     accentColor: '#57aa53',
     person1Label: 'Child', isCoupleEvent: false,
     tagline: 'With gratitude and joy',
@@ -68,7 +68,7 @@ export const EVENTS: EventConfig[] = [
   },
   {
     type: 'holy_communion', label: 'Holy Communion', slug: 'holy-communion',
-    urlPath: '/create-your-holy-communion-website',
+    urlPath: '/events/holy-communion',
     accentColor: '#57aa53',
     person1Label: 'Child', isCoupleEvent: false,
     tagline: 'With hearts full of faith',
@@ -80,7 +80,7 @@ export const EVENTS: EventConfig[] = [
   },
   {
     type: 'naming_ceremony', label: 'Naming Ceremony', slug: 'naming-ceremony',
-    urlPath: '/create-your-naming-ceremony-website',
+    urlPath: '/events/naming-ceremony',
     accentColor: '#f4c542',
     person1Label: 'Baby', isCoupleEvent: false,
     tagline: 'With love and happiness',
@@ -92,7 +92,7 @@ export const EVENTS: EventConfig[] = [
   },
   {
     type: 'baby_shower', label: 'Baby Shower', slug: 'baby-shower',
-    urlPath: '/create-your-baby-shower-website',
+    urlPath: '/events/baby-shower',
     accentColor: '#f9a8d4',
     person1Label: 'Mother-to-be', isCoupleEvent: false,
     tagline: 'A little one is on the way!',
@@ -104,7 +104,7 @@ export const EVENTS: EventConfig[] = [
   },
   {
     type: 'housewarming', label: 'Housewarming', slug: 'housewarming',
-    urlPath: '/create-your-housewarming-website',
+    urlPath: '/events/housewarming',
     accentColor: '#f97316',
     person1Label: 'Host', isCoupleEvent: false,
     tagline: 'New home, new beginnings',

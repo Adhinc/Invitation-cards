@@ -8,6 +8,7 @@ export function Component() {
   const eventType = params.get('event') as EventType | null;
 
   const handleComplete = (data: any) => {
+    sessionStorage.setItem('inviteFormData', JSON.stringify(data));
     navigate('/templates', { state: { formData: data, eventType: data.eventType } });
   };
 

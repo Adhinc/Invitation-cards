@@ -163,13 +163,16 @@ export function Component() {
   const navigate = useNavigate();
   const { formData, eventType, selectedTemplate } = (location.state as LocationState) || {};
 
+  const stored = !formData ? JSON.parse(sessionStorage.getItem('inviteFormData') || 'null') : null;
+  const actualFormData = formData || stored;
+
   const [bannerVisible, setBannerVisible] = useState(true);
   const [rsvpStatus, setRsvpStatus] = useState<'none' | 'attending'>('none');
 
   // Redirect if no formData
-  if (!formData) return <Navigate to="/" replace />;
+  if (!actualFormData) return <Navigate to="/" replace />;
 
-  const event = getEventByType(eventType || formData.eventType);
+  const event = getEventByType(eventType || actualFormData.eventType);
   const tagline = event?.tagline || 'You are cordially invited';
   const subtitle = event?.subtitle || 'to celebrate with us';
   const countdownLabel = event?.countdownLabel || 'Countdown';
@@ -177,18 +180,18 @@ export function Component() {
   const eventLabel = event?.label || 'Event';
   const isCoupleEvent = event?.isCoupleEvent ?? false;
 
-  const IconComponent = eventIcons[eventType || formData.eventType] || Heart;
+  const IconComponent = eventIcons[eventType || actualFormData.eventType] || Heart;
 
-  const names = isCoupleEvent && formData.person2Name
-    ? `${formData.person1Name} & ${formData.person2Name}`
-    : formData.person1Name;
+  const names = isCoupleEvent && actualFormData.person2Name
+    ? `${actualFormData.person1Name} & ${actualFormData.person2Name}`
+    : actualFormData.person1Name;
 
   const galleryImages =
-    formData.images && formData.images.length > 0 ? formData.images : SAMPLE_IMAGES;
+    actualFormData.images && actualFormData.images.length > 0 ? actualFormData.images : SAMPLE_IMAGES;
 
   // ── Handlers ───────────────────────────────────────────
   const handleAddToCalendar = () => {
-    const icsContent = generateICS(formData, eventLabel);
+    const icsContent = generateICS(actualFormData, eventLabel);
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -201,14 +204,14 @@ export function Component() {
   };
 
   const handleGetDirections = () => {
-    const url = formData.coords
-      ? `https://www.google.com/maps/dir/?api=1&destination=${formData.coords.lat},${formData.coords.lng}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formData.address || formData.location || '')}`;
+    const url = actualFormData.coords
+      ? `https://www.google.com/maps/dir/?api=1&destination=${actualFormData.coords.lat},${actualFormData.coords.lng}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(actualFormData.address || actualFormData.location || '')}`;
     window.open(url, '_blank');
   };
 
   const handleShareWhatsApp = () => {
-    const text = `You're invited! ${names} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(formData.date)}${formData.time ? ' at ' + formatTime(formData.time) : ''}. ${formData.location ? 'Venue: ' + formData.location : ''}`;
+    const text = `You're invited! ${names} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(actualFormData.date)}${actualFormData.time ? ' at ' + formatTime(actualFormData.time) : ''}. ${actualFormData.location ? 'Venue: ' + actualFormData.location : ''}`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
@@ -276,14 +279,17 @@ export function Component() {
           </h1>
 
           <div className="flex flex-col items-center gap-1 mt-4">
-            <p className="text-lg font-semibold text-slate-700">{formatDate(formData.date)}</p>
-            {formData.time && (
-              <p className="text-sm text-slate-400 font-medium">{formatTime(formData.time)}</p>
+            <p className="text-lg font-semibold text-slate-700">{formatDate(actualFormData.date)}</p>
+            {actualFormData.time && (
+              <p className="text-sm text-slate-400 font-medium">{formatTime(actualFormData.time)}</p>
             )}
           </div>
 
-          {formData.parents && (
-            <p className="text-xs text-slate-400 mt-4 italic">{formData.parents}</p>
+          {actualFormData.parents && typeof actualFormData.parents === 'object' && (
+            <p className="text-xs text-slate-400 mt-4 italic">
+              With the blessings of{' '}
+              {Object.values(actualFormData.parents).filter(Boolean).join(' & ')}
+            </p>
           )}
         </Section>
 
@@ -302,16 +308,16 @@ export function Component() {
         {/* ── 4. Countdown ─────────────────────────────── */}
         <Section className="mt-12">
           <h2 className="font-serif text-2xl text-center text-[#C85C6C] mb-2">{countdownLabel}</h2>
-          <CountdownTimer targetDate={formData.date + 'T12:00:00'} />
+          <CountdownTimer targetDate={actualFormData.date + 'T12:00:00'} />
         </Section>
 
         {/* ── 5. Venue Map ─────────────────────────────── */}
-        {(formData.location || formData.address) && (
+        {(actualFormData.location || actualFormData.address) && (
           <Section>
             <VenueMap
-              locationName={formData.location || 'Venue'}
-              address={formData.address || formData.location || ''}
-              coords={formData.coords}
+              locationName={actualFormData.location || 'Venue'}
+              address={actualFormData.address || actualFormData.location || ''}
+              coords={actualFormData.coords}
             />
           </Section>
         )}
@@ -397,7 +403,7 @@ export function Component() {
             whileTap={{ scale: 0.95 }}
             onClick={() =>
               navigate('/templates', {
-                state: { formData, eventType: eventType || formData.eventType },
+                state: { formData: actualFormData, eventType: eventType || actualFormData.eventType },
               })
             }
             className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"

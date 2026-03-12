@@ -174,7 +174,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
           } else {
             setParentsPhase(null);
             addAssistantMessage("What's the Date of the event ?");
-            break;
+            setFormData(newFormData);
+            setStep(11);
+            return;
           }
         }
         break;
@@ -483,7 +485,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Type your message..."
                   className="flex-1 bg-transparent border-none outline-none text-base text-slate-700 placeholder:text-slate-400 font-medium"
                 />

@@ -21,7 +21,7 @@ const MapPicker: React.FC<MapPickerProps> = ({ onConfirm, onCancel }) => {
   const [searching, setSearching] = useState(false);
   const [selected, setSelected] = useState<{ name: string; address: string; lat: number; lng: number } | null>(null);
   const [locating, setLocating] = useState(false);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const searchPlaces = useCallback(async (query: string) => {
     if (query.length < 3) { setResults([]); return; }

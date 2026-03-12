@@ -6,7 +6,7 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { path: '/', lazy: () => import('./pages/Home') },
-      { path: '/create-your-:eventSlug-website', lazy: () => import('./pages/EventPage') },
+      { path: '/events/:eventSlug', lazy: () => import('./pages/EventPage') },
       { path: '/chatbot', lazy: () => import('./pages/ChatbotPage') },
       { path: '/templates', lazy: () => import('./pages/TemplatePage') },
       { path: '/preview', lazy: () => import('./pages/PreviewPage') },

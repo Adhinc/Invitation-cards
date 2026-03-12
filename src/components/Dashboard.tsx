@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
       {/* Sidebar */}
       <aside className="hidden md:flex w-72 bg-white h-screen border-r border-rose-100 p-8 flex-col shadow-sm">
         <div className="serif text-3xl font-black text-[#C85C6C] italic mb-12 flex items-center gap-2">
-           <Sparkles size={24} /> Initation
+           <Sparkles size={24} /> BigDate
         </div>
 
         <nav className="flex-1 space-y-3">

@@ -18,11 +18,15 @@ export function Component() {
   const navigate = useNavigate();
   const { formData, eventType } = (location.state as { formData?: unknown; eventType?: string }) || {};
 
+  const stored = !formData ? JSON.parse(sessionStorage.getItem('inviteFormData') || 'null') : null;
+  const actualFormData = formData || stored;
+  const actualEventType = eventType || stored?.eventType;
+
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  if (!formData) return <Navigate to="/" replace />;
+  if (!actualFormData) return <Navigate to="/" replace />;
 
-  const event = getEventByType(eventType as Parameters<typeof getEventByType>[0]);
+  const event = getEventByType(actualEventType as Parameters<typeof getEventByType>[0]);
   const accentColor = event?.accentColor || '#C85C6C';
   const selectedTemplate = TEMPLATES.find((t) => t.id === selectedId);
 
@@ -141,11 +145,12 @@ export function Component() {
 
           <button
             disabled={!selectedTemplate}
-            onClick={() =>
+            onClick={() => {
+              sessionStorage.setItem('inviteSelectedTemplate', JSON.stringify(selectedTemplate));
               navigate('/preview', {
-                state: { formData, eventType, selectedTemplate },
-              })
-            }
+                state: { formData: actualFormData, eventType: actualEventType, selectedTemplate },
+              });
+            }}
             className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#C85C6C] text-white font-bold text-sm shadow-lg shadow-rose-200/50 hover:brightness-110 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
           >
             Continue

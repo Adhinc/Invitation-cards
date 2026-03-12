@@ -54,14 +54,11 @@ export default function Navbar() {
 
           {/* Desktop Auth */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link
-              to="/login"
-              className="text-sm font-medium text-gray-600 hover:text-[#C85C6C] transition-colors"
-            >
+            <button className="text-sm font-medium text-gray-600 hover:text-[#C85C6C] transition-colors cursor-not-allowed opacity-60">
               Login
-            </Link>
+            </button>
             <Link
-              to="/create-your-wedding-website"
+              to="/events/wedding"
               className="px-4 py-2 text-sm font-semibold text-white bg-[#C85C6C] rounded-full hover:bg-[#b34d5c] transition-colors"
             >
               Create
@@ -117,15 +114,11 @@ export default function Navbar() {
               </Link>
 
               <div className="pt-3 mt-3 border-t border-rose-100 flex items-center gap-3">
-                <Link
-                  to="/login"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex-1 text-center py-2.5 text-sm font-medium text-gray-600 hover:text-[#C85C6C] rounded-lg border border-gray-200"
-                >
+                <button className="flex-1 text-center py-2.5 text-sm font-medium text-gray-600 hover:text-[#C85C6C] rounded-lg border border-gray-200 cursor-not-allowed opacity-60">
                   Login
-                </Link>
+                </button>
                 <Link
-                  to="/create-your-wedding-website"
+                  to="/events/wedding"
                   onClick={() => setMobileOpen(false)}
                   className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-[#C85C6C] rounded-lg hover:bg-[#b34d5c]"
                 >
