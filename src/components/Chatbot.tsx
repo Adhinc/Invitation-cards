@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Sparkles, Camera, MapPin } from 'lucide-react';
+import { Send, Sparkles, Camera, MapPin } from 'lucide-react';
 import ImageCropper from './ImageCropper';
 import MapPicker from './MapPicker';
+import DatePicker from './DatePicker';
+import TimePicker from './TimePicker';
+import type { EventType } from '../constants/events';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -11,22 +14,44 @@ interface Message {
 }
 
 interface ChatbotProps {
+  eventType?: EventType;
   onComplete?: (data: any) => void;
 }
 
-const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState<any>({});
-  const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: "Hello! You've reached BigDate. I'll help you create a beautiful Website for your big day." },
-    { role: 'assistant', content: "What's your Event ?" }
-  ]);
+const COUPLE_EVENTS: EventType[] = ['wedding', 'betrothal'];
+
+const EVENT_CONFIG: Record<EventType, { label: string; person1: string; person2?: string; }> = {
+  wedding: { label: 'Wedding', person1: 'Groom', person2: 'Bride' },
+  betrothal: { label: 'Betrothal', person1: 'Groom', person2: 'Bride' },
+  birthday: { label: 'Birthday', person1: 'Birthday Person' },
+  baptism: { label: 'Baptism', person1: 'Child' },
+  holy_communion: { label: 'Holy Communion', person1: 'Child' },
+  naming_ceremony: { label: 'Naming Ceremony', person1: 'Baby' },
+  baby_shower: { label: 'Baby Shower', person1: 'Mother-to-be' },
+  housewarming: { label: 'Housewarming', person1: 'Host' },
+};
+
+const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete }) => {
+  const [step, setStep] = useState(() => eventTypeProp ? 1 : 0);
+  const [formData, setFormData] = useState<any>(() => eventTypeProp ? { eventType: eventTypeProp } : {});
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (eventTypeProp) {
+      const cfg = EVENT_CONFIG[eventTypeProp];
+      return [
+        { role: 'assistant', content: `I'll help you create a beautiful ${cfg.label} Website. Let's start with the ${cfg.person1}'s name, please.` },
+      ];
+    }
+    return [
+      { role: 'assistant', content: "Hello! You've reached BigDate. I'll help you create a beautiful Website for your special day." },
+      { role: 'assistant', content: "What's your Event ?" },
+    ];
+  });
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [pendingImage, setPendingImage] = useState<string | null>(null);
   const [showCropper, setShowCropper] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
+  const [cropAspect, setCropAspect] = useState(1);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -54,44 +79,132 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
     }, 1200);
   };
 
+  const [parentsPhase, setParentsPhase] = useState<'groom_father' | 'groom_mother' | 'bride_father' | 'bride_mother' | null>(null);
+
+  const isCoupleEvent = () => COUPLE_EVENTS.includes(formData.eventType as EventType);
+  const getConfig = () => EVENT_CONFIG[formData.eventType as EventType] || EVENT_CONFIG.wedding;
+
   const processNextStep = (userInput: string) => {
     let nextStep = step + 1;
     let newFormData = { ...formData };
 
     switch (step) {
-      case 0: // Event Type
-        newFormData.eventType = userInput.includes("Wedding") ? "wedding" : "betrothal";
-        addAssistantMessage("Groom's name, please.");
+      case 0: { // Event Type
+        const eventMap: Record<string, EventType> = {
+          'Wedding': 'wedding', 'Betrothal': 'betrothal', 'Birthday': 'birthday',
+          'Baptism': 'baptism', 'Holy Communion': 'holy_communion',
+          'Naming Ceremony': 'naming_ceremony', 'Baby Shower': 'baby_shower',
+          'Housewarming': 'housewarming',
+        };
+        const matched = Object.entries(eventMap).find(([key]) => userInput.includes(key));
+        newFormData.eventType = matched ? matched[1] : 'wedding';
+        const cfg = EVENT_CONFIG[newFormData.eventType as EventType];
+        addAssistantMessage(`${cfg.person1}'s name, please.`);
         break;
-      case 1: // Groom Name
-        newFormData.groomName = userInput;
-        addAssistantMessage(`Please share an Image of the Groom (square)!`);
+      }
+      case 1: // Person 1 Name
+        newFormData.person1Name = userInput;
+        setCropAspect(1);
+        addAssistantMessage(`Please share a profile photo of the ${getConfig().person1}!`);
         break;
-      case 2: // Groom Image
-        newFormData.groomImage = userInput.includes("later") ? null : "uploaded";
-        addAssistantMessage("Bride's name, please.");
+      case 2: // Person 1 Image
+        newFormData.person1Image = userInput.includes("later") ? null : "uploaded";
+        if (isCoupleEvent()) {
+          addAssistantMessage(`${getConfig().person2}'s name, please.`);
+        } else {
+          // Skip person 2 — go to parents question
+          addAssistantMessage("Would you like to add the parents' names to the invitation ?");
+          setFormData(newFormData);
+          setStep(6); // Jump to parents step
+          return;
+        }
         break;
-      case 3: // Bride Name
-        newFormData.brideName = userInput;
-        addAssistantMessage("Please share an Image of the Bride (square)!");
+      case 3: // Person 2 Name (couple events only)
+        newFormData.person2Name = userInput;
+        setCropAspect(1);
+        addAssistantMessage(`Please share a profile photo of the ${getConfig().person2}!`);
         break;
-      case 4: // Bride Image
-        newFormData.brideImage = userInput.includes("later") ? null : "uploaded";
+      case 4: // Person 2 Image
+        newFormData.person2Image = userInput.includes("later") ? null : "uploaded";
         addAssistantMessage("Who should be viewed first ?");
         break;
-      case 5: // View Priority
-        newFormData.priority = userInput.includes("Bride") ? "bride" : "groom";
-        addAssistantMessage("What's the Date of the event ?");
+      case 5: // View Priority (couple events only)
+        newFormData.priority = userInput.includes(getConfig().person2 || '') ? "person2" : "person1";
+        addAssistantMessage("Would you like to add the parents' names to the invitation ?");
         break;
-      case 6: // Date
+      case 6: // Parents' Names
+        if (userInput.includes("skip") || userInput.includes("Skip")) {
+          newFormData.parents = null;
+          addAssistantMessage("What's the Date of the event ?");
+          setFormData(newFormData);
+          setStep(11);
+          return;
+        } else {
+          newFormData.parents = {};
+          if (isCoupleEvent()) {
+            setParentsPhase('groom_father');
+            addAssistantMessage(`${getConfig().person1}'s Father's name ?`);
+          } else {
+            setParentsPhase('groom_father');
+            addAssistantMessage("Father's name ?");
+          }
+          setFormData(newFormData);
+          setStep(nextStep);
+          return;
+        }
+      case 7: // Parents sub-flow
+        if (parentsPhase === 'groom_father') {
+          newFormData.parents = { ...newFormData.parents, person1Father: userInput.includes("skip") ? null : userInput };
+          setParentsPhase('groom_mother');
+          addAssistantMessage(isCoupleEvent() ? `${getConfig().person1}'s Mother's name ?` : "Mother's name ?");
+          setFormData(newFormData);
+          setStep(nextStep);
+          return;
+        }
+        break;
+      case 8:
+        if (parentsPhase === 'groom_mother') {
+          newFormData.parents = { ...newFormData.parents, person1Mother: userInput.includes("skip") ? null : userInput };
+          if (isCoupleEvent()) {
+            setParentsPhase('bride_father');
+            addAssistantMessage(`${getConfig().person2}'s Father's name ?`);
+            setFormData(newFormData);
+            setStep(nextStep);
+            return;
+          } else {
+            setParentsPhase(null);
+            addAssistantMessage("What's the Date of the event ?");
+            break;
+          }
+        }
+        break;
+      case 9:
+        if (parentsPhase === 'bride_father') {
+          newFormData.parents = { ...newFormData.parents, person2Father: userInput.includes("skip") ? null : userInput };
+          setParentsPhase('bride_mother');
+          addAssistantMessage(`${getConfig().person2}'s Mother's name ?`);
+          setFormData(newFormData);
+          setStep(nextStep);
+          return;
+        }
+        break;
+      case 10:
+        if (parentsPhase === 'bride_mother') {
+          newFormData.parents = { ...newFormData.parents, person2Mother: userInput.includes("skip") ? null : userInput };
+          setParentsPhase(null);
+          addAssistantMessage("What's the Date of the event ?");
+          break;
+        }
+        break;
+      case 11: // Date
         newFormData.date = userInput;
         addAssistantMessage("Your event is happening soon! What Time does it start ?");
         break;
-      case 7: // Time
+      case 12: // Time
         newFormData.time = userInput;
         addAssistantMessage("Share the Address for easy access.");
         break;
-      case 8: // Address
+      case 13: // Address
         newFormData.address = userInput;
         addAssistantMessage("Magic is happening... Unwrapping Your Invite Magic!");
         if (onComplete) {
@@ -148,10 +261,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
     fileInputRef.current?.click();
   };
 
-  const handleMapConfirm = (location: string, address: string) => {
+  const handleMapConfirm = (location: string, address: string, coords?: { lat: number; lng: number }) => {
     setShowMapPicker(false);
-    setFormData((prev: any) => ({ ...prev, location, address }));
-    setMessages(prev => [...prev, { role: 'user', content: `Venue: ${location}, ${address}` }]);
+    setFormData((prev: any) => ({ ...prev, location, address, coords }));
+    setMessages(prev => [...prev, { role: 'user', content: `Venue: ${location}` }]);
     setIsProcessing(true);
     setTimeout(() => {
       processNextStep("location_confirmed");
@@ -164,8 +277,14 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
       case 0:
         return (
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <ChoiceChip label="Wedding" icon="https://cdn-icons-png.flaticon.com/512/3656/3656824.png" onClick={() => handleSend("Its a Wedding function")} />
-            <ChoiceChip label="Betrothal" icon="https://cdn-icons-png.flaticon.com/512/3656/3656799.png" onClick={() => handleSend("Its a Betrothal ceremony")} />
+            <ChoiceChip label="Wedding" onClick={() => handleSend("Its a Wedding")} />
+            <ChoiceChip label="Betrothal" onClick={() => handleSend("Its a Betrothal")} />
+            <ChoiceChip label="Birthday" onClick={() => handleSend("Its a Birthday")} />
+            <ChoiceChip label="Baptism" onClick={() => handleSend("Its a Baptism")} />
+            <ChoiceChip label="Holy Communion" onClick={() => handleSend("Its a Holy Communion")} />
+            <ChoiceChip label="Naming Ceremony" onClick={() => handleSend("Its a Naming Ceremony")} />
+            <ChoiceChip label="Baby Shower" onClick={() => handleSend("Its a Baby Shower")} />
+            <ChoiceChip label="Housewarming" onClick={() => handleSend("Its a Housewarming")} />
           </div>
         );
       case 2:
@@ -178,22 +297,43 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
              </button>
            </div>
         );
-      case 5:
+      case 5: {
+        const cfg = getConfig();
         return (
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <ChoiceChip label="Bride" icon="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" onClick={() => handleSend("View Bride first")} />
-            <ChoiceChip label="Groom" icon="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" onClick={() => handleSend("View Groom first")} />
+            <ChoiceChip label={cfg.person2 || 'Person 2'} onClick={() => handleSend(`View ${cfg.person2} first`)} />
+            <ChoiceChip label={cfg.person1} onClick={() => handleSend(`View ${cfg.person1} first`)} />
+          </div>
+        );
+      }
+      case 6:
+        return (
+          <div className="mt-4 flex gap-3">
+            <button onClick={() => handleSend("Yes, add parents")} className="px-6 py-2 bg-[#C85C6C] text-white rounded-full text-sm font-bold">Yes, add them</button>
+            <button onClick={() => handleSend("Skip parents")} className="px-6 py-2 bg-white border border-[#C85C6C] text-[#C85C6C] rounded-full text-sm font-bold">Skip</button>
           </div>
         );
       case 7:
-        return (
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            {["Morning", "Afternoon", "Evening"].map(t => (
-               <button key={t} onClick={() => handleSend(t)} className="px-4 py-2 border border-[#EBBAB9] rounded-full text-xs font-bold hover:bg-[#C85C6C] hover:text-white transition-colors">{t}</button>
-            ))}
-          </div>
-        );
       case 8:
+      case 9:
+      case 10:
+        if (parentsPhase) {
+          return (
+            <div className="mt-4">
+              <button onClick={() => handleSend("skip")} className="px-5 py-2 bg-white border border-slate-200 text-slate-400 rounded-full text-xs font-bold hover:border-[#C85C6C] hover:text-[#C85C6C] transition-colors">Skip this</button>
+            </div>
+          );
+        }
+        return null;
+      case 11:
+        return (
+          <DatePicker onSelect={(dateStr) => handleSend(dateStr)} />
+        );
+      case 12:
+        return (
+          <TimePicker onSelect={(timeStr) => handleSend(timeStr)} />
+        );
+      case 13:
         return (
            <div className="mt-4 flex gap-3">
              <button onClick={() => setShowMapPicker(true)} className="px-6 py-2 bg-[#C85C6C] text-white rounded-full text-sm font-bold flex items-center gap-2 shadow-lg shadow-rose-100">
@@ -217,10 +357,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
       />
       <AnimatePresence>
         {showCropper && pendingImage && (
-          <ImageCropper 
-            image={pendingImage} 
-            onCropComplete={handleCropComplete} 
-            onCancel={() => setShowCropper(false)} 
+          <ImageCropper
+            image={pendingImage}
+            aspect={cropAspect}
+            onCropComplete={handleCropComplete}
+            onCancel={() => setShowCropper(false)}
           />
         )}
         {showMapPicker && (
@@ -231,37 +372,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
         )}
       </AnimatePresence>
 
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 w-16 h-16 bg-[#C85C6C] text-white rounded-full shadow-2xl z-50 flex items-center justify-center border-4 border-white"
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="fixed inset-0 w-full h-full bg-white z-50 flex flex-col overflow-hidden"
       >
-        <Sparkles size={28} />
-      </motion.button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 50 }}
-            className="fixed bottom-24 right-8 w-[420px] h-[700px] bg-white rounded-[32px] z-50 flex flex-col overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.15)] border border-[#EBBAB9]/20"
-          >
             {/* Header */}
-            <div className="p-5 border-b border-[#EBBAB9]/10 flex justify-between items-center bg-white">
-              <button 
-                onClick={() => setIsOpen(false)}
-                className="text-[10px] uppercase tracking-widest font-black px-4 py-2 bg-rose-50 text-rose-500 rounded-xl hover:bg-rose-100 transition-colors"
-              >
-                Exit Chat
-              </button>
-              <div className="px-5 py-2 border-2 border-[#C85C6C] text-[#C85C6C] rounded-full text-xs font-black uppercase tracking-widest hover:bg-[#C85C6C] hover:text-white cursor-pointer transition-all">
-                View Templates
+            <div className="p-5 border-b border-[#EBBAB9]/10 flex justify-center items-center bg-white">
+              <div className="flex items-center gap-2 text-[#C85C6C] font-black text-sm uppercase tracking-widest">
+                <Sparkles size={16} /> BigDate AI
               </div>
-              <button onClick={() => setIsOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:text-rose-500 transition-colors">
-                <X size={18} />
-              </button>
             </div>
 
             {/* Chat Area */}
@@ -297,7 +417,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
                           {m.role === 'assistant' ? (
                             m.content.split(' ').map((word, idx) => {
                               const cleanWord = word.replace(/[?,.!]/g, '');
-                              const highlights = ['Website', 'Event', 'Groom', 'Bride', 'Image', 'Date', 'Time', 'Address', 'Wedding'];
+                              const highlights = ['Website', 'Event', 'Groom', 'Bride', 'Image', 'Date', 'Time', 'Address', 'Wedding', 'Birthday', 'Baptism', 'Baby', 'Father', 'Mother', 'Host', 'Child'];
                               const isHighlight = highlights.includes(cleanWord);
                               return (
                                 <span key={idx} className={isHighlight ? 'text-[#C85C6C] font-black underline decoration-rose-100 underline-offset-4' : ''}>
@@ -376,9 +496,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ onComplete }) => {
                 <Send size={24} />
               </button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </motion.div>
     </>
   );
 };

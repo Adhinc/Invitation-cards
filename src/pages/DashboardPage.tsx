@@ -1,3 +1,5 @@
+import Dashboard from '../components/Dashboard';
+
 export function Component() {
-  return <div>DashboardPage</div>;
+  return <Dashboard />;
 }
