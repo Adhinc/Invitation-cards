@@ -31,7 +31,7 @@ export function Component() {
   const selectedTemplate = TEMPLATES.find((t) => t.id === selectedId);
 
   return (
-    <div className="min-h-screen bg-[#FFF9F5] flex flex-col">
+    <div className="min-h-screen bg-[var(--color-bg)] flex flex-col">
       {/* Header */}
       <div className="pt-20 pb-8 px-4 text-center">
         <motion.div
@@ -47,10 +47,10 @@ export function Component() {
               {event.label}
             </span>
           )}
-          <h1 className="serif text-3xl md:text-4xl font-black text-slate-800">
+          <h1 className="serif text-2xl md:text-3xl font-bold">
             Choose Your Template
           </h1>
-          <p className="mt-2 text-slate-400 text-sm md:text-base max-w-md mx-auto">
+          <p className="mt-2 text-[var(--color-text-muted)] text-sm md:text-base max-w-md mx-auto">
             Pick a design that matches your celebration's vibe
           </p>
         </motion.div>
@@ -107,7 +107,7 @@ export function Component() {
 
                 {/* Name */}
                 <div className="p-3 md:p-4">
-                  <p className="text-xs md:text-sm font-bold text-slate-700 truncate">
+                  <p className="text-xs md:text-sm font-bold text-[var(--color-text-primary)] truncate">
                     {template.name}
                   </p>
                 </div>
@@ -134,12 +134,12 @@ export function Component() {
                 key={selectedTemplate.id}
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-sm text-slate-500"
+                className="text-sm text-[var(--color-text-secondary)]"
               >
-                Selected: <span className="font-bold text-slate-700">{selectedTemplate.name}</span>
+                Selected: <span className="font-bold text-[var(--color-text-primary)]">{selectedTemplate.name}</span>
               </motion.p>
             ) : (
-              <p className="text-sm text-slate-300">No template selected</p>
+              <p className="text-sm text-[var(--color-text-muted)]">No template selected</p>
             )}
           </div>
 

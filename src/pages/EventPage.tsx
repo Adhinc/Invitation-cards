@@ -7,31 +7,11 @@ import {
 } from 'lucide-react';
 import { getEventBySlug, PRICING_PLANS, type EventConfig } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
-import { Card, Badge, Button } from '../components/ui';
+import { Card, Badge, Button, Section, SectionTitle } from '../components/ui';
 
-function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
-      variants={stagger}
-      className={`max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 ${className}`}
-    >
-      {children}
-    </motion.section>
-  );
-}
-
-function SectionTitle({ children, sub, color }: { children: React.ReactNode; sub?: string; color: string }) {
-  return (
-    <motion.div variants={fadeUp} className="text-center mb-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{children}</h2>
-      {sub && <p className="mt-3 text-gray-500 text-lg max-w-2xl mx-auto">{sub}</p>}
-      <div className="mt-4 mx-auto w-16 h-1 rounded-full" style={{ background: color }} />
-    </motion.div>
-  );
-}
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
 
 function sampleNames(event: EventConfig) {
   if (event.isCoupleEvent) return { name1: 'Maneesh', name2: 'Menak' };
@@ -42,7 +22,7 @@ function sampleNames(event: EventConfig) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  1. Hero Section                                                   */
+/*  1. Hero Section                                                    */
 /* ------------------------------------------------------------------ */
 
 function HeroSection({ event }: { event: EventConfig }) {
@@ -51,9 +31,9 @@ function HeroSection({ event }: { event: EventConfig }) {
       className="relative overflow-hidden"
       style={{ background: `linear-gradient(to bottom, ${event.accentColor}20, transparent)` }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-20 md:py-32 text-center">
+      <div className="max-w-6xl mx-auto px-5 py-20 md:py-32 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-600 mb-6">
+          <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur border border-gray-200 rounded-full px-4 py-1.5 text-sm text-[var(--color-text-secondary)] mb-6">
             <Star className="w-4 h-4" style={{ color: event.accentColor }} />
             {event.socialProof}
           </span>
@@ -63,7 +43,7 @@ function HeroSection({ event }: { event: EventConfig }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight"
+          className="text-4xl md:text-5xl font-bold leading-tight"
         >
           {event.heroTitle}
         </motion.h1>
@@ -72,14 +52,14 @@ function HeroSection({ event }: { event: EventConfig }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="mt-5 text-lg md:text-xl text-gray-500 max-w-xl mx-auto"
+          className="mt-5 text-base md:text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto"
         >
           {event.tagline}. Beautiful digital invitations your guests will love.
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
           <Link to={`/chatbot?event=${event.type}`}>
-            <Button size="lg" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 text-lg shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
+            <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
               Start Now
             </Button>
           </Link>
@@ -89,7 +69,7 @@ function HeroSection({ event }: { event: EventConfig }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-400"
+          className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-[var(--color-text-muted)]"
         >
           {[
             { icon: <Clock className="w-4 h-4" />, text: '2 Min Setup' },
@@ -107,7 +87,7 @@ function HeroSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  2. QR Invitation Mockup                                           */
+/*  2. QR Invitation Mockup                                            */
 /* ------------------------------------------------------------------ */
 
 function QRMockupSection({ event }: { event: EventConfig }) {
@@ -115,21 +95,21 @@ function QRMockupSection({ event }: { event: EventConfig }) {
   const displayName = event.isCoupleEvent ? `${name1} & ${name2}` : name1;
 
   return (
-    <Section>
-      <SectionTitle color={event.accentColor} sub="A sneak peek of how your invitation will look">
-        Your Invitation, Reimagined
-      </SectionTitle>
+    <Section label="Invitation preview">
+      <SectionTitle
+        title="Your Invitation, Reimagined"
+        subtitle="A sneak peek of how your invitation will look"
+      />
       <motion.div variants={fadeUp} className="flex justify-center">
         <div
           className="relative w-80 rounded-2xl shadow-2xl overflow-hidden border"
           style={{ borderColor: `${event.accentColor}40` }}
         >
-          {/* Top accent bar */}
           <div className="h-2" style={{ background: event.accentColor }} />
           <div className="p-8 text-center bg-white">
-            <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">{event.tagline}</p>
-            <h3 className="text-2xl font-bold text-gray-900">{displayName}</h3>
-            <p className="text-sm text-gray-500 mt-1">{event.subtitle}</p>
+            <p className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] mb-2">{event.tagline}</p>
+            <h3 className="text-xl font-bold">{displayName}</h3>
+            <p className="text-sm text-[var(--color-text-secondary)] mt-1">{event.subtitle}</p>
 
             <div className="my-6 flex justify-center">
               <div
@@ -140,11 +120,11 @@ function QRMockupSection({ event }: { event: EventConfig }) {
               </div>
             </div>
 
-            <p className="text-lg font-semibold text-gray-800">14 Feb 2026</p>
-            <p className="text-sm text-gray-400 mt-1">Saturday, 6:00 PM</p>
+            <p className="text-base font-semibold">14 Feb 2026</p>
+            <p className="text-sm text-[var(--color-text-muted)] mt-1">Saturday, 6:00 PM</p>
 
             <div className="mt-6 pt-4 border-t border-dashed border-gray-200">
-              <p className="text-xs text-gray-400">Scan to RSVP & view details</p>
+              <p className="text-xs text-[var(--color-text-muted)]">Scan to RSVP & view details</p>
             </div>
           </div>
         </div>
@@ -154,7 +134,7 @@ function QRMockupSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  3. WhatsApp Sharing Demo                                          */
+/*  3. WhatsApp Sharing Demo                                           */
 /* ------------------------------------------------------------------ */
 
 function WhatsAppSection({ event }: { event: EventConfig }) {
@@ -162,23 +142,21 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
   const displayName = event.isCoupleEvent ? `${name1} & ${name2}` : name1;
 
   return (
-    <Section className="bg-gray-50 rounded-3xl">
-      <SectionTitle color={event.accentColor} sub="Share via WhatsApp with a single tap">
-        Easy WhatsApp Sharing
-      </SectionTitle>
+    <Section muted label="WhatsApp sharing">
+      <SectionTitle
+        title="Easy WhatsApp Sharing"
+        subtitle="Share via WhatsApp with a single tap"
+      />
       <motion.div variants={fadeUp} className="flex justify-center">
         <div className="w-80 bg-[#e5ddd5] rounded-2xl p-4 shadow-lg space-y-3">
-          {/* Outgoing bubble */}
           <div className="flex justify-end">
             <div className="bg-[#dcf8c6] rounded-xl rounded-tr-sm px-4 py-2 max-w-[85%] shadow-sm">
               <p className="text-sm text-gray-800">
-                Hey! You&apos;re invited to {displayName}&apos;s {event.label}! 🎉
+                Hey! You&apos;re invited to {displayName}&apos;s {event.label}!
               </p>
-              <p className="text-[10px] text-gray-400 text-right mt-1">10:42 AM ✓✓</p>
+              <p className="text-[10px] text-gray-400 text-right mt-1">10:42 AM</p>
             </div>
           </div>
-
-          {/* Link preview bubble */}
           <div className="flex justify-end">
             <div className="bg-[#dcf8c6] rounded-xl rounded-tr-sm max-w-[85%] shadow-sm overflow-hidden">
               <div className="p-3" style={{ background: `${event.accentColor}18` }}>
@@ -188,15 +166,13 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
               </div>
               <div className="px-4 py-2">
                 <p className="text-xs text-blue-600 underline">bigdates.in/invite/m-and-m</p>
-                <p className="text-[10px] text-gray-400 text-right mt-1">10:42 AM ✓✓</p>
+                <p className="text-[10px] text-gray-400 text-right mt-1">10:42 AM</p>
               </div>
             </div>
           </div>
-
-          {/* Incoming reply */}
           <div className="flex justify-start">
             <div className="bg-white rounded-xl rounded-tl-sm px-4 py-2 max-w-[85%] shadow-sm">
-              <p className="text-sm text-gray-800">Wow, this looks amazing! 😍 RSVPed!</p>
+              <p className="text-sm text-gray-800">Wow, this looks amazing! RSVPed!</p>
               <p className="text-[10px] text-gray-400 text-right mt-1">10:44 AM</p>
             </div>
           </div>
@@ -207,7 +183,7 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  4. Paper vs Digital                                               */
+/*  4. Paper vs Digital                                                */
 /* ------------------------------------------------------------------ */
 
 function PaperVsDigitalSection({ event }: { event: EventConfig }) {
@@ -221,22 +197,23 @@ function PaperVsDigitalSection({ event }: { event: EventConfig }) {
   ];
 
   return (
-    <Section>
-      <SectionTitle color={event.accentColor} sub="One small choice today. A greener tomorrow.">
-        Paper vs Digital
-      </SectionTitle>
+    <Section label="Paper vs digital comparison">
+      <SectionTitle
+        title="Paper vs Digital"
+        subtitle="One small choice today. A greener tomorrow."
+      />
       <motion.div variants={fadeUp} className="max-w-lg mx-auto bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
         <div className="grid grid-cols-3 text-center text-sm font-semibold border-b border-gray-100">
           <div className="py-3" />
-          <div className="py-3 text-gray-400">Paper</div>
+          <div className="py-3 text-[var(--color-text-muted)]">Paper</div>
           <div className="py-3 text-white" style={{ background: event.accentColor }}>Digital</div>
         </div>
         {rows.map((r) => (
           <div key={r.label} className="grid grid-cols-3 text-center text-sm border-b border-gray-50 last:border-0">
-            <div className="py-3 text-left pl-4 text-gray-600">{r.label}</div>
+            <div className="py-3 text-left pl-4 text-[var(--color-text-secondary)]">{r.label}</div>
             <div className="py-3 flex items-center justify-center">
               {typeof r.paper === 'string' ? (
-                <span className="text-gray-400">{r.paper}</span>
+                <span className="text-[var(--color-text-muted)]">{r.paper}</span>
               ) : r.paper ? (
                 <Check className="w-4 h-4 text-green-500" />
               ) : (
@@ -265,7 +242,7 @@ function PaperVsDigitalSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  5. Feature Highlights                                             */
+/*  5. Feature Highlights                                              */
 /* ------------------------------------------------------------------ */
 
 const FEATURES = [
@@ -279,10 +256,11 @@ const FEATURES = [
 
 function FeaturesSection({ event }: { event: EventConfig }) {
   return (
-    <Section className="bg-gray-50 rounded-3xl">
-      <SectionTitle color={event.accentColor} sub="Everything you need for the perfect invitation">
-        Features You&apos;ll Love
-      </SectionTitle>
+    <Section muted label="Features">
+      <SectionTitle
+        title="Features You'll Love"
+        subtitle="Everything you need for the perfect invitation"
+      />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {FEATURES.map((f) => (
           <motion.div key={f.title} variants={fadeUp}>
@@ -293,8 +271,8 @@ function FeaturesSection({ event }: { event: EventConfig }) {
               >
                 <f.icon className="w-6 h-6" style={{ color: event.accentColor }} />
               </div>
-              <h3 className="font-semibold text-gray-900 text-lg">{f.title}</h3>
-              <p className="text-gray-500 text-sm mt-1">{f.desc}</p>
+              <h3 className="font-semibold text-base">{f.title}</h3>
+              <p className="text-sm text-[var(--color-text-secondary)] mt-1">{f.desc}</p>
             </Card>
           </motion.div>
         ))}
@@ -304,7 +282,7 @@ function FeaturesSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  6. How It Works                                                   */
+/*  6. How It Works                                                    */
 /* ------------------------------------------------------------------ */
 
 const STEPS = [
@@ -316,10 +294,11 @@ const STEPS = [
 
 function HowItWorksSection({ event }: { event: EventConfig }) {
   return (
-    <Section>
-      <SectionTitle color={event.accentColor} sub="From start to share in under 2 minutes">
-        How It Works
-      </SectionTitle>
+    <Section label="How it works">
+      <SectionTitle
+        title="How It Works"
+        subtitle="From start to share in under 2 minutes"
+      />
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {STEPS.map((s, i) => (
           <motion.div key={s.title} variants={fadeUp} className="text-center">
@@ -337,8 +316,8 @@ function HowItWorksSection({ event }: { event: EventConfig }) {
                 {i + 1}
               </span>
             </div>
-            <h3 className="mt-4 font-semibold text-gray-900">{s.title}</h3>
-            <p className="mt-1 text-sm text-gray-500">{s.desc}</p>
+            <h3 className="mt-4 font-semibold text-base">{s.title}</h3>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{s.desc}</p>
           </motion.div>
         ))}
       </div>
@@ -347,48 +326,48 @@ function HowItWorksSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  7. Testimonials                                                   */
+/*  7. Testimonials                                                    */
 /* ------------------------------------------------------------------ */
 
 function getTestimonials(event: EventConfig) {
-  const base: { name: string; text: string; role: string }[] = [];
   if (event.isCoupleEvent) {
-    base.push(
+    return [
       { name: 'Ananya & Rohit', role: 'Wedding, Kerala', text: 'Our guests were blown away! The WhatsApp sharing made things so easy. We saved so much money compared to paper invites.' },
       { name: 'Sneha & Varun', role: 'Engagement, Delhi', text: 'Such a smooth experience. The chatbot asked us exactly the right questions and the template was stunning.' },
       { name: 'Meera & Arjun', role: 'Reception, Mumbai', text: 'RSVP tracking alone was worth it. We knew exactly how many people were coming. Highly recommend!' },
-    );
-  } else {
-    base.push(
-      { name: 'Priya Menon', role: `${event.label}, Kochi`, text: `The invitation for our ${event.label.toLowerCase()} was absolutely beautiful. Guests kept asking how we made it!` },
-      { name: 'Ravi Kumar', role: `${event.label}, Bangalore`, text: 'Super easy to set up and share. The QR code feature is genius. Everyone loved it.' },
-      { name: 'Deepa Thomas', role: `${event.label}, Chennai`, text: 'From start to finish it took us barely 2 minutes. The design was elegant and professional.' },
-    );
+    ];
   }
-  return base;
+  return [
+    { name: 'Priya Menon', role: `${event.label}, Kochi`, text: `The invitation for our ${event.label.toLowerCase()} was absolutely beautiful. Guests kept asking how we made it!` },
+    { name: 'Ravi Kumar', role: `${event.label}, Bangalore`, text: 'Super easy to set up and share. The QR code feature is genius. Everyone loved it.' },
+    { name: 'Deepa Thomas', role: `${event.label}, Chennai`, text: 'From start to finish it took us barely 2 minutes. The design was elegant and professional.' },
+  ];
 }
 
 function TestimonialsSection({ event }: { event: EventConfig }) {
-  const testimonials = getTestimonials(event);
+  const items = getTestimonials(event);
   return (
-    <Section className="bg-gray-50 rounded-3xl">
-      <SectionTitle color={event.accentColor} sub="Hear from people who loved it">
-        What Our Users Say
-      </SectionTitle>
+    <Section muted label="Testimonials">
+      <SectionTitle
+        title="What Our Users Say"
+        subtitle="Hear from people who loved it"
+      />
       <div className="grid md:grid-cols-3 gap-6">
-        {testimonials.map((t) => (
+        {items.map((t) => (
           <motion.div key={t.name} variants={fadeUp}>
-            <Card className="p-6">
-              <div className="flex gap-1 mb-3">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{t.text}&rdquo;</p>
-              <div className="mt-4 pt-3 border-t border-gray-100">
-                <p className="font-semibold text-sm text-gray-900">{t.name}</p>
-                <p className="text-xs text-gray-400">{t.role}</p>
-              </div>
+            <Card className="h-full">
+              <Card.Body>
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+                <div className="mt-4 pt-3 border-t border-gray-100">
+                  <p className="font-semibold text-sm">{t.name}</p>
+                  <p className="text-xs text-[var(--color-text-muted)]">{t.role}</p>
+                </div>
+              </Card.Body>
             </Card>
           </motion.div>
         ))}
@@ -398,64 +377,49 @@ function TestimonialsSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  8. Stats Bar                                                      */
+/*  8. Stats Bar                                                       */
 /* ------------------------------------------------------------------ */
 
 function StatsBar({ event }: { event: EventConfig }) {
-  const stats = [
+  const items = [
     { icon: Tag, value: '₹49', label: 'Starting price' },
     { icon: Gift, value: '500+', label: 'Templates' },
     { icon: Users, value: '50 Lakh+', label: 'Guests reached' },
   ];
 
   return (
-    <section
-      className="py-12"
-      style={{ background: `linear-gradient(135deg, ${event.accentColor}15, ${event.accentColor}08)` }}
-    >
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={stagger}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-        >
-          {stats.map((s) => (
-            <motion.div key={s.label} variants={fadeUp} className="text-center">
-              <s.icon className="w-6 h-6 mx-auto mb-2" style={{ color: event.accentColor }} />
-              <p className="text-2xl md:text-3xl font-bold text-gray-900">{s.value}</p>
-              <p className="text-sm text-gray-500">{s.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+    <Section spacing="compact" label="Stats" style={{ background: `linear-gradient(135deg, ${event.accentColor}15, ${event.accentColor}08)` }}>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {items.map((s) => (
+          <motion.div key={s.label} variants={fadeUp} className="text-center">
+            <s.icon className="w-6 h-6 mx-auto mb-2" style={{ color: event.accentColor }} />
+            <p className="text-2xl md:text-3xl font-bold">{s.value}</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{s.label}</p>
+          </motion.div>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  9. Pricing Cards                                                  */
+/*  9. Pricing Cards                                                   */
 /* ------------------------------------------------------------------ */
 
 function PricingSection({ event }: { event: EventConfig }) {
   return (
-    <Section>
-      <SectionTitle color={event.accentColor} sub="Simple, transparent pricing">
-        Choose Your Plan
-      </SectionTitle>
+    <Section label="Pricing">
+      <SectionTitle
+        title="Choose Your Plan"
+        subtitle="Simple, transparent pricing"
+      />
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
         {PRICING_PLANS.map((plan) => (
-          <motion.div
-            key={plan.id}
-            variants={fadeUp}
-          >
+          <motion.div key={plan.id} variants={fadeUp}>
             <Card
               variant={plan.preferred ? 'elevated' : 'default'}
-              className={`relative rounded-2xl p-6 text-center transition-shadow hover:shadow-lg ${
-                plan.preferred
-                  ? 'border-2 shadow-lg scale-105'
-                  : ''
+              className={`relative p-6 text-center transition-shadow hover:shadow-lg ${
+                plan.preferred ? 'border-2 shadow-lg sm:scale-105' : ''
               }`}
               style={plan.preferred ? { borderColor: event.accentColor, background: `${event.accentColor}08` } : {}}
             >
@@ -464,21 +428,20 @@ function PricingSection({ event }: { event: EventConfig }) {
                   Most Popular
                 </Badge>
               )}
-              <h3 className="text-lg font-semibold text-gray-900 mt-2">{plan.label}</h3>
+              <h3 className="text-base font-semibold mt-2">{plan.label}</h3>
               <div className="mt-3">
-                <span className="text-4xl font-bold text-gray-900">₹{plan.price}</span>
+                <span className="text-3xl font-bold">₹{plan.price}</span>
               </div>
-              <p className="text-sm text-gray-400 mt-1">{plan.duration} days</p>
-              <Link
-                to={`/chatbot?event=${event.type}&plan=${plan.id}`}
-                className="mt-6 block w-full py-2.5 rounded-full font-semibold text-sm transition-colors"
-                style={
-                  plan.preferred
-                    ? { background: event.accentColor, color: '#fff' }
-                    : { background: `${event.accentColor}15`, color: event.accentColor }
-                }
-              >
-                Get Started
+              <p className="text-sm text-[var(--color-text-muted)] mt-1">{plan.duration} days</p>
+              <Link to={`/chatbot?event=${event.type}&plan=${plan.id}`} className="block mt-6">
+                <Button
+                  variant={plan.preferred ? 'primary' : 'outline'}
+                  size="md"
+                  className="w-full"
+                  style={plan.preferred ? { background: event.accentColor } : {}}
+                >
+                  Get Started
+                </Button>
               </Link>
             </Card>
           </motion.div>
@@ -489,12 +452,12 @@ function PricingSection({ event }: { event: EventConfig }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  10. Limited Time Offer Banner                                     */
+/*  10. Limited Time Offer Banner                                      */
 /* ------------------------------------------------------------------ */
 
 function OfferBanner({ event }: { event: EventConfig }) {
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+    <Section spacing="compact" label="Special offer">
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -514,13 +477,13 @@ function OfferBanner({ event }: { event: EventConfig }) {
             {['03', '12', '45', '22'].map((v, i) => (
               <span key={i} className="inline-flex flex-col items-center">
                 <span className="bg-white/20 backdrop-blur rounded-lg px-2 py-1.5 md:px-3 md:py-2">{v}</span>
-                <span className="text-[10px] mt-1 font-sans font-normal opacity-80">
+                <span className="text-xs mt-1 font-sans font-normal opacity-80">
                   {['Days', 'Hrs', 'Min', 'Sec'][i]}
                 </span>
               </span>
             ))}
           </div>
-          <p className="mt-5 text-lg">
+          <p className="mt-5 text-base">
             Use Code: <span className="font-bold bg-white/20 px-3 py-1 rounded-lg">SAVE10</span>
           </p>
           <Link
@@ -532,35 +495,35 @@ function OfferBanner({ event }: { event: EventConfig }) {
           </Link>
         </div>
       </motion.div>
-    </section>
+    </Section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  11. Final CTA                                                     */
+/*  11. Final CTA                                                      */
 /* ------------------------------------------------------------------ */
 
 function FinalCTA({ event }: { event: EventConfig }) {
   return (
-    <Section className="text-center">
+    <Section size="narrow" className="text-center" label="Get started">
       <motion.div variants={fadeUp}>
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Ready to Get Started?</h2>
-        <p className="mt-3 text-gray-500 text-lg max-w-lg mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold serif">Ready to Get Started?</h2>
+        <p className="mt-3 text-[var(--color-text-secondary)] text-base max-w-lg mx-auto">
           Create your beautiful {event.label.toLowerCase()} invitation in under 2 minutes.
         </p>
         <Link to={`/chatbot?event=${event.type}`}>
-          <Button size="lg" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 text-lg shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
+          <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
             Start Creating Now
           </Button>
         </Link>
-        <p className="mt-4 text-sm text-gray-400">Free to try. No credit card needed.</p>
+        <p className="mt-4 text-sm text-[var(--color-text-muted)]">Free to try. No credit card needed.</p>
       </motion.div>
     </Section>
   );
 }
 
 /* ================================================================== */
-/*  Page Component                                                    */
+/*  Page Component                                                     */
 /* ================================================================== */
 
 export function Component() {
@@ -570,7 +533,7 @@ export function Component() {
   if (!event) return <Navigate to="/" replace />;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div>
       <HeroSection event={event} />
       <QRMockupSection event={event} />
       <WhatsAppSection event={event} />

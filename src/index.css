@@ -1,61 +1,99 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap');
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM TOKENS
+   ═══════════════════════════════════════════════════════════════════
+
+   Typography Scale (5 steps — use ONLY these):
+   ─────────────────────────────────────────────
+   display    → 2.5rem / 40px  (hero headlines only)
+   heading    → 1.875rem / 30px (section headings)
+   subheading → 1.25rem / 20px  (card titles, sub-sections)
+   body       → 1rem / 16px     (paragraphs, descriptions)
+   small      → 0.875rem / 14px (captions, labels, nav items)
+   micro      → 0.75rem / 12px  (badges, timestamps, legal)
+
+   Tailwind mapping:
+   display    → text-4xl md:text-5xl
+   heading    → text-2xl md:text-3xl
+   subheading → text-xl
+   body       → text-base
+   small      → text-sm
+   micro      → text-xs
+
+   Spacing Scale (sections):
+   ──────────────────────────
+   section-y  → py-20 md:py-28     (standard sections)
+   section-y  → py-12 md:py-16     (compact: stats, banners)
+   gap-title  → mb-12              (heading block → content)
+   gap-inner  → gap-6              (between cards/items)
+
+   Container Widths (2 tiers):
+   ────────────────────────────
+   wide       → max-w-6xl          (full-width sections)
+   narrow     → max-w-3xl          (focused content: pricing, CTA, how-it-works)
+
+   Card Padding:
+   ──────────────
+   standard   → p-6                (all cards, all contexts)
+
+   ═══════════════════════════════════════════════════════════════════ */
+
 :root {
-  /* Brand */
+  /* ── Brand ── */
   --color-primary: #C85C6C;
   --color-primary-hover: #b34d5c;
-  --color-primary-light: rgba(200, 92, 108, 0.1);
+  --color-primary-light: rgba(200, 92, 108, 0.08);
+  --color-primary-glow: rgba(200, 92, 108, 0.15);
 
-  /* Legacy aliases (keep for backwards compat during migration) */
-  --primary-rose: #C85C6C;
-  --primary-rose-light: #EBBAB9;
-  --accent-gold: #D4AF37;
-
-  /* Surfaces */
+  /* ── Surfaces ── */
+  --color-bg: #FFFBF8;
   --color-surface: #ffffff;
   --color-surface-elevated: #ffffff;
-  --color-bg: #FFF9F5;
+  --color-surface-muted: #f9fafb;
 
-  /* Legacy surface aliases */
-  --bg-cream: #ffffff;
-  --bg-card: #FFFFFF;
-
-  /* Text */
+  /* ── Text ── */
   --color-text-primary: #1a1a1a;
   --color-text-secondary: #6b7280;
   --color-text-muted: #9ca3af;
 
-  /* Legacy text aliases */
-  --text-primary: #1a1a1a;
-  --text-secondary: #6b7280;
-  --accent-soft: #f9fafb;
-
-  /* Borders */
+  /* ── Borders ── */
   --color-border: #f0f0f0;
   --color-border-hover: #e5e7eb;
 
-  /* Legacy border alias */
-  --border-light: #f0f0f0;
-
-  /* Semantic */
+  /* ── Semantic ── */
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 4px 20px rgba(200, 92, 108, 0.2);
 
-  /* Transitions */
+  /* ── Transitions ── */
   --transition-fast: 150ms ease;
   --transition-normal: 300ms ease;
 
-  /* Typography */
+  /* ── Typography ── */
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-script: 'Great Vibes', cursive;
+
+  /* ── Radii ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Legacy aliases (used by VenueMap, Shagun, CountdownTimer, CinematicGallery) ── */
+  --primary-rose: #C85C6C;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b7280;
+  --bg-cream: var(--color-bg);
 }
 
 * {
@@ -65,8 +103,8 @@
 }
 
 body {
-  background-color: var(--bg-cream);
-  color: var(--text-primary);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
@@ -76,12 +114,12 @@ body {
 
 h1, h2, .serif {
   font-family: var(--font-serif);
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   line-height: 1.15;
 }
 
 h3 {
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   line-height: 1.4;
 }
 
@@ -89,11 +127,11 @@ h3 {
   font-family: var(--font-script);
 }
 
-/* Used by other pages (chatbot, dashboard etc.) */
+/* ── Legacy component classes (VenueMap, Shagun, CountdownTimer, CinematicGallery) ── */
 .glass-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
   transition: all var(--transition-fast);
@@ -107,14 +145,14 @@ h3 {
   background: var(--color-primary);
   color: #fff;
   padding: 14px 32px;
-  border-radius: 50px;
+  border-radius: var(--radius-full);
   border: none;
   font-weight: 600;
   font-size: 0.875rem;
   letter-spacing: 0.02em;
   cursor: pointer;
   transition: all var(--transition-fast);
-  box-shadow: 0 2px 8px rgba(200, 92, 108, 0.2);
+  box-shadow: var(--shadow-glow);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -129,7 +167,7 @@ h3 {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #2D2D2D 0%, var(--primary-rose) 100%);
+  background: linear-gradient(135deg, #2D2D2D 0%, var(--color-primary) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

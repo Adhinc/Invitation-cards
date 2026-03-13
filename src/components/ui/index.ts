@@ -6,3 +6,5 @@ export { Badge } from './Badge';
 export { Section } from './Section';
 export { Input } from './Input';
 export { Accordion } from './Accordion';
+export { CheckList } from './CheckList';
+export { FeatureRow } from './FeatureRow';

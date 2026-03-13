@@ -39,10 +39,10 @@ export default function Navbar() {
                 key={event.slug}
                 to={event.urlPath}
                 aria-current={isActive(event.urlPath) ? 'page' : undefined}
-                className={`px-2.5 py-1.5 text-[13px] font-medium rounded-full transition-colors ${
+                className={`px-2.5 py-1.5 text-sm font-medium rounded-full transition-colors ${
                   isActive(event.urlPath)
                     ? 'bg-[var(--color-primary)] text-white'
-                    : 'text-gray-500 hover:text-gray-800'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
                 }`}
               >
                 {event.label}
@@ -50,14 +50,11 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Desktop Auth */}
-          <div className="hidden lg:flex items-center gap-3">
-            <button className="text-[13px] font-medium text-gray-400 cursor-not-allowed">
-              Login
-            </button>
+          {/* Desktop CTA */}
+          <div className="hidden lg:flex items-center">
             <Link
               to="/events/wedding"
-              className="px-4 py-1.5 text-[13px] font-semibold text-white bg-[var(--color-primary)] rounded-full hover:bg-[var(--color-primary-hover)] transition-colors"
+              className="px-5 py-1.5 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-full hover:bg-[var(--color-primary-hover)] transition-colors"
             >
               Create
             </Link>
@@ -66,7 +63,7 @@ export default function Navbar() {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-1.5 text-gray-500"
+            className="lg:hidden p-1.5 text-[var(--color-text-secondary)]"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -91,25 +88,22 @@ export default function Navbar() {
                   to={event.urlPath}
                   onClick={() => setMobileOpen(false)}
                   aria-current={isActive(event.urlPath) ? 'page' : undefined}
-                  className={`block px-3 py-2 text-[13px] font-medium rounded-lg transition-colors ${
+                  className={`block px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     isActive(event.urlPath)
                       ? 'bg-[var(--color-primary)] text-white'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      : 'text-[var(--color-text-secondary)] hover:bg-gray-50'
                   }`}
                 >
                   {event.label}
                 </Link>
               ))}
-              <div className="pt-3 mt-2 border-t border-gray-100 flex gap-2">
-                <button className="flex-1 py-2 text-[13px] font-medium text-gray-400 border border-gray-200 rounded-lg cursor-not-allowed">
-                  Login
-                </button>
+              <div className="pt-3 mt-2 border-t border-gray-100">
                 <Link
                   to="/events/wedding"
                   onClick={() => setMobileOpen(false)}
-                  className="flex-1 py-2 text-[13px] font-semibold text-white bg-[var(--color-primary)] rounded-lg text-center hover:bg-[var(--color-primary-hover)]"
+                  className="block w-full py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-lg text-center hover:bg-[var(--color-primary-hover)]"
                 >
-                  Create
+                  Create Invitation
                 </Link>
               </div>
             </div>

@@ -2,7 +2,7 @@ import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react
 import { cn } from '../../utils/cn';
 
 const VARIANT_CLASSES = {
-  primary: 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)] shadow-sm',
+  primary: 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)] shadow-sm hover:shadow-[var(--shadow-glow)]',
   secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200',
   ghost: 'bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900',
   outline: 'bg-transparent border border-gray-200 text-gray-600 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]',
@@ -12,6 +12,7 @@ const SIZE_CLASSES = {
   sm: 'h-8 px-3 text-xs rounded-lg gap-1.5',
   md: 'h-10 px-5 text-sm rounded-full gap-2',
   lg: 'h-12 px-8 text-base rounded-full gap-2.5',
+  xl: 'h-14 px-10 text-base rounded-full gap-3',
 } as const;
 
 interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
