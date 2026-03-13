@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 sm:col-span-1">
             <Link to="/" className="flex items-center gap-1.5 mb-3">
-              <Sparkles className="h-4 w-4 text-[#C85C6C]" />
+              <Sparkles className="h-4 w-4 text-[var(--color-primary)]" />
               <span className="text-base font-serif italic font-semibold">BigDate</span>
             </Link>
             <p className="text-[12px] text-gray-500 leading-relaxed max-w-[200px]">
@@ -57,7 +57,7 @@ export default function Footer() {
             <ul className="space-y-1.5">
               {['Privacy Policy', 'Terms of Service', 'Refund Policy', 'Contact Us'].map(label => (
                 <li key={label}>
-                  <span className="text-[12px] text-gray-600 cursor-not-allowed">{label}</span>
+                  <span className="text-[12px] text-gray-500 cursor-not-allowed">{label}</span>
                 </li>
               ))}
             </ul>

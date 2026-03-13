@@ -68,18 +68,19 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-[#FFF9F5] text-slate-800 flex flex-col md:flex-row overflow-hidden">
       {/* Sidebar */}
       <aside className="hidden md:flex w-72 bg-white h-screen border-r border-rose-100 p-8 flex-col shadow-sm">
-        <div className="serif text-3xl font-black text-[#C85C6C] italic mb-12 flex items-center gap-2">
+        <div className="serif text-3xl font-black text-[var(--color-primary)] italic mb-12 flex items-center gap-2">
            <Sparkles size={24} /> BigDate
         </div>
 
-        <nav className="flex-1 space-y-3">
+        <nav aria-label="Dashboard navigation" className="flex-1 space-y-3">
           {['Overview', 'My Invitations', 'Analytics', 'Billing'].map((item) => (
             <button
               key={item}
+              aria-current={item === 'Overview' ? 'page' : undefined}
               className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${
                 item === 'Overview'
-                ? 'bg-[#C85C6C] text-white shadow-lg shadow-rose-100'
-                : 'text-slate-400 hover:text-[#C85C6C] hover:bg-rose-50'
+                ? 'bg-[var(--color-primary)] text-white shadow-lg shadow-rose-100'
+                : 'text-slate-400 hover:text-[var(--color-primary)] hover:bg-rose-50'
               }`}
             >
               <div className="flex items-center gap-4">
@@ -91,7 +92,7 @@ const Dashboard: React.FC = () => {
                 </span>
                 <span className="text-sm font-black uppercase tracking-widest">{item}</span>
               </div>
-              {item === 'My Invitations' && <span className="text-[10px] font-black bg-rose-50 text-[#C85C6C] px-2 py-0.5 rounded-full">{SAMPLE_INVITATIONS.length}</span>}
+              {item === 'My Invitations' && <span className="text-[10px] font-black bg-rose-50 text-[var(--color-primary)] px-2 py-0.5 rounded-full">{SAMPLE_INVITATIONS.length}</span>}
             </button>
           ))}
 
@@ -107,14 +108,14 @@ const Dashboard: React.FC = () => {
                     onClick={() => setActiveFilter(filter)}
                     className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                       activeFilter === filter
-                        ? 'bg-rose-50 text-[#C85C6C]'
+                        ? 'bg-rose-50 text-[var(--color-primary)]'
                         : 'text-slate-300 hover:text-slate-500 hover:bg-slate-50'
                     }`}
                   >
                     <span>{filter}</span>
                     {count > 0 && (
                       <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${
-                        activeFilter === filter ? 'bg-[#C85C6C] text-white' : 'bg-slate-100 text-slate-400'
+                        activeFilter === filter ? 'bg-[var(--color-primary)] text-white' : 'bg-slate-100 text-slate-400'
                       }`}>{count}</span>
                     )}
                   </button>
@@ -142,7 +143,7 @@ const Dashboard: React.FC = () => {
 
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-rose-100">
-        <div className="serif text-xl font-black text-[#C85C6C] italic flex items-center gap-2">
+        <div className="serif text-xl font-black text-[var(--color-primary)] italic flex items-center gap-2">
           <Sparkles size={18} /> BigDate
         </div>
         <div className="flex items-center gap-2">
@@ -262,7 +263,7 @@ const Dashboard: React.FC = () => {
             <h3 className="serif text-xl md:text-3xl font-black text-slate-800 italic">
               {activeFilter === 'All' ? 'Active Websites' : `${activeFilter} Invites`}
             </h3>
-            <button className="text-[10px] font-black uppercase tracking-widest text-[#C85C6C] flex items-center gap-2 hover:gap-3 transition-all">
+            <button className="text-[10px] font-black uppercase tracking-widest text-[var(--color-primary)] flex items-center gap-2 hover:gap-3 transition-all">
                View All <ChevronRight size={14} />
             </button>
           </div>
@@ -285,9 +286,9 @@ const Dashboard: React.FC = () => {
                      <div className="flex justify-between items-start mb-4">
                         <div>
                           <h4 className="text-xl font-black text-slate-800">{inv.names}</h4>
-                          <p className="text-[10px] font-black text-[#C85C6C] uppercase tracking-widest mt-1 italic">{inv.eventType} Celebration</p>
+                          <p className="text-[10px] font-black text-[var(--color-primary)] uppercase tracking-widest mt-1 italic">{inv.eventType} Celebration</p>
                         </div>
-                        <div className="bg-rose-50 p-2 rounded-full text-[#C85C6C]">
+                        <div className="bg-rose-50 p-2 rounded-full text-[var(--color-primary)]">
                            <ExternalLink size={16} />
                         </div>
                      </div>
@@ -298,14 +299,14 @@ const Dashboard: React.FC = () => {
                            <span className="text-lg font-black text-slate-700">{inv.views}</span>
                         </div>
                         <div className="p-4 bg-rose-50/50 rounded-2xl">
-                           <span className="text-[10px] font-black text-[#C85C6C]/50 uppercase block mb-1">Status</span>
-                           <span className="text-lg font-black text-[#C85C6C]">{inv.status}</span>
+                           <span className="text-[10px] font-black text-[var(--color-primary)]/50 uppercase block mb-1">Status</span>
+                           <span className="text-lg font-black text-[var(--color-primary)]">{inv.status}</span>
                         </div>
                      </div>
 
                      <div className="mt-6 flex gap-3">
                         <button className="flex-1 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-colors">Edit</button>
-                        <button className="px-5 py-3 border border-slate-100 text-slate-400 rounded-xl hover:bg-rose-50 hover:text-[#C85C6C] transition-all"><Settings size={14} /></button>
+                        <button aria-label={`Settings for ${inv.names}`} className="px-5 py-3 border border-slate-100 text-slate-400 rounded-xl hover:bg-rose-50 hover:text-[var(--color-primary)] transition-all"><Settings size={14} /></button>
                      </div>
                   </div>
                 </motion.div>
@@ -314,7 +315,7 @@ const Dashboard: React.FC = () => {
           ) : (
             <div className="text-center py-20 bg-white rounded-[32px] border border-rose-100">
               <p className="text-slate-300 font-bold text-sm">No {activeFilter.toLowerCase()} invitations yet</p>
-              <button className="mt-4 px-6 py-2 bg-[#C85C6C] text-white rounded-xl text-xs font-bold">Create One</button>
+              <button className="mt-4 px-6 py-2 bg-[var(--color-primary)] text-white rounded-xl text-xs font-bold">Create One</button>
             </div>
           )}
         </div>

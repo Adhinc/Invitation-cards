@@ -6,19 +6,7 @@ import {
   QrCode, Send, Leaf, Star, Users, Heart, Gift, Zap, Tag,
 } from 'lucide-react';
 import { getEventBySlug, PRICING_PLANS, type EventConfig } from '../constants/events';
-
-/* ------------------------------------------------------------------ */
-/*  Helpers                                                           */
-/* ------------------------------------------------------------------ */
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.1 } },
-};
+import { fadeUp, stagger } from '../utils/animations';
 
 function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (

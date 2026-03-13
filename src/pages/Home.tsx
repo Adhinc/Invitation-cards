@@ -14,19 +14,7 @@ import {
   Check,
 } from 'lucide-react';
 import { EVENTS, PRICING_PLANS } from '../constants/events';
-
-/* ------------------------------------------------------------------ */
-/*  Animations                                                         */
-/* ------------------------------------------------------------------ */
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.08 } },
-};
+import { fadeUp, stagger } from '../utils/animations';
 
 /* ------------------------------------------------------------------ */
 /*  Sample invitation carousel data                                    */
@@ -126,7 +114,7 @@ export function Component() {
             className="text-[2rem] sm:text-4xl md:text-5xl font-bold tracking-tight"
           >
             Make Your Special Moments{' '}
-            <span className="italic serif" style={{ color: 'var(--primary-rose)' }}>
+            <span className="italic serif" style={{ color: 'var(--color-primary)' }}>
               Unforgettable
             </span>
           </motion.h1>
@@ -267,10 +255,10 @@ export function Component() {
                 { num: '3', icon: <Share2 size={22} />, title: 'Share with everyone', desc: 'Send via WhatsApp, SMS, or a personalized link.' },
               ].map((s) => (
                 <motion.div key={s.num} variants={fadeUp} className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-[var(--primary-rose)] text-white flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center mx-auto mb-4">
                     {s.icon}
                   </div>
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--primary-rose)] mb-1.5">Step {s.num}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-1.5">Step {s.num}</p>
                   <h3 className="font-semibold text-base mb-1.5">{s.title}</h3>
                   <p className="text-[13px] text-gray-500 max-w-[220px] mx-auto">{s.desc}</p>
                 </motion.div>
@@ -290,7 +278,7 @@ export function Component() {
             className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
           >
             <motion.div variants={fadeUp}>
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--primary-rose)] mb-3">No App Needed</p>
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-3">No App Needed</p>
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 serif leading-snug">
                 Share Instantly via WhatsApp
               </h2>
@@ -333,7 +321,7 @@ export function Component() {
             <motion.div variants={fadeUp} className="order-2 md:order-1 flex justify-center py-6">
               <div className="relative">
                 <div className="w-52 h-64 bg-white rounded-xl shadow-md border border-gray-100 p-5 flex flex-col items-center justify-center text-center">
-                  <p className="script text-xl text-[var(--primary-rose)] mb-1">You're Invited</p>
+                  <p className="script text-xl text-[var(--color-primary)] mb-1">You're Invited</p>
                   <p className="text-[11px] text-gray-400 mb-5">Priya & Arjun's Wedding</p>
                   <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center mb-2">
                     <QrCode size={32} className="text-gray-300" />
@@ -342,8 +330,8 @@ export function Component() {
                 </div>
                 <div className="absolute -right-5 -bottom-3 w-24 h-40 bg-gray-900 rounded-xl shadow-md flex items-center justify-center p-0.5">
                   <div className="w-full h-full bg-white rounded-[10px] flex flex-col items-center justify-center p-1.5">
-                    <Sparkles size={12} className="text-[var(--primary-rose)] mb-1" />
-                    <p className="text-[6px] font-semibold text-[var(--primary-rose)]">Priya & Arjun</p>
+                    <Sparkles size={12} className="text-[var(--color-primary)] mb-1" />
+                    <p className="text-[6px] font-semibold text-[var(--color-primary)]">Priya & Arjun</p>
                     <p className="text-[5px] text-gray-400">March 15, 2026</p>
                     <div className="w-full h-8 bg-rose-50 rounded mt-1.5" />
                   </div>
@@ -353,7 +341,7 @@ export function Component() {
 
             {/* Text */}
             <motion.div variants={fadeUp} className="order-1 md:order-2">
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--primary-rose)] mb-3">Best of Both Worlds</p>
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-primary)] mb-3">Best of Both Worlds</p>
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 serif leading-snug">
                 Bridge Print & Digital
               </h2>
@@ -368,7 +356,7 @@ export function Component() {
                   'No more lost or forgotten invites',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <span className="w-4 h-4 rounded-full bg-[var(--primary-rose)] text-white flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-4 h-4 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center shrink-0 mt-0.5">
                       <Check size={10} strokeWidth={3} />
                     </span>
                     <span className="text-[13px] text-gray-500">{item}</span>
@@ -444,7 +432,7 @@ export function Component() {
       {/* ═══════════════════════════════════════════════════════════════
           STATS BANNER
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-10 md:py-12 bg-[var(--primary-rose)]">
+      <section className="py-10 md:py-12 bg-[var(--color-primary)]">
         <div className="max-w-3xl mx-auto px-5">
           <div className="grid grid-cols-3 text-center text-white">
             {[
@@ -486,17 +474,17 @@ export function Component() {
                   variants={fadeUp}
                   className={`bg-white rounded-xl p-5 sm:p-6 text-center relative border-2 transition-all duration-200 ${
                     plan.preferred
-                      ? 'border-[var(--primary-rose)] sm:scale-[1.03]'
+                      ? 'border-[var(--color-primary)] sm:scale-[1.03]'
                       : 'border-gray-100'
                   }`}
                 >
                   {plan.preferred && (
-                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--primary-rose)] text-white text-[9px] font-semibold uppercase tracking-wider px-3 py-0.5 rounded-full whitespace-nowrap">
+                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[9px] font-semibold uppercase tracking-wider px-3 py-0.5 rounded-full whitespace-nowrap">
                       Most Popular
                     </span>
                   )}
                   <h3 className="font-medium text-sm mb-1.5 mt-1">{plan.label}</h3>
-                  <p className="text-3xl font-bold text-[var(--primary-rose)] mb-0.5">
+                  <p className="text-3xl font-bold text-[var(--color-primary)] mb-0.5">
                     <span className="text-sm align-top mr-0.5">₹</span>{plan.price}
                   </p>
                   <p className="text-[11px] text-gray-400 mb-5">{plan.duration} days</p>
@@ -504,8 +492,8 @@ export function Component() {
                     to={EVENTS[0].urlPath}
                     className={`block w-full py-2.5 rounded-full text-[13px] font-medium transition-all ${
                       plan.preferred
-                        ? 'bg-[var(--primary-rose)] text-white hover:bg-[#b34d5c]'
-                        : 'border border-gray-200 text-gray-600 hover:border-[var(--primary-rose)] hover:text-[var(--primary-rose)]'
+                        ? 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)]'
+                        : 'border border-gray-200 text-gray-600 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
                     }`}
                   >
                     Get Started
@@ -551,7 +539,7 @@ export function Component() {
           <span className="bg-white/10 px-2 py-0.5 rounded text-[11px] font-mono font-bold tracking-wider">
             SAVE10
           </span>
-          <Link to="/pricing" className="text-[var(--primary-rose-light)] hover:text-white text-[11px] font-medium underline underline-offset-2">
+          <Link to="/pricing" className="text-[var(--color-primary-light)] hover:text-white text-[11px] font-medium underline underline-offset-2">
             Apply Now →
           </Link>
         </div>

@@ -7,6 +7,23 @@ import DatePicker from './DatePicker';
 import TimePicker from './TimePicker';
 import type { EventType } from '../constants/events';
 
+const STEPS = {
+  EVENT_TYPE: 0,
+  PERSON1_NAME: 1,
+  PERSON1_IMAGE: 2,
+  PERSON2_NAME: 3,
+  PERSON2_IMAGE: 4,
+  VIEW_PRIORITY: 5,
+  PARENTS_QUESTION: 6,
+  PARENTS_FLOW_START: 7,
+  PARENTS_GROOM_MOTHER: 8,
+  PARENTS_BRIDE_FATHER: 9,
+  PARENTS_BRIDE_MOTHER: 10,
+  DATE: 11,
+  TIME: 12,
+  ADDRESS: 13,
+} as const;
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -89,7 +106,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
     let newFormData = { ...formData };
 
     switch (step) {
-      case 0: { // Event Type
+      case STEPS.EVENT_TYPE: { // Event Type
         const eventMap: Record<string, EventType> = {
           'Wedding': 'wedding', 'Betrothal': 'betrothal', 'Birthday': 'birthday',
           'Baptism': 'baptism', 'Holy Communion': 'holy_communion',
@@ -102,12 +119,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
         addAssistantMessage(`${cfg.person1}'s name, please.`);
         break;
       }
-      case 1: // Person 1 Name
+      case STEPS.PERSON1_NAME: // Person 1 Name
         newFormData.person1Name = userInput;
         setCropAspect(1);
         addAssistantMessage(`Please share a profile photo of the ${getConfig().person1}!`);
         break;
-      case 2: // Person 1 Image
+      case STEPS.PERSON1_IMAGE: // Person 1 Image
         newFormData.person1Image = userInput.includes("later") ? null : "uploaded";
         if (isCoupleEvent()) {
           addAssistantMessage(`${getConfig().person2}'s name, please.`);
@@ -115,29 +132,29 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
           // Skip person 2 — go to parents question
           addAssistantMessage("Would you like to add the parents' names to the invitation ?");
           setFormData(newFormData);
-          setStep(6); // Jump to parents step
+          setStep(STEPS.PARENTS_QUESTION); // Jump to parents step
           return;
         }
         break;
-      case 3: // Person 2 Name (couple events only)
+      case STEPS.PERSON2_NAME: // Person 2 Name (couple events only)
         newFormData.person2Name = userInput;
         setCropAspect(1);
         addAssistantMessage(`Please share a profile photo of the ${getConfig().person2}!`);
         break;
-      case 4: // Person 2 Image
+      case STEPS.PERSON2_IMAGE: // Person 2 Image
         newFormData.person2Image = userInput.includes("later") ? null : "uploaded";
         addAssistantMessage("Who should be viewed first ?");
         break;
-      case 5: // View Priority (couple events only)
+      case STEPS.VIEW_PRIORITY: // View Priority (couple events only)
         newFormData.priority = userInput.includes(getConfig().person2 || '') ? "person2" : "person1";
         addAssistantMessage("Would you like to add the parents' names to the invitation ?");
         break;
-      case 6: // Parents' Names
+      case STEPS.PARENTS_QUESTION: // Parents' Names
         if (userInput.includes("skip") || userInput.includes("Skip")) {
           newFormData.parents = null;
           addAssistantMessage("What's the Date of the event ?");
           setFormData(newFormData);
-          setStep(11);
+          setStep(STEPS.DATE);
           return;
         } else {
           newFormData.parents = {};
@@ -152,7 +169,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
           setStep(nextStep);
           return;
         }
-      case 7: // Parents sub-flow
+      case STEPS.PARENTS_FLOW_START: // Parents sub-flow
         if (parentsPhase === 'groom_father') {
           newFormData.parents = { ...newFormData.parents, person1Father: userInput.includes("skip") ? null : userInput };
           setParentsPhase('groom_mother');
@@ -162,7 +179,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
           return;
         }
         break;
-      case 8:
+      case STEPS.PARENTS_GROOM_MOTHER:
         if (parentsPhase === 'groom_mother') {
           newFormData.parents = { ...newFormData.parents, person1Mother: userInput.includes("skip") ? null : userInput };
           if (isCoupleEvent()) {
@@ -175,12 +192,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
             setParentsPhase(null);
             addAssistantMessage("What's the Date of the event ?");
             setFormData(newFormData);
-            setStep(11);
+            setStep(STEPS.DATE);
             return;
           }
         }
         break;
-      case 9:
+      case STEPS.PARENTS_BRIDE_FATHER:
         if (parentsPhase === 'bride_father') {
           newFormData.parents = { ...newFormData.parents, person2Father: userInput.includes("skip") ? null : userInput };
           setParentsPhase('bride_mother');
@@ -190,7 +207,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
           return;
         }
         break;
-      case 10:
+      case STEPS.PARENTS_BRIDE_MOTHER:
         if (parentsPhase === 'bride_mother') {
           newFormData.parents = { ...newFormData.parents, person2Mother: userInput.includes("skip") ? null : userInput };
           setParentsPhase(null);
@@ -198,15 +215,15 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
           break;
         }
         break;
-      case 11: // Date
+      case STEPS.DATE: // Date
         newFormData.date = userInput;
         addAssistantMessage("Your event is happening soon! What Time does it start ?");
         break;
-      case 12: // Time
+      case STEPS.TIME: // Time
         newFormData.time = userInput;
         addAssistantMessage("Share the Address for easy access.");
         break;
-      case 13: // Address
+      case STEPS.ADDRESS: // Address
         newFormData.address = userInput;
         addAssistantMessage("Magic is happening... Unwrapping Your Invite Magic!");
         if (onComplete) {
@@ -224,16 +241,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className="bg-white border border-[#EBBAB9]/30 p-3 md:p-4 rounded-2xl flex flex-col items-center gap-2 min-w-0 shadow-sm hover:border-[#C85C6C] group transition-all"
+      className="bg-white border border-[var(--color-primary-light)]/30 p-3 md:p-4 rounded-2xl flex flex-col items-center gap-2 min-w-0 shadow-sm hover:border-[var(--color-primary)] group transition-all"
     >
       {icon ? (
         <img src={icon} alt={label} className="w-12 h-12 object-contain" />
       ) : (
-        <div className="w-12 h-12 rounded-full bg-[#EBBAB9]/20 flex items-center justify-center text-[#C85C6C]">
+        <div className="w-12 h-12 rounded-full bg-[var(--color-primary-light)]/20 flex items-center justify-center text-[var(--color-primary)]">
            <Sparkles size={24} />
         </div>
       )}
-      <span className="font-bold text-sm text-[#333] group-hover:text-[#C85C6C]">{label}</span>
+      <span className="font-bold text-sm text-[#333] group-hover:text-[var(--color-primary)]">{label}</span>
     </motion.button>
   );
 
@@ -276,7 +293,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
 
   const getStepOptions = () => {
     switch (step) {
-      case 0:
+      case STEPS.EVENT_TYPE:
         return (
           <div className="mt-4 grid grid-cols-2 gap-3">
             <ChoiceChip label="Wedding" onClick={() => handleSend("Its a Wedding")} />
@@ -289,17 +306,17 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
             <ChoiceChip label="Housewarming" onClick={() => handleSend("Its a Housewarming")} />
           </div>
         );
-      case 2:
-      case 4:
+      case STEPS.PERSON1_IMAGE:
+      case STEPS.PERSON2_IMAGE:
         return (
            <div className="mt-4 flex gap-3">
-             <button onClick={() => handleSend("Add later")} className="px-6 py-2 bg-white border border-[#C85C6C] text-[#C85C6C] rounded-full text-sm font-bold">Add it later</button>
-             <button onClick={triggerUpload} className="px-6 py-2 bg-[#C85C6C] text-white rounded-full text-sm font-bold flex items-center gap-2">
+             <button onClick={() => handleSend("Add later")} className="px-6 py-2 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] rounded-full text-sm font-bold">Add it later</button>
+             <button onClick={triggerUpload} className="px-6 py-2 bg-[var(--color-primary)] text-white rounded-full text-sm font-bold flex items-center gap-2">
                <Camera size={14} /> Upload Image
              </button>
            </div>
         );
-      case 5: {
+      case STEPS.VIEW_PRIORITY: {
         const cfg = getConfig();
         return (
           <div className="mt-4 grid grid-cols-2 gap-3">
@@ -308,37 +325,37 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
           </div>
         );
       }
-      case 6:
+      case STEPS.PARENTS_QUESTION:
         return (
           <div className="mt-4 flex gap-3">
-            <button onClick={() => handleSend("Yes, add parents")} className="px-6 py-2 bg-[#C85C6C] text-white rounded-full text-sm font-bold">Yes, add them</button>
-            <button onClick={() => handleSend("Skip parents")} className="px-6 py-2 bg-white border border-[#C85C6C] text-[#C85C6C] rounded-full text-sm font-bold">Skip</button>
+            <button onClick={() => handleSend("Yes, add parents")} className="px-6 py-2 bg-[var(--color-primary)] text-white rounded-full text-sm font-bold">Yes, add them</button>
+            <button onClick={() => handleSend("Skip parents")} className="px-6 py-2 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] rounded-full text-sm font-bold">Skip</button>
           </div>
         );
-      case 7:
-      case 8:
-      case 9:
-      case 10:
+      case STEPS.PARENTS_FLOW_START:
+      case STEPS.PARENTS_GROOM_MOTHER:
+      case STEPS.PARENTS_BRIDE_FATHER:
+      case STEPS.PARENTS_BRIDE_MOTHER:
         if (parentsPhase) {
           return (
             <div className="mt-4">
-              <button onClick={() => handleSend("skip")} className="px-5 py-2 bg-white border border-slate-200 text-slate-400 rounded-full text-xs font-bold hover:border-[#C85C6C] hover:text-[#C85C6C] transition-colors">Skip this</button>
+              <button onClick={() => handleSend("skip")} className="px-5 py-2 bg-white border border-slate-200 text-slate-400 rounded-full text-xs font-bold hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors">Skip this</button>
             </div>
           );
         }
         return null;
-      case 11:
+      case STEPS.DATE:
         return (
           <DatePicker onSelect={(dateStr) => handleSend(dateStr)} />
         );
-      case 12:
+      case STEPS.TIME:
         return (
           <TimePicker onSelect={(timeStr) => handleSend(timeStr)} />
         );
-      case 13:
+      case STEPS.ADDRESS:
         return (
            <div className="mt-4 flex gap-3">
-             <button onClick={() => setShowMapPicker(true)} className="px-6 py-2 bg-[#C85C6C] text-white rounded-full text-sm font-bold flex items-center gap-2 shadow-lg shadow-rose-100">
+             <button onClick={() => setShowMapPicker(true)} className="px-6 py-2 bg-[var(--color-primary)] text-white rounded-full text-sm font-bold flex items-center gap-2 shadow-lg shadow-rose-100">
                <MapPin size={14} /> Select on Map
              </button>
            </div>
@@ -380,15 +397,15 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
         className="fixed inset-0 w-full h-full bg-white z-50 flex flex-col overflow-hidden"
       >
             {/* Header */}
-            <div className="p-5 border-b border-[#EBBAB9]/10 flex justify-center items-center bg-white">
-              <div className="flex items-center gap-2 text-[#C85C6C] font-black text-sm uppercase tracking-widest">
+            <div className="p-5 border-b border-[var(--color-primary-light)]/10 flex justify-center items-center bg-white">
+              <div className="flex items-center gap-2 text-[var(--color-primary)] font-black text-sm uppercase tracking-widest">
                 <Sparkles size={16} /> BigDate AI
               </div>
             </div>
 
             {/* Chat Area */}
             <div className="flex-1 overflow-y-auto p-5 scrollbar-hide bg-gradient-to-b from-white to-[#FFF9F5]">
-              <div className="space-y-8 pb-10">
+              <div className="space-y-8 pb-10" aria-live="polite">
                 <AnimatePresence initial={false}>
                   {messages.map((m, i) => (
                     <motion.div
@@ -407,11 +424,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
                       <div className={`max-w-[85%] flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
                         <div className={`p-5 rounded-[28px] text-[15px] leading-relaxed shadow-sm transition-all duration-300 ${
                           m.role === 'user' 
-                            ? 'bg-[#C85C6C] text-white rounded-tr-none font-bold' 
+                            ? 'bg-[var(--color-primary)] text-white rounded-tr-none font-bold' 
                             : 'bg-white border border-rose-100 text-slate-800 rounded-tl-none font-bold'
                         }`}>
                           {m.role === 'assistant' && (
-                            <div className="flex items-center gap-2 mb-2 text-[#C85C6C]/40 text-[9px] uppercase tracking-widest font-black">
+                            <div className="flex items-center gap-2 mb-2 text-[var(--color-primary)]/40 text-[9px] uppercase tracking-widest font-black">
                                <Sparkles size={10} className="fill-current" /> AI Assistant
                             </div>
                           )}
@@ -422,7 +439,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
                               const highlights = ['Website', 'Event', 'Groom', 'Bride', 'Image', 'Date', 'Time', 'Address', 'Wedding', 'Birthday', 'Baptism', 'Baby', 'Father', 'Mother', 'Host', 'Child'];
                               const isHighlight = highlights.includes(cleanWord);
                               return (
-                                <span key={idx} className={isHighlight ? 'text-[#C85C6C] font-black underline decoration-rose-100 underline-offset-4' : ''}>
+                                <span key={idx} className={isHighlight ? 'text-[var(--color-primary)] font-black underline decoration-rose-100 underline-offset-4' : ''}>
                                   {word}{' '}
                                 </span>
                               );
@@ -468,7 +485,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
                           key={delay}
                           animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }} 
                           transition={{ repeat: Infinity, duration: 1, delay }} 
-                          className="h-2 w-2 bg-[#C85C6C]/40 rounded-full"
+                          className="h-2 w-2 bg-[var(--color-primary)]/40 rounded-full"
                         />
                       ))}
                     </div>
@@ -481,7 +498,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
             {/* Input Area */}
             <div className="p-3 md:p-6 bg-white border-t border-slate-50 flex items-center gap-3 md:gap-4">
               <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-4 md:px-6 py-3 md:py-4 flex items-center focus-within:bg-white focus-within:border-rose-200 transition-all">
+                <label htmlFor="chat-input" className="sr-only">Type your message</label>
                 <input
+                  id="chat-input"
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -493,7 +512,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
               <button 
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isProcessing}
-                className="w-12 h-12 md:w-14 md:h-14 bg-[#C85C6C] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-rose-200 hover:bg-[#b04b5a] active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none shrink-0"
+                className="w-12 h-12 md:w-14 md:h-14 bg-[var(--color-primary)] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-rose-200 hover:bg-[#b04b5a] active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none shrink-0"
               >
                 <Send size={20} />
               </button>

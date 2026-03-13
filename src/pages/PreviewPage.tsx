@@ -117,7 +117,7 @@ function FloatingHearts() {
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute text-[#C85C6C]/10"
+          className="absolute text-[var(--color-primary)]/10"
           initial={{
             x: `${15 + i * 15}%`,
             y: '110%',
@@ -161,7 +161,7 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
 export function Component() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { formData, eventType, selectedTemplate } = (location.state as LocationState) || {};
+  const { formData, eventType, selectedTemplate: _selectedTemplate } = (location.state as LocationState) || {};
 
   const stored = !formData ? JSON.parse(sessionStorage.getItem('inviteFormData') || 'null') : null;
   const actualFormData = formData || stored;
@@ -232,7 +232,7 @@ export function Component() {
             initial={{ y: -60, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
-            className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#C85C6C] to-[#e8829a] text-white px-3 md:px-4 py-2.5 md:py-3 flex items-center justify-center gap-2 md:gap-3 shadow-lg flex-wrap"
+            className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[var(--color-primary)] to-[#e8829a] text-white px-3 md:px-4 py-2.5 md:py-3 flex items-center justify-center gap-2 md:gap-3 shadow-lg flex-wrap"
           >
             <Sparkles size={14} className="shrink-0 hidden sm:block" />
             <span className="text-xs md:text-sm font-semibold">
@@ -240,7 +240,7 @@ export function Component() {
             </span>
             <button
               onClick={() => navigate('/pricing')}
-              className="bg-white text-[#C85C6C] text-[10px] md:text-xs font-black uppercase tracking-wider px-3 md:px-4 py-1 md:py-1.5 rounded-full hover:bg-rose-50 transition-colors"
+              className="bg-white text-[var(--color-primary)] text-[10px] md:text-xs font-black uppercase tracking-wider px-3 md:px-4 py-1 md:py-1.5 rounded-full hover:bg-rose-50 transition-colors"
             >
               Activate Now
             </button>
@@ -264,17 +264,17 @@ export function Component() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#C85C6C]/10 flex items-center justify-center"
+            className="w-20 h-20 mx-auto mb-6 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center"
           >
-            <IconComponent size={36} className="text-[#C85C6C]" />
+            <IconComponent size={36} className="text-[var(--color-primary)]" />
           </motion.div>
 
-          <p className="text-sm uppercase tracking-[0.25em] text-[#C85C6C]/60 font-bold mb-2">
+          <p className="text-sm uppercase tracking-[0.25em] text-[var(--color-primary)]/60 font-bold mb-2">
             {tagline}
           </p>
           <p className="text-sm text-slate-400 font-medium mb-6">{subtitle}</p>
 
-          <h1 className="font-serif text-3xl md:text-5xl text-[#C85C6C] font-bold leading-tight mb-4 break-words">
+          <h1 className="font-serif text-3xl md:text-5xl text-[var(--color-primary)] font-bold leading-tight mb-4 break-words">
             {names}
           </h1>
 
@@ -295,9 +295,9 @@ export function Component() {
 
         {/* ── Divider ──────────────────────────────────── */}
         <div className="flex items-center justify-center gap-3 my-6">
-          <div className="h-px w-16 bg-[#C85C6C]/20" />
-          <Heart size={12} className="text-[#C85C6C]/30" fill="currentColor" />
-          <div className="h-px w-16 bg-[#C85C6C]/20" />
+          <div className="h-px w-16 bg-[var(--color-primary)]/20" />
+          <Heart size={12} className="text-[var(--color-primary)]/30" fill="currentColor" />
+          <div className="h-px w-16 bg-[var(--color-primary)]/20" />
         </div>
 
         {/* ── 3. Photo Gallery ─────────────────────────── */}
@@ -307,7 +307,7 @@ export function Component() {
 
         {/* ── 4. Countdown ─────────────────────────────── */}
         <Section className="mt-12">
-          <h2 className="font-serif text-2xl text-center text-[#C85C6C] mb-2">{countdownLabel}</h2>
+          <h2 className="font-serif text-2xl text-center text-[var(--color-primary)] mb-2">{countdownLabel}</h2>
           <CountdownTimer targetDate={actualFormData.date + 'T12:00:00'} />
         </Section>
 
@@ -336,10 +336,11 @@ export function Component() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleRsvp}
+            aria-label={rsvpStatus === 'attending' ? 'Cancel RSVP' : 'RSVP to event'}
             className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm transition-all border ${
               rsvpStatus === 'attending'
-                ? 'bg-[#C85C6C] text-white border-[#C85C6C] shadow-lg shadow-rose-200'
-                : 'bg-white text-[#C85C6C] border-[#C85C6C]/30 hover:border-[#C85C6C]'
+                ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-lg shadow-rose-200'
+                : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]/30 hover:border-[var(--color-primary)]'
             }`}
           >
             <CheckCircle2 size={18} />
@@ -350,9 +351,10 @@ export function Component() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleAddToCalendar}
-            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-slate-200 hover:border-[#C85C6C]/40 transition-all"
+            aria-label="Add event to calendar"
+            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-slate-200 hover:border-[var(--color-primary)]/40 transition-all"
           >
-            <CalendarPlus size={18} className="text-[#C85C6C]" />
+            <CalendarPlus size={18} className="text-[var(--color-primary)]" />
             Add to Calendar
           </motion.button>
 
@@ -360,9 +362,10 @@ export function Component() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleGetDirections}
-            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-slate-200 hover:border-[#C85C6C]/40 transition-all"
+            aria-label="Get directions to venue"
+            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-slate-200 hover:border-[var(--color-primary)]/40 transition-all"
           >
-            <MapPin size={18} className="text-[#C85C6C]" />
+            <MapPin size={18} className="text-[var(--color-primary)]" />
             Get Directions
           </motion.button>
 
@@ -370,6 +373,7 @@ export function Component() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleShareWhatsApp}
+            aria-label="Share on WhatsApp"
             className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-[#25D366] text-white border border-[#25D366] hover:bg-[#20bd5a] transition-all"
           >
             <Share2 size={18} />
@@ -380,9 +384,9 @@ export function Component() {
         {/* ── 8. Footer ────────────────────────────────── */}
         <Section className="text-center mt-16 mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-12 bg-[#C85C6C]/20" />
-            <Heart size={10} className="text-[#C85C6C]/30" fill="currentColor" />
-            <div className="h-px w-12 bg-[#C85C6C]/20" />
+            <div className="h-px w-12 bg-[var(--color-primary)]/20" />
+            <Heart size={10} className="text-[var(--color-primary)]/30" fill="currentColor" />
+            <div className="h-px w-12 bg-[var(--color-primary)]/20" />
           </div>
           <p className="font-serif text-lg text-slate-500 italic mb-2">{footerText}</p>
           <p className="text-[10px] uppercase tracking-[0.3em] text-slate-300 font-black">
@@ -414,7 +418,7 @@ export function Component() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/pricing')}
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[#C85C6C] to-[#e8829a] shadow-lg shadow-rose-200 hover:shadow-rose-300 transition-shadow"
+            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[var(--color-primary)] to-[#e8829a] shadow-lg shadow-rose-200 hover:shadow-rose-300 transition-shadow"
           >
             <Crown size={18} />
             Activate Now

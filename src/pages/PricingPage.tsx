@@ -5,7 +5,6 @@ import {
   Sparkles,
   Check,
   Star,
-  ChevronDown,
   X,
   Ban,
   Crown,
@@ -20,19 +19,8 @@ import {
   Headphones,
 } from 'lucide-react';
 import { PRICING_PLANS, PROMO_CODES } from '../constants/events';
-
-/* ------------------------------------------------------------------ */
-/*  Animation helpers                                                  */
-/* ------------------------------------------------------------------ */
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.12 } },
-};
+import { fadeUp, stagger } from '../utils/animations';
+import { Accordion } from '../components/ui';
 
 /* ------------------------------------------------------------------ */
 /*  Features list                                                      */
@@ -82,8 +70,6 @@ export function Component() {
   const [promoInput, setPromoInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
   const [promoError, setPromoError] = useState('');
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
   const discount = appliedPromo ? PROMO_CODES[appliedPromo]?.discount ?? 0 : 0;
 
   function applyPromo() {
@@ -370,37 +356,13 @@ export function Component() {
           <h2 className="text-2xl md:text-3xl font-bold serif text-center mb-8">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-3">
+          <Accordion>
             {FAQ.map((item, idx) => (
-              <motion.div
-                key={idx}
-                variants={fadeUp}
-                className="border border-[var(--border)] rounded-2xl overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full flex items-center justify-between px-6 py-4 text-left font-medium hover:bg-[var(--bg-secondary)] transition-colors"
-                >
-                  <span>{item.q}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 shrink-0 transition-transform ${
-                      openFaq === idx ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                {openFaq === idx && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="px-6 pb-4 text-[var(--text-secondary)] text-sm"
-                  >
-                    {item.a}
-                  </motion.div>
-                )}
-              </motion.div>
+              <Accordion.Item key={idx} id={`faq-${idx}`} title={item.q}>
+                {item.a}
+              </Accordion.Item>
             ))}
-          </div>
+          </Accordion>
         </motion.div>
       </div>
     </div>
