@@ -63,7 +63,7 @@ export default function Navbar() {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-1.5 text-[var(--color-text-secondary)]"
+            className="lg:hidden p-2.5 -mr-2 text-[var(--color-text-secondary)]"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -88,7 +88,7 @@ export default function Navbar() {
                   to={event.urlPath}
                   onClick={() => setMobileOpen(false)}
                   aria-current={isActive(event.urlPath) ? 'page' : undefined}
-                  className={`block px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  className={`block px-3 py-2.5 text-sm font-medium rounded-lg transition-colors ${
                     isActive(event.urlPath)
                       ? 'bg-[var(--color-primary)] text-white'
                       : 'text-[var(--color-text-secondary)] hover:bg-gray-50'

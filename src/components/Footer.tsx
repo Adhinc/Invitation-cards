@@ -21,10 +21,10 @@ export default function Footer() {
           {/* Events */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Events</h4>
-            <ul className="space-y-1.5">
+            <ul className="space-y-0.5">
               {EVENTS.slice(0, 5).map(ev => (
                 <li key={ev.slug}>
-                  <Link to={ev.urlPath} className="text-xs text-gray-500 hover:text-white transition-colors">
+                  <Link to={ev.urlPath} className="block py-1 text-xs text-gray-500 hover:text-white transition-colors">
                     {ev.label}
                   </Link>
                 </li>
@@ -35,16 +35,16 @@ export default function Footer() {
           {/* More Events */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">More</h4>
-            <ul className="space-y-1.5">
+            <ul className="space-y-0.5">
               {EVENTS.slice(5).map(ev => (
                 <li key={ev.slug}>
-                  <Link to={ev.urlPath} className="text-xs text-gray-500 hover:text-white transition-colors">
+                  <Link to={ev.urlPath} className="block py-1 text-xs text-gray-500 hover:text-white transition-colors">
                     {ev.label}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link to="/pricing" className="text-xs text-gray-500 hover:text-white transition-colors">
+                <Link to="/pricing" className="block py-1 text-xs text-gray-500 hover:text-white transition-colors">
                   Pricing
                 </Link>
               </li>
@@ -54,10 +54,10 @@ export default function Footer() {
           {/* Company */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Company</h4>
-            <ul className="space-y-1.5">
+            <ul className="space-y-0.5">
               {['Privacy Policy', 'Terms of Service', 'Refund Policy', 'Contact Us'].map(label => (
                 <li key={label}>
-                  <span className="text-xs text-gray-500 cursor-not-allowed">{label}</span>
+                  <span className="block py-1 text-xs text-gray-500 cursor-not-allowed">{label}</span>
                 </li>
               ))}
             </ul>

@@ -274,7 +274,7 @@ export function Component() {
           </p>
           <p className="text-sm text-slate-400 font-medium mb-6">{subtitle}</p>
 
-          <h1 className="font-serif text-3xl md:text-5xl text-[var(--color-primary)] font-bold leading-tight mb-4 break-words">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[var(--color-primary)] font-bold leading-tight mb-4 break-words">
             {names}
           </h1>
 

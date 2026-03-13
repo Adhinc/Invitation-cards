@@ -72,12 +72,12 @@ export function Component() {
       </Section>
 
       {/* Special Offer Banner */}
-      <div className="max-w-6xl mx-auto px-5">
+      <Section spacing="compact">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="bg-[var(--color-primary)] text-white rounded-2xl px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-8 text-center"
+          className="bg-[var(--color-primary)] text-white rounded-2xl px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center"
         >
           <Sparkles className="w-5 h-5 shrink-0" />
           <span className="font-medium text-sm md:text-base">
@@ -86,7 +86,7 @@ export function Component() {
           </span>
           <Sparkles className="w-5 h-5 shrink-0" />
         </motion.div>
-      </div>
+      </Section>
 
       {/* Free Tier Card */}
       <Section spacing="compact" size="narrow">
@@ -181,10 +181,10 @@ export function Component() {
       </Section>
 
       {/* Promo Code Section */}
-      <div className="max-w-lg mx-auto px-5 mb-16">
+      <Section size="narrow" spacing="compact">
         <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}
-          className="bg-white border border-gray-100 rounded-2xl p-8 text-center"
+          variants={fadeUp}
+          className="bg-white border border-gray-100 rounded-2xl p-8 text-center max-w-lg mx-auto"
         >
           <h3 className="font-bold text-base mb-4">Have a Promo Code?</h3>
           {appliedPromo ? (
@@ -211,11 +211,11 @@ export function Component() {
             </div>
           )}
         </motion.div>
-      </div>
+      </Section>
 
       {/* Trust Section */}
-      <div className="text-center mb-16 px-5">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
+      <Section size="narrow" spacing="compact" className="text-center">
+        <motion.div variants={fadeUp}>
           <div className="flex justify-center -space-x-3 mb-4">
             {['bg-rose-300', 'bg-amber-300', 'bg-sky-300', 'bg-emerald-300', 'bg-violet-300'].map((bg, i) => (
               <div key={i} className={`w-10 h-10 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-xs font-bold`}>
@@ -232,7 +232,7 @@ export function Component() {
             Trusted by <strong>4,500+</strong> happy customers
           </p>
         </motion.div>
-      </div>
+      </Section>
 
       {/* FAQ Section */}
       <Section size="narrow" label="FAQ">

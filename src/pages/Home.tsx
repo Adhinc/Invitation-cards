@@ -132,7 +132,7 @@ function QRMockup() {
         </div>
         <p className="text-[8px] text-gray-400 uppercase tracking-widest font-medium">Scan for E-Invite</p>
       </div>
-      <div className="absolute -right-5 -bottom-3 w-24 h-40 bg-gray-900 rounded-xl shadow-md flex items-center justify-center p-0.5">
+      <div className="absolute right-0 sm:-right-5 -bottom-3 w-24 h-40 bg-gray-900 rounded-xl shadow-md flex items-center justify-center p-0.5">
         <div className="w-full h-full bg-white rounded-[10px] flex flex-col items-center justify-center p-1.5">
           <Sparkles size={12} className="text-[var(--color-primary)] mb-1" />
           <p className="text-[6px] font-semibold text-[var(--color-primary)]">Priya & Arjun</p>
@@ -368,7 +368,7 @@ export function Component() {
           subtitle="Everything a paper invitation does, but better."
         />
 
-        <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {benefits.map((b) => (
             <motion.div key={b.title} variants={fadeUp}>
               <Card className="h-full hover:shadow-md transition-shadow">
@@ -411,14 +411,16 @@ export function Component() {
       {/* ══════════════════════════════════════════════════════════════
           9. STATS BANNER
       ══════════════════════════════════════════════════════════════ */}
-      <Section size="narrow" spacing="compact" className="bg-[var(--color-primary)] rounded-2xl mx-5 md:mx-auto" label="Stats">
-        <div className="grid grid-cols-3 text-center text-white">
-          {stats.map((s) => (
-            <motion.div key={s.label} variants={fadeUp}>
-              <p className="text-2xl md:text-4xl font-bold">{s.value}</p>
-              <p className="text-xs opacity-70 mt-1">{s.label}</p>
-            </motion.div>
-          ))}
+      <Section size="narrow" spacing="compact" label="Stats">
+        <div className="bg-[var(--color-primary)] rounded-2xl px-6 py-10">
+          <div className="grid grid-cols-3 text-center text-white gap-2">
+            {stats.map((s) => (
+              <motion.div key={s.label} variants={fadeUp}>
+                <p className="text-xl sm:text-2xl md:text-4xl font-bold">{s.value}</p>
+                <p className="text-[10px] sm:text-xs opacity-70 mt-1">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </Section>
 
@@ -436,14 +438,14 @@ export function Component() {
           </span>
         </motion.div>
 
-        <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {PRICING_PLANS.map((plan) => (
             <motion.div key={plan.id} variants={fadeUp}>
               <Card
                 variant={plan.preferred ? 'elevated' : 'default'}
                 className={cn(
                   'p-6 text-center relative',
-                  plan.preferred && 'border-2 border-[var(--color-primary)] sm:scale-[1.03]',
+                  plan.preferred && 'border-2 border-[var(--color-primary)] md:scale-[1.03]',
                 )}
               >
                 {plan.preferred && (

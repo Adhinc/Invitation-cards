@@ -389,11 +389,11 @@ function StatsBar({ event }: { event: EventConfig }) {
 
   return (
     <Section spacing="compact" label="Stats" style={{ background: `linear-gradient(135deg, ${event.accentColor}15, ${event.accentColor}08)` }}>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-4">
         {items.map((s) => (
           <motion.div key={s.label} variants={fadeUp} className="text-center">
             <s.icon className="w-6 h-6 mx-auto mb-2" style={{ color: event.accentColor }} />
-            <p className="text-2xl md:text-3xl font-bold">{s.value}</p>
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold">{s.value}</p>
             <p className="text-sm text-[var(--color-text-secondary)]">{s.label}</p>
           </motion.div>
         ))}
@@ -413,13 +413,13 @@ function PricingSection({ event }: { event: EventConfig }) {
         title="Choose Your Plan"
         subtitle="Simple, transparent pricing"
       />
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
         {PRICING_PLANS.map((plan) => (
           <motion.div key={plan.id} variants={fadeUp}>
             <Card
               variant={plan.preferred ? 'elevated' : 'default'}
               className={`relative p-6 text-center transition-shadow hover:shadow-lg ${
-                plan.preferred ? 'border-2 shadow-lg sm:scale-105' : ''
+                plan.preferred ? 'border-2 shadow-lg md:scale-105' : ''
               }`}
               style={plan.preferred ? { borderColor: event.accentColor, background: `${event.accentColor}08` } : {}}
             >

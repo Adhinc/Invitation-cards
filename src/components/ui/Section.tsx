@@ -1,5 +1,5 @@
-import { forwardRef, useId } from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
+import { forwardRef, useId, type CSSProperties, type ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '../../utils/cn';
 import { stagger } from '../../utils/animations';
 
@@ -13,36 +13,40 @@ const SPACING_CLASSES = {
   compact: 'py-12 md:py-16',
 } as const;
 
-interface SectionProps extends HTMLMotionProps<'section'> {
+interface SectionProps {
   label?: string;
   size?: keyof typeof SIZE_CLASSES;
   spacing?: keyof typeof SPACING_CLASSES;
   muted?: boolean;
+  className?: string;
+  style?: CSSProperties;
+  children?: ReactNode;
 }
 
 export const Section = forwardRef<HTMLElement, SectionProps>(
-  ({ className, label, size = 'wide', spacing = 'standard', muted, children, ...props }, ref) => {
+  ({ className, label, size = 'wide', spacing = 'standard', muted, children, style }, ref) => {
     const id = useId();
     return (
-      <motion.section
+      <section
         ref={ref}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-        variants={stagger}
         className={cn(
-          'mx-auto px-5',
-          SIZE_CLASSES[size],
           SPACING_CLASSES[spacing],
           muted && 'bg-[var(--color-surface-muted)]',
-          className,
         )}
+        style={style}
         aria-labelledby={label ? id : undefined}
-        {...props}
       >
         {label && <span id={id} className="sr-only">{label}</span>}
-        {children}
-      </motion.section>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+          className={cn('mx-auto px-5', SIZE_CLASSES[size], className)}
+        >
+          {children}
+        </motion.div>
+      </section>
     );
   },
 );
