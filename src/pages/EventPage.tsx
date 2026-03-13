@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { getEventBySlug, PRICING_PLANS, type EventConfig } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
+import { Card, Badge, Button } from '../components/ui';
 
 function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -77,12 +78,10 @@ function HeroSection({ event }: { event: EventConfig }) {
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
-          <Link
-            to={`/chatbot?event=${event.type}`}
-            className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
-            style={{ background: event.accentColor }}
-          >
-            Start Now <ArrowRight className="w-5 h-5" />
+          <Link to={`/chatbot?event=${event.type}`}>
+            <Button size="lg" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 text-lg shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
+              Start Now
+            </Button>
           </Link>
         </motion.div>
 
@@ -286,19 +285,17 @@ function FeaturesSection({ event }: { event: EventConfig }) {
       </SectionTitle>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {FEATURES.map((f) => (
-          <motion.div
-            key={f.title}
-            variants={fadeUp}
-            className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
-          >
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-              style={{ background: `${event.accentColor}18` }}
-            >
-              <f.icon className="w-6 h-6" style={{ color: event.accentColor }} />
-            </div>
-            <h3 className="font-semibold text-gray-900 text-lg">{f.title}</h3>
-            <p className="text-gray-500 text-sm mt-1">{f.desc}</p>
+          <motion.div key={f.title} variants={fadeUp}>
+            <Card className="p-6 hover:shadow-md transition-shadow">
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                style={{ background: `${event.accentColor}18` }}
+              >
+                <f.icon className="w-6 h-6" style={{ color: event.accentColor }} />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-lg">{f.title}</h3>
+              <p className="text-gray-500 text-sm mt-1">{f.desc}</p>
+            </Card>
           </motion.div>
         ))}
       </div>
@@ -380,17 +377,19 @@ function TestimonialsSection({ event }: { event: EventConfig }) {
       </SectionTitle>
       <div className="grid md:grid-cols-3 gap-6">
         {testimonials.map((t) => (
-          <motion.div key={t.name} variants={fadeUp} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <div className="flex gap-1 mb-3">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-            <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{t.text}&rdquo;</p>
-            <div className="mt-4 pt-3 border-t border-gray-100">
-              <p className="font-semibold text-sm text-gray-900">{t.name}</p>
-              <p className="text-xs text-gray-400">{t.role}</p>
-            </div>
+          <motion.div key={t.name} variants={fadeUp}>
+            <Card className="p-6">
+              <div className="flex gap-1 mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+              <div className="mt-4 pt-3 border-t border-gray-100">
+                <p className="font-semibold text-sm text-gray-900">{t.name}</p>
+                <p className="text-xs text-gray-400">{t.role}</p>
+              </div>
+            </Card>
           </motion.div>
         ))}
       </div>
@@ -450,37 +449,38 @@ function PricingSection({ event }: { event: EventConfig }) {
           <motion.div
             key={plan.id}
             variants={fadeUp}
-            className={`relative rounded-2xl p-6 text-center border transition-shadow hover:shadow-lg ${
-              plan.preferred
-                ? 'border-2 shadow-lg scale-105'
-                : 'border-gray-200 bg-white'
-            }`}
-            style={plan.preferred ? { borderColor: event.accentColor, background: `${event.accentColor}08` } : {}}
           >
-            {plan.preferred && (
-              <span
-                className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold text-white px-3 py-1 rounded-full"
-                style={{ background: event.accentColor }}
-              >
-                Most Popular
-              </span>
-            )}
-            <h3 className="text-lg font-semibold text-gray-900 mt-2">{plan.label}</h3>
-            <div className="mt-3">
-              <span className="text-4xl font-bold text-gray-900">₹{plan.price}</span>
-            </div>
-            <p className="text-sm text-gray-400 mt-1">{plan.duration} days</p>
-            <Link
-              to={`/chatbot?event=${event.type}&plan=${plan.id}`}
-              className="mt-6 block w-full py-2.5 rounded-full font-semibold text-sm transition-colors"
-              style={
+            <Card
+              variant={plan.preferred ? 'elevated' : 'default'}
+              className={`relative rounded-2xl p-6 text-center transition-shadow hover:shadow-lg ${
                 plan.preferred
-                  ? { background: event.accentColor, color: '#fff' }
-                  : { background: `${event.accentColor}15`, color: event.accentColor }
-              }
+                  ? 'border-2 shadow-lg scale-105'
+                  : ''
+              }`}
+              style={plan.preferred ? { borderColor: event.accentColor, background: `${event.accentColor}08` } : {}}
             >
-              Get Started
-            </Link>
+              {plan.preferred && (
+                <Badge variant="premium" className="absolute -top-3 left-1/2 -translate-x-1/2" style={{ background: event.accentColor }}>
+                  Most Popular
+                </Badge>
+              )}
+              <h3 className="text-lg font-semibold text-gray-900 mt-2">{plan.label}</h3>
+              <div className="mt-3">
+                <span className="text-4xl font-bold text-gray-900">₹{plan.price}</span>
+              </div>
+              <p className="text-sm text-gray-400 mt-1">{plan.duration} days</p>
+              <Link
+                to={`/chatbot?event=${event.type}&plan=${plan.id}`}
+                className="mt-6 block w-full py-2.5 rounded-full font-semibold text-sm transition-colors"
+                style={
+                  plan.preferred
+                    ? { background: event.accentColor, color: '#fff' }
+                    : { background: `${event.accentColor}15`, color: event.accentColor }
+                }
+              >
+                Get Started
+              </Link>
+            </Card>
           </motion.div>
         ))}
       </div>
@@ -548,12 +548,10 @@ function FinalCTA({ event }: { event: EventConfig }) {
         <p className="mt-3 text-gray-500 text-lg max-w-lg mx-auto">
           Create your beautiful {event.label.toLowerCase()} invitation in under 2 minutes.
         </p>
-        <Link
-          to={`/chatbot?event=${event.type}`}
-          className="inline-flex items-center gap-2 mt-8 px-10 py-4 rounded-full text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
-          style={{ background: event.accentColor }}
-        >
-          Start Creating Now <ArrowRight className="w-5 h-5" />
+        <Link to={`/chatbot?event=${event.type}`}>
+          <Button size="lg" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 text-lg shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
+            Start Creating Now
+          </Button>
         </Link>
         <p className="mt-4 text-sm text-gray-400">Free to try. No credit card needed.</p>
       </motion.div>

@@ -20,7 +20,8 @@ import {
 } from 'lucide-react';
 import { PRICING_PLANS, PROMO_CODES } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
-import { Accordion } from '../components/ui';
+import { Accordion, Badge, Button, Card, Input } from '../components/ui';
+import { cn } from '../utils/cn';
 
 /* ------------------------------------------------------------------ */
 /*  Features list                                                      */
@@ -152,11 +153,8 @@ export function Component() {
             <Users className="w-4 h-4" />
             <span>Trusted by <strong>4,500+</strong> happy customers</span>
           </div>
-          <Link
-            to="/"
-            className="inline-block bg-[var(--text-primary)] text-[var(--bg-primary)] font-semibold px-8 py-3 rounded-full hover:opacity-90 transition-opacity"
-          >
-            Create Website
+          <Link to="/">
+            <Button variant="secondary" size="lg">Create Website</Button>
           </Link>
         </motion.div>
 
@@ -178,56 +176,57 @@ export function Component() {
                 key={plan.id}
                 variants={fadeUp}
                 whileHover={{ y: -4 }}
-                className={`relative bg-[var(--bg-secondary)] rounded-3xl p-8 text-center transition-shadow ${
-                  isPreferred
-                    ? 'border-2 border-rose-400 shadow-xl md:scale-105 z-10'
-                    : 'border border-[var(--border)] shadow-md'
-                }`}
               >
-                {isPreferred && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rose-500 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wide">
-                    Most Popular
-                  </span>
-                )}
+                <Card
+                  variant={isPreferred ? 'elevated' : 'default'}
+                  className={cn(
+                    'rounded-3xl p-8 text-center relative',
+                    isPreferred ? 'border-2 border-rose-400 md:scale-105 z-10' : 'shadow-md'
+                  )}
+                >
+                  {isPreferred && (
+                    <Badge variant="premium" className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      Most Popular
+                    </Badge>
+                  )}
 
-                <h3 className="text-xl font-bold serif mt-2 mb-1">{plan.label}</h3>
+                  <h3 className="text-xl font-bold serif mt-2 mb-1">{plan.label}</h3>
 
-                <div className="mb-1">
-                  {discount > 0 ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="text-[var(--text-secondary)] line-through text-lg">
+                  <div className="mb-1">
+                    {discount > 0 ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-[var(--text-secondary)] line-through text-lg">
+                          &#8377;{plan.price}
+                        </span>
+                        <span className="text-3xl md:text-4xl font-extrabold text-rose-500">
+                          &#8377;{final}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-3xl md:text-4xl font-extrabold">
                         &#8377;{plan.price}
                       </span>
-                      <span className="text-3xl md:text-4xl font-extrabold text-rose-500">
-                        &#8377;{final}
-                      </span>
-                    </div>
-                  ) : (
-                    <span className="text-3xl md:text-4xl font-extrabold">
-                      &#8377;{plan.price}
-                    </span>
-                  )}
-                </div>
+                    )}
+                  </div>
 
-                <p className="text-xs text-[var(--text-secondary)] mb-4">
-                  ~&#8377;{Math.round(pricePerMonth)}/month
-                </p>
+                  <p className="text-xs text-[var(--text-secondary)] mb-4">
+                    ~&#8377;{Math.round(pricePerMonth)}/month
+                  </p>
 
-                <span className="inline-flex items-center gap-1 text-xs font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full mb-6">
-                  <Ban className="w-3 h-3" /> Zero Ads
-                </span>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full mb-6">
+                    <Ban className="w-3 h-3" /> Zero Ads
+                  </span>
 
-                <div>
-                  <button
-                    className={`w-full font-semibold px-6 py-3 rounded-full transition-opacity hover:opacity-90 ${
-                      isPreferred
-                        ? 'bg-rose-500 text-white'
-                        : 'bg-[var(--text-primary)] text-[var(--bg-primary)]'
-                    }`}
-                  >
-                    Activate Now
-                  </button>
-                </div>
+                  <div>
+                    <Button
+                      className="w-full"
+                      variant={isPreferred ? 'primary' : 'secondary'}
+                      size="lg"
+                    >
+                      Activate Now
+                    </Button>
+                  </div>
+                </Card>
               </motion.div>
             );
           })}
@@ -286,8 +285,9 @@ export function Component() {
           ) : (
             <>
               <div className="flex gap-2">
-                <input
-                  type="text"
+                <Input
+                  label="Promo code"
+                  hideLabel
                   value={promoInput}
                   onChange={(e) => {
                     setPromoInput(e.target.value);
@@ -295,18 +295,11 @@ export function Component() {
                   }}
                   onKeyDown={(e) => e.key === 'Enter' && applyPromo()}
                   placeholder="Enter code"
-                  className="flex-1 px-4 py-2.5 rounded-full border border-[var(--border)] bg-[var(--bg-primary)] text-sm outline-none focus:ring-2 focus:ring-rose-300 transition"
+                  error={promoError || undefined}
+                  className="rounded-full"
                 />
-                <button
-                  onClick={applyPromo}
-                  className="bg-rose-500 text-white font-semibold px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity text-sm"
-                >
-                  Apply
-                </button>
+                <Button onClick={applyPromo} size="md">Apply</Button>
               </div>
-              {promoError && (
-                <p className="text-red-500 text-sm mt-2">{promoError}</p>
-              )}
             </>
           )}
         </motion.div>

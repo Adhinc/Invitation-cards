@@ -6,6 +6,7 @@ import {
   Settings, Layout,
   LogOut, Plus, ChevronRight, Star, ExternalLink, Sparkles, MessageCircle, AlertTriangle, Info, CheckCircle
 } from 'lucide-react';
+import { Badge, Button, Card, IconButton } from './ui';
 
 type EventFilter = 'All' | 'Wedding' | 'Birthday' | 'Baptism' | 'Baby Shower' | 'Housewarming' | 'Naming Ceremony';
 
@@ -166,8 +167,10 @@ const Dashboard: React.FC = () => {
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2 italic">Welcome back,</p>
             <h1 className="text-2xl md:text-4xl serif font-black text-slate-800 italic">Akhil Kottikkal</h1>
           </div>
-          <Link to="/" className="btn-premium flex items-center gap-2 md:gap-3 px-5 md:px-8 py-3 md:py-4 shadow-xl shadow-rose-100 text-sm md:text-base shrink-0">
-            <Plus size={18} className="stroke-[3]" /> Create New Invite
+          <Link to="/">
+            <Button size="lg" leftIcon={<Plus size={18} className="stroke-[3]" />}>
+              Create New Invite
+            </Button>
           </Link>
         </header>
 
@@ -237,22 +240,23 @@ const Dashboard: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white p-4 md:p-8 rounded-2xl md:rounded-[32px] border border-rose-100 shadow-sm group hover:shadow-xl hover:shadow-rose-100/50 transition-all duration-500"
             >
-              <div className="flex justify-between items-start mb-4 md:mb-6">
-                <div className={`p-2.5 md:p-4 rounded-xl md:rounded-2xl ${
-                  s.color === 'rose' ? 'bg-rose-50 text-rose-500' :
-                  s.color === 'emerald' ? 'bg-emerald-50 text-emerald-500' :
-                  s.color === 'amber' ? 'bg-amber-50 text-amber-500' : 'bg-slate-50 text-slate-500'
-                }`}>
-                  {React.cloneElement(s.icon as any, { size: 24, className: "stroke-[2.5]" })}
+              <Card className="p-4 md:p-8 rounded-2xl md:rounded-[32px] group hover:shadow-xl hover:shadow-rose-100/50 transition-all duration-500">
+                <div className="flex justify-between items-start mb-4 md:mb-6">
+                  <div className={`p-2.5 md:p-4 rounded-xl md:rounded-2xl ${
+                    s.color === 'rose' ? 'bg-rose-50 text-rose-500' :
+                    s.color === 'emerald' ? 'bg-emerald-50 text-emerald-500' :
+                    s.color === 'amber' ? 'bg-amber-50 text-amber-500' : 'bg-slate-50 text-slate-500'
+                  }`}>
+                    {React.cloneElement(s.icon as any, { size: 24, className: "stroke-[2.5]" })}
+                  </div>
+                  <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-lg text-[10px] font-black">
+                    {s.trend}
+                  </div>
                 </div>
-                <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-lg text-[10px] font-black">
-                  {s.trend}
-                </div>
-              </div>
-              <div className="text-xl md:text-3xl font-black text-slate-800 mb-2">{s.value}</div>
-              <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">{s.label}</div>
+                <div className="text-xl md:text-3xl font-black text-slate-800 mb-2">{s.value}</div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">{s.label}</div>
+              </Card>
             </motion.div>
           ))}
         </div>
@@ -300,13 +304,19 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div className="p-4 bg-rose-50/50 rounded-2xl">
                            <span className="text-[10px] font-black text-[var(--color-primary)]/50 uppercase block mb-1">Status</span>
-                           <span className="text-lg font-black text-[var(--color-primary)]">{inv.status}</span>
+                           <Badge variant={inv.status === 'ACTIVE' ? 'success' : 'error'}>
+                             {inv.status}
+                           </Badge>
                         </div>
                      </div>
 
                      <div className="mt-6 flex gap-3">
-                        <button className="flex-1 py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-colors">Edit</button>
-                        <button aria-label={`Settings for ${inv.names}`} className="px-5 py-3 border border-slate-100 text-slate-400 rounded-xl hover:bg-rose-50 hover:text-[var(--color-primary)] transition-all"><Settings size={14} /></button>
+                        <Button variant="secondary" size="sm" className="flex-1">Edit</Button>
+                        <IconButton
+                          aria-label={`Settings for ${inv.names}`}
+                          icon={<Settings size={14} />}
+                          variant="outline"
+                        />
                      </div>
                   </div>
                 </motion.div>

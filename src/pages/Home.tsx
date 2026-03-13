@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { EVENTS, PRICING_PLANS } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
+import { Button, Card, Badge } from '../components/ui';
+import { cn } from '../utils/cn';
 
 /* ------------------------------------------------------------------ */
 /*  Sample invitation carousel data                                    */
@@ -134,9 +136,10 @@ export function Component() {
             transition={{ delay: 0.2 }}
             className="flex flex-col items-center gap-3"
           >
-            <Link to={EVENTS[0].urlPath} className="btn-premium">
-              <Sparkles size={16} />
-              Create Website
+            <Link to={EVENTS[0].urlPath}>
+              <Button size="lg" leftIcon={<Sparkles size={16} />}>
+                Create Website
+              </Button>
             </Link>
             <span className="text-xs text-gray-400">
               Takes less than 5 minutes &middot; Loved by <strong className="text-gray-600">10,000+</strong> families
@@ -383,13 +386,13 @@ export function Component() {
 
             <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {benefits.map((b) => (
-                <motion.div
-                  key={b.title}
-                  variants={fadeUp}
-                  className="bg-white rounded-xl p-5 border border-gray-100 hover:shadow-sm transition-shadow duration-200"
-                >
-                  <h3 className="font-semibold text-[14px] mb-1">{b.title}</h3>
-                  <p className="text-[13px] text-gray-500 leading-relaxed">{b.desc}</p>
+                <motion.div key={b.title} variants={fadeUp}>
+                  <Card className="h-full hover:shadow-md transition-shadow">
+                    <Card.Body>
+                      <h3 className="font-semibold text-[14px] mb-1">{b.title}</h3>
+                      <p className="text-[13px] text-gray-500 leading-relaxed">{b.desc}</p>
+                    </Card.Body>
+                  </Card>
                 </motion.div>
               ))}
             </motion.div>
@@ -413,15 +416,19 @@ export function Component() {
                 { name: 'Sneha M.', event: 'Birthday', city: 'Mumbai', quote: "Created my daughter's birthday invite in 5 minutes. Absolutely loved the templates and how easy sharing was." },
                 { name: 'Rahul K.', event: 'Housewarming', city: 'Bangalore', quote: 'The chatbot made everything simple. No design skills needed. Guests kept complimenting the invite!' },
               ].map((t) => (
-                <motion.div key={t.name} variants={fadeUp} className="bg-white rounded-xl p-5 border border-gray-100">
-                  <div className="flex gap-0.5 mb-3">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} size={13} className="text-amber-400" fill="#fbbf24" />
-                    ))}
-                  </div>
-                  <p className="text-[13px] text-gray-500 leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
-                  <p className="font-medium text-[13px]">{t.name}</p>
-                  <p className="text-[11px] text-gray-400">{t.event} &middot; {t.city}</p>
+                <motion.div key={t.name} variants={fadeUp}>
+                  <Card className="h-full">
+                    <Card.Body>
+                      <div className="flex gap-0.5 mb-3">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} size={13} className="text-amber-400" fill="#fbbf24" />
+                        ))}
+                      </div>
+                      <p className="text-[13px] text-gray-500 leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
+                      <p className="font-medium text-[13px]">{t.name}</p>
+                      <p className="text-[11px] text-gray-400">{t.event} &middot; {t.city}</p>
+                    </Card.Body>
+                  </Card>
                 </motion.div>
               ))}
             </motion.div>
@@ -469,35 +476,35 @@ export function Component() {
 
             <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {PRICING_PLANS.map((plan) => (
-                <motion.div
-                  key={plan.id}
-                  variants={fadeUp}
-                  className={`bg-white rounded-xl p-5 sm:p-6 text-center relative border-2 transition-all duration-200 ${
-                    plan.preferred
-                      ? 'border-[var(--color-primary)] sm:scale-[1.03]'
-                      : 'border-gray-100'
-                  }`}
-                >
-                  {plan.preferred && (
-                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[9px] font-semibold uppercase tracking-wider px-3 py-0.5 rounded-full whitespace-nowrap">
-                      Most Popular
-                    </span>
-                  )}
-                  <h3 className="font-medium text-sm mb-1.5 mt-1">{plan.label}</h3>
-                  <p className="text-3xl font-bold text-[var(--color-primary)] mb-0.5">
-                    <span className="text-sm align-top mr-0.5">₹</span>{plan.price}
-                  </p>
-                  <p className="text-[11px] text-gray-400 mb-5">{plan.duration} days</p>
-                  <Link
-                    to={EVENTS[0].urlPath}
-                    className={`block w-full py-2.5 rounded-full text-[13px] font-medium transition-all ${
-                      plan.preferred
-                        ? 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)]'
-                        : 'border border-gray-200 text-gray-600 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
-                    }`}
+                <motion.div key={plan.id} variants={fadeUp}>
+                  <Card
+                    variant={plan.preferred ? 'elevated' : 'default'}
+                    className={cn(
+                      'p-5 sm:p-6 text-center relative',
+                      plan.preferred && 'border-2 border-[var(--color-primary)] sm:scale-[1.03]'
+                    )}
                   >
-                    Get Started
-                  </Link>
+                    {plan.preferred && (
+                      <Badge variant="premium" className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[9px] whitespace-nowrap">
+                        Most Popular
+                      </Badge>
+                    )}
+                    <h3 className="font-medium text-sm mb-1.5 mt-1">{plan.label}</h3>
+                    <p className="text-3xl font-bold text-[var(--color-primary)] mb-0.5">
+                      <span className="text-sm align-top mr-0.5">&#8377;</span>{plan.price}
+                    </p>
+                    <p className="text-[11px] text-gray-400 mb-5">{plan.duration} days</p>
+                    <Link
+                      to={EVENTS[0].urlPath}
+                      className={`block w-full py-2.5 rounded-full text-[13px] font-medium transition-all ${
+                        plan.preferred
+                          ? 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)]'
+                          : 'border border-gray-200 text-gray-600 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'
+                      }`}
+                    >
+                      Get Started
+                    </Link>
+                  </Card>
                 </motion.div>
               ))}
             </motion.div>
@@ -518,9 +525,10 @@ export function Component() {
               Start creating your beautiful invitation now. It only takes a few minutes.
             </motion.p>
             <motion.div variants={fadeUp}>
-              <Link to={EVENTS[0].urlPath} className="btn-premium">
-                <Sparkles size={16} />
-                Create Your Invitation
+              <Link to={EVENTS[0].urlPath}>
+                <Button size="lg" leftIcon={<Sparkles size={16} />}>
+                  Create Your Invitation
+                </Button>
               </Link>
             </motion.div>
           </motion.div>
