@@ -1,0 +1,20 @@
+{
+  "planPath": "docs/plans/2026-03-13-ui-ux-overhaul-plan.md",
+  "tasks": [
+    {"id": 1, "subject": "Task 1: Design tokens & CSS variables", "status": "pending"},
+    {"id": 2, "subject": "Task 2: Utility functions (cn, animations, a11y)", "status": "pending", "blockedBy": [1]},
+    {"id": 3, "subject": "Task 3: Button & IconButton components", "status": "pending", "blockedBy": [2]},
+    {"id": 4, "subject": "Task 4: Card compound component", "status": "pending", "blockedBy": [2]},
+    {"id": 5, "subject": "Task 5: SectionTitle, Badge, Section components", "status": "pending", "blockedBy": [2]},
+    {"id": 6, "subject": "Task 6: Input, Accordion, barrel export", "status": "pending", "blockedBy": [2]},
+    {"id": 7, "subject": "Task 7: Page sweep — MainLayout, Navbar, Footer", "status": "pending", "blockedBy": [3, 4, 5, 6]},
+    {"id": 8, "subject": "Task 8: Page sweep — Home.tsx", "status": "pending", "blockedBy": [3, 4, 5, 6]},
+    {"id": 9, "subject": "Task 9: Page sweep — EventPage.tsx", "status": "pending", "blockedBy": [3, 4, 5, 6]},
+    {"id": 10, "subject": "Task 10: Page sweep — Chatbot.tsx", "status": "pending", "blockedBy": [2]},
+    {"id": 11, "subject": "Task 11: Page sweep — PreviewPage.tsx", "status": "pending", "blockedBy": [2]},
+    {"id": 12, "subject": "Task 12: Page sweep — PricingPage.tsx", "status": "pending", "blockedBy": [3, 4, 5, 6]},
+    {"id": 13, "subject": "Task 13: Page sweep — Dashboard.tsx", "status": "pending", "blockedBy": [3, 4, 5, 6]},
+    {"id": 14, "subject": "Task 14: Final polish & a11y audit", "status": "pending", "blockedBy": [7, 8, 9, 10, 11, 12, 13]}
+  ],
+  "lastUpdated": "2026-03-13T14:30:00Z"
+}
