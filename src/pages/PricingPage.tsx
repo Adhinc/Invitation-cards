@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, Star, Crown, Users, ImageIcon, Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones, Ban, Building2, User } from 'lucide-react';
+import { Check, Star, Crown, Users, ImageIcon, Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones, Ban, Building2, User, ChevronDown } from 'lucide-react';
 import { PRICING_PLANS, BUSINESS_PLAN } from '../constants/events';
-import { fadeUp, stagger } from '../utils/animations';
-import { Accordion, Badge, Button, Card, Section, SectionTitle } from '../components/ui';
+
+const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
+const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.15 } } };
 
 const FEATURES = [
   { label: 'All Templates Unlocked', icon: Crown },
@@ -27,189 +28,524 @@ const FAQ = [
 
 export function Component() {
   return (
-    <div>
-      {/* Header */}
-      <Section spacing="compact" bg="blush" className="text-center pt-8">
-        <motion.div initial="hidden" animate="visible" variants={stagger}>
-          <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-bold serif mb-4">
-            Simple, Transparent Pricing
+    <div style={{ background: '#FFFBF8', minHeight: '100vh' }}>
+
+      {/* ─── Hero / Title Section ─── */}
+      <section style={{ background: 'linear-gradient(180deg, #FFFBF8 0%, #FFF5EE 100%)', padding: '80px 24px 40px' }}>
+        <motion.div
+          initial="hidden" animate="visible" variants={stagger}
+          style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}
+        >
+          <motion.h1 variants={fadeUp} style={{
+            fontFamily: "'Fraunces', serif",
+            fontSize: 44,
+            fontWeight: 600,
+            color: '#2D2A26',
+            marginBottom: 12,
+            lineHeight: 1.15,
+          }}>
+            Pricing <span style={{ color: '#B8405E' }}>Plan</span>
           </motion.h1>
-          <motion.p variants={fadeUp} className="text-[var(--color-text-secondary)] text-base max-w-xl mx-auto">
-            Choose the plan that fits your celebration
+          <motion.p variants={fadeUp} style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 18,
+            color: '#6B6560',
+            maxWidth: 480,
+            margin: '0 auto',
+          }}>
+            List of our pricing packages
           </motion.p>
         </motion.div>
-      </Section>
+      </section>
 
-      {/* Free Tier Card */}
-      <Section spacing="compact" size="narrow" bg="white" divider>
-        <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}
-          className="relative bg-white border border-[#F0E6DC] rounded-2xl p-8 md:p-10 text-center"
-        >
-          <Badge variant="success" className="absolute -top-3 left-1/2 -translate-x-1/2">Free</Badge>
-          <h2 className="text-2xl md:text-3xl font-bold serif mt-2 mb-3">Website Preview</h2>
-          <p className="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto text-base">
-            Completely FREE — Preview your invitation before you commit
-          </p>
-          <div className="flex items-center justify-center gap-2 text-sm text-[var(--color-text-secondary)] mb-6">
-            <Users className="w-4 h-4" />
-            <span>Trusted by <strong>4,500+</strong> happy customers</span>
-          </div>
-          <Link to="/">
-            <Button variant="secondary" size="lg">Create Website</Button>
-          </Link>
-        </motion.div>
-      </Section>
-
-      {/* Individual + Business Two-Column Layout */}
-      <Section size="narrow" bg="muted" divider label="Pricing plans">
+      {/* ─── Pricing Cards — Individual + Business ─── */}
+      <section style={{ background: '#FFFBF8', padding: '40px 24px 80px' }}>
         <motion.div
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={stagger}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          style={{
+            maxWidth: 800,
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 32,
+            alignItems: 'start',
+          }}
         >
-          {/* Individual Plan Card */}
-          <motion.div variants={fadeUp}>
-            <Card className="p-8 relative h-full">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FFF5EE] text-[#B8405E]">
-                  <User className="w-5 h-5" />
-                </span>
-                <h3 className="text-2xl font-bold serif">Individual Plan</h3>
+          {/* ── Individual Plan Card ── */}
+          <motion.div variants={fadeUp} style={{
+            background: '#fff',
+            borderRadius: 12,
+            boxShadow: '0 0 20px rgba(204, 204, 204, 0.4)',
+            overflow: 'hidden',
+            textAlign: 'center',
+          }}>
+            {/* Card Header */}
+            <div style={{ padding: '40px 30px 24px', position: 'relative' }}>
+              {/* Icon Circle */}
+              <div style={{
+                width: 80, height: 80,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #FFF5EE, #FFF0F4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 20px',
+                border: '2px solid #F0E6DC',
+              }}>
+                <User style={{ width: 36, height: 36, color: '#B8405E' }} />
+              </div>
+              <h3 style={{
+                fontFamily: "'Fraunces', serif",
+                fontSize: 28,
+                fontWeight: 600,
+                color: '#2D2A26',
+                marginBottom: 0,
+              }}>Individual</h3>
+            </div>
+
+            {/* Card Body */}
+            <div style={{ padding: '0 32px 32px' }}>
+              {/* Domain */}
+              <div style={{
+                display: 'inline-block',
+                background: '#FFF5EE',
+                borderRadius: 8,
+                padding: '8px 16px',
+                marginBottom: 24,
+                fontSize: 14,
+                color: '#6B6560',
+                fontFamily: "'DM Sans', sans-serif",
+              }}>
+                <span style={{ color: '#B8405E', fontWeight: 600 }}>your-name</span>.invitationai.events
               </div>
 
-              <p className="text-sm text-[var(--color-text-secondary)] mb-6">
-                your-name.<strong>invitationai.events</strong>
-              </p>
-
-              {/* Pricing Tiers Grid */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              {/* Pricing Tiers */}
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', textAlign: 'left' }}>
                 {PRICING_PLANS.map((plan) => (
-                  <div
-                    key={plan.id}
-                    className={`relative rounded-xl border-2 p-4 text-center transition-colors ${
-                      plan.preferred
-                        ? 'border-[#B8405E] bg-[#FFF0F4]'
-                        : 'border-[#F0E6DC]'
-                    }`}
-                  >
-                    {plan.preferred && (
-                      <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-semibold bg-[#B8405E] text-white px-2 py-0.5 rounded-full whitespace-nowrap">
-                        Popular
-                      </span>
-                    )}
-                    <p className="text-xs text-[var(--color-text-secondary)] mb-1">{plan.label}</p>
-                    <p className="text-2xl font-extrabold">&#8377;{plan.price}</p>
-                  </div>
+                  <li key={plan.id} style={{
+                    padding: '10px 0',
+                    borderBottom: '1px solid #F0E6DC',
+                    fontSize: 15,
+                    fontFamily: "'DM Sans', sans-serif",
+                    color: '#2D2A26',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}>
+                    <Check style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={3} />
+                    <span>
+                      <strong style={{ color: '#2D2A26' }}>₹{plan.price}</strong> per invitation for {plan.label.toLowerCase()}
+                    </span>
+                  </li>
                 ))}
-              </div>
-
-              {/* Individual Features */}
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-2 text-sm">
-                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
-                    <Check className="w-3 h-3" strokeWidth={3} />
-                  </span>
+                <li style={{
+                  padding: '10px 0',
+                  borderBottom: '1px solid #F0E6DC',
+                  fontSize: 15,
+                  fontFamily: "'DM Sans', sans-serif",
+                  color: '#2D2A26',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                  <Check style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={3} />
                   Ad free invitation
                 </li>
-                <li className="flex items-center gap-2 text-sm">
-                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
-                    <Check className="w-3 h-3" strokeWidth={3} />
-                  </span>
+                <li style={{
+                  padding: '10px 0',
+                  fontSize: 15,
+                  fontFamily: "'DM Sans', sans-serif",
+                  color: '#2D2A26',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                  <Check style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={3} />
                   Dedicated customer support
                 </li>
               </ul>
 
-              <Button variant="primary" size="lg" className="w-full">Proceed</Button>
-            </Card>
+              {/* CTA Button */}
+              <Link to="/" style={{ textDecoration: 'none' }}>
+                <button style={{
+                  background: 'linear-gradient(45deg, #B8405E, #D4548F)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 8,
+                  padding: '14px 48px',
+                  fontSize: 15,
+                  fontWeight: 600,
+                  fontFamily: "'DM Sans', sans-serif",
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  boxShadow: '0 4px 14px rgba(184, 64, 94, 0.3)',
+                }}>
+                  Proceed
+                </button>
+              </Link>
+            </div>
           </motion.div>
 
-          {/* Business Plan Card */}
-          <motion.div variants={fadeUp}>
-            <Card className="p-8 relative h-full">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FFF5EE] text-[#B8405E]">
-                  <Building2 className="w-5 h-5" />
-                </span>
-                <h3 className="text-2xl font-bold serif">Business Plan</h3>
+          {/* ── Business Plan Card (Featured/Active) ── */}
+          <motion.div variants={fadeUp} style={{
+            background: '#fff',
+            borderRadius: 12,
+            boxShadow: '0 4px 30px rgba(184, 64, 94, 0.15)',
+            overflow: 'hidden',
+            textAlign: 'center',
+            border: '2px solid #B8405E',
+          }}>
+            {/* Red Gradient Header */}
+            <div style={{
+              background: 'linear-gradient(135deg, #B8405E, #D4548F)',
+              padding: '40px 30px 24px',
+              position: 'relative',
+              borderRadius: '10px 10px 0 0',
+            }}>
+              {/* Icon Circle */}
+              <div style={{
+                width: 64, height: 64,
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 16px',
+                border: '2px solid rgba(255,255,255,0.3)',
+              }}>
+                <Building2 style={{ width: 28, height: 28, color: '#fff' }} />
+              </div>
+              <h3 style={{
+                fontFamily: "'Fraunces', serif",
+                fontSize: 28,
+                fontWeight: 600,
+                color: '#fff',
+                marginBottom: 8,
+              }}>Business</h3>
+              <div style={{
+                fontFamily: "'Fraunces', serif",
+                fontSize: 40,
+                fontWeight: 700,
+                color: '#fff',
+                lineHeight: 1,
+              }}>
+                ₹{BUSINESS_PLAN.registrationFee}
+              </div>
+            </div>
+
+            {/* Card Body */}
+            <div style={{ padding: '24px 32px 32px' }}>
+              {/* Domain */}
+              <div style={{
+                display: 'inline-block',
+                background: '#FFF5EE',
+                borderRadius: 8,
+                padding: '8px 16px',
+                marginBottom: 24,
+                fontSize: 14,
+                color: '#6B6560',
+                fontFamily: "'DM Sans', sans-serif",
+              }}>
+                <span style={{ color: '#B8405E', fontWeight: 600 }}>events</span>.yourdomain.com
               </div>
 
-              <p className="text-sm text-[var(--color-text-secondary)] mb-6">
-                events.<strong>yourdomain.com</strong>
-              </p>
-
-              {/* Lifetime Registration Badge */}
-              <div className="flex items-center justify-center mb-6">
-                <span className="inline-flex items-center gap-2 bg-[#B8405E] text-white text-sm font-semibold px-5 py-2.5 rounded-full">
-                  <Crown className="w-4 h-4" />
-                  &#8377;{BUSINESS_PLAN.registrationFee} Lifetime Registration
-                </span>
-              </div>
-
-              {/* Business Features */}
-              <ul className="space-y-3 mb-8">
-                {BUSINESS_PLAN.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 text-sm">
-                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
-                      <Check className="w-3 h-3" strokeWidth={3} />
-                    </span>
+              {/* Features */}
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', textAlign: 'left' }}>
+                <li style={{
+                  padding: '10px 0',
+                  borderBottom: '1px solid #F0E6DC',
+                  fontSize: 15,
+                  fontFamily: "'DM Sans', sans-serif",
+                  color: '#2D2A26',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                  <Check style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={3} />
+                  <span><strong>₹{BUSINESS_PLAN.registrationFee}</strong> lifetime registration fee (one time)</span>
+                </li>
+                {BUSINESS_PLAN.features.map((feature, i) => (
+                  <li key={i} style={{
+                    padding: '10px 0',
+                    borderBottom: i < BUSINESS_PLAN.features.length - 1 ? '1px solid #F0E6DC' : 'none',
+                    fontSize: 15,
+                    fontFamily: "'DM Sans', sans-serif",
+                    color: '#2D2A26',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}>
+                    <Check style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={3} />
                     {feature}
                   </li>
                 ))}
               </ul>
 
-              <Button variant="primary" size="lg" className="w-full">Proceed</Button>
-            </Card>
+              {/* CTA Button */}
+              <Link to="/" style={{ textDecoration: 'none' }}>
+                <button style={{
+                  background: 'linear-gradient(45deg, #B8405E, #D4548F)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 8,
+                  padding: '14px 48px',
+                  fontSize: 15,
+                  fontWeight: 600,
+                  fontFamily: "'DM Sans', sans-serif",
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  boxShadow: '0 4px 14px rgba(184, 64, 94, 0.3)',
+                }}>
+                  Proceed
+                </button>
+              </Link>
+            </div>
           </motion.div>
         </motion.div>
-      </Section>
+      </section>
 
-      {/* Features List */}
-      <Section size="narrow" bg="white" divider label="Features included">
-        <SectionTitle title="All Plans Include" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {FEATURES.map((f) => (
-            <motion.div key={f.label} variants={fadeUp} className="flex items-center gap-3">
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
-                <Check className="w-4 h-4" strokeWidth={3} />
-              </span>
-              <span className="text-sm">{f.label}</span>
-            </motion.div>
-          ))}
+      {/* ─── All Plans Include ─── */}
+      <section style={{
+        background: 'linear-gradient(180deg, #FFF5EE 0%, #FFFBF8 100%)',
+        padding: '80px 24px',
+      }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <h2 style={{
+            fontFamily: "'Fraunces', serif",
+            fontSize: 36,
+            fontWeight: 600,
+            color: '#2D2A26',
+            textAlign: 'center',
+            marginBottom: 48,
+          }}>
+            All Plans <span style={{ color: '#B8405E' }}>Include</span>
+          </h2>
+
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 16,
+            }}
+          >
+            {FEATURES.map((f) => (
+              <motion.div key={f.label} variants={fadeUp} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '14px 20px',
+                background: '#fff',
+                borderRadius: 10,
+                border: '1px solid #F0E6DC',
+              }}>
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 32,
+                  height: 32,
+                  borderRadius: '50%',
+                  background: '#F0FFF4',
+                  color: '#22C55E',
+                  flexShrink: 0,
+                }}>
+                  <Check style={{ width: 16, height: 16 }} strokeWidth={3} />
+                </span>
+                <span style={{
+                  fontSize: 15,
+                  fontFamily: "'DM Sans', sans-serif",
+                  color: '#2D2A26',
+                }}>{f.label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </Section>
+      </section>
 
-      {/* Trust Section */}
-      <Section size="narrow" spacing="compact" bg="blush" divider className="text-center">
-        <motion.div variants={fadeUp}>
-          <div className="flex justify-center -space-x-3 mb-4">
-            {['bg-gray-400', 'bg-amber-300', 'bg-sky-300', 'bg-emerald-300', 'bg-violet-300'].map((bg, i) => (
-              <div key={i} className={`w-10 h-10 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-xs font-bold`}>
+      {/* ─── Trust / Social Proof ─── */}
+      <section style={{
+        background: 'linear-gradient(180deg, #FFFBF8 0%, #FFF5EE 100%)',
+        padding: '60px 24px',
+      }}>
+        <motion.div
+          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+          style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}
+        >
+          {/* Overlapping Avatars */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+            {['#B8405E', '#D4A06A', '#6B9BB5', '#8B6BAA', '#C07D54'].map((bg, i) => (
+              <div key={i} style={{
+                width: 44, height: 44,
+                borderRadius: '50%',
+                background: bg,
+                border: '3px solid #fff',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: '#fff',
+                fontSize: 14,
+                fontWeight: 700,
+                fontFamily: "'DM Sans', sans-serif",
+                marginLeft: i > 0 ? -12 : 0,
+                position: 'relative',
+                zIndex: 5 - i,
+              }}>
                 {String.fromCharCode(65 + i)}
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-center gap-1 mb-2">
+
+          {/* Stars */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
             {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+              <Star key={i} style={{ width: 22, height: 22, fill: '#F59E0B', color: '#F59E0B' }} />
             ))}
           </div>
-          <p className="text-[var(--color-text-secondary)]">
-            Trusted by <strong>4,500+</strong> happy customers
+
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 16,
+            color: '#6B6560',
+          }}>
+            Trusted by <strong style={{ color: '#2D2A26' }}>4,500+</strong> happy customers
           </p>
         </motion.div>
-      </Section>
+      </section>
 
-      {/* FAQ Section */}
-      <Section size="narrow" bg="white" divider label="FAQ">
-        <SectionTitle title="Frequently Asked Questions" />
-        <Accordion>
-          {FAQ.map((item, idx) => (
-            <Accordion.Item key={idx} id={`faq-${idx}`} title={item.q}>
-              {item.a}
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </Section>
+      {/* ─── FAQ ─── */}
+      <section style={{
+        background: '#FFFBF8',
+        padding: '80px 24px',
+      }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <h2 style={{
+            fontFamily: "'Fraunces', serif",
+            fontSize: 36,
+            fontWeight: 600,
+            color: '#2D2A26',
+            textAlign: 'center',
+            marginBottom: 48,
+          }}>
+            Frequently Asked <span style={{ color: '#B8405E' }}>Questions</span>
+          </h2>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {FAQ.map((item, idx) => (
+              <FAQItem key={idx} question={item.q} answer={item.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Contact / CTA Footer ─── */}
+      <section style={{
+        background: 'linear-gradient(135deg, #2D2A26 0%, #1A1816 100%)',
+        padding: '80px 24px',
+      }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 48, alignItems: 'flex-start' }}>
+          {/* Left */}
+          <div style={{ flex: '1 1 300px' }}>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 14,
+              color: '#D4548F',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: 2,
+              marginBottom: 12,
+            }}>Contact Us</p>
+            <h2 style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: 36,
+              fontWeight: 600,
+              color: '#fff',
+              marginBottom: 16,
+              lineHeight: 1.2,
+            }}>
+              Let's Get In Touch
+            </h2>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 16,
+              color: 'rgba(255,255,255,0.6)',
+              lineHeight: 1.6,
+            }}>
+              Or just reach out manually to <span style={{ color: '#D4548F' }}>info@invitation.ai</span>
+            </p>
+          </div>
+
+          {/* Right */}
+          <div style={{ flex: '1 1 300px' }}>
+            <h4 style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: 20,
+              fontWeight: 600,
+              color: '#fff',
+              marginBottom: 16,
+            }}>Main Office</h4>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 14,
+              color: 'rgba(255,255,255,0.5)',
+              lineHeight: 1.8,
+            }}>
+              Invitation.AI<br />
+              info@invitation.ai<br />
+              Kerala, India
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
+
+/* ─── FAQ Accordion Item ─── */
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div
+      onClick={() => setOpen(!open)}
+      style={{
+        background: '#fff',
+        border: '1px solid #F0E6DC',
+        borderRadius: 12,
+        padding: '20px 24px',
+        cursor: 'pointer',
+        transition: 'box-shadow 0.2s',
+        boxShadow: open ? '0 4px 16px rgba(0,0,0,0.06)' : 'none',
+      }}
+    >
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 16,
+      }}>
+        <h4 style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: 16,
+          fontWeight: 600,
+          color: '#2D2A26',
+          margin: 0,
+        }}>{question}</h4>
+        <ChevronDown style={{
+          width: 20, height: 20,
+          color: '#6B6560',
+          flexShrink: 0,
+          transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          transition: 'transform 0.2s',
+        }} />
+      </div>
+      {open && (
+        <p style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: 15,
+          color: '#6B6560',
+          marginTop: 12,
+          lineHeight: 1.6,
+        }}>
+          {answer}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* React import for useState */
+import { useState } from 'react';
