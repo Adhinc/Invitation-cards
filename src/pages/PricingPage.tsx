@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  Sparkles, Check, Star, X, Ban, Crown, Users, ImageIcon,
+  Check, Star, Ban, Crown, Users, ImageIcon,
   Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones,
 } from 'lucide-react';
-import { PRICING_PLANS, PROMO_CODES } from '../constants/events';
+import { PRICING_PLANS } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
-import { Accordion, Badge, Button, Card, Input, Section, SectionTitle } from '../components/ui';
+import { Accordion, Badge, Button, Card, Section, SectionTitle } from '../components/ui';
 import { cn } from '../utils/cn';
 
 const FEATURES = [
@@ -31,32 +30,6 @@ const FAQ = [
 ];
 
 export function Component() {
-  const [promoInput, setPromoInput] = useState('');
-  const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
-  const [promoError, setPromoError] = useState('');
-  const discount = appliedPromo ? PROMO_CODES[appliedPromo]?.discount ?? 0 : 0;
-
-  function applyPromo() {
-    const code = promoInput.trim().toUpperCase();
-    if (PROMO_CODES[code]) {
-      setAppliedPromo(code);
-      setPromoError('');
-    } else {
-      setPromoError('Invalid promo code. Please try again.');
-      setAppliedPromo(null);
-    }
-  }
-
-  function removePromo() {
-    setAppliedPromo(null);
-    setPromoInput('');
-    setPromoError('');
-  }
-
-  function discountedPrice(price: number) {
-    return Math.round(price * (1 - discount / 100));
-  }
-
   return (
     <div>
       {/* Header */}
@@ -68,23 +41,6 @@ export function Component() {
           <motion.p variants={fadeUp} className="text-[var(--color-text-secondary)] text-base max-w-xl mx-auto">
             Simple, transparent pricing for your special moments
           </motion.p>
-        </motion.div>
-      </Section>
-
-      {/* Special Offer Banner */}
-      <Section spacing="compact">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="bg-[var(--color-primary)] text-white rounded-2xl px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center"
-        >
-          <Sparkles className="w-5 h-5 shrink-0" />
-          <span className="font-medium text-sm md:text-base">
-            Special Offer for New Users! Get 10% OFF — Use Code:{' '}
-            <span className="font-bold underline underline-offset-2">SAVE10</span>
-          </span>
-          <Sparkles className="w-5 h-5 shrink-0" />
         </motion.div>
       </Section>
 
@@ -111,10 +67,9 @@ export function Component() {
 
       {/* Duration Pricing Cards */}
       <Section size="narrow" label="Pricing plans">
-        <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
           {PRICING_PLANS.map((plan) => {
             const pricePerMonth = plan.price / (plan.duration / 30);
-            const final = discountedPrice(plan.price);
             const isPreferred = plan.preferred;
 
             return (
@@ -135,14 +90,7 @@ export function Component() {
                   <h3 className="text-xl font-bold serif mt-2 mb-1">{plan.label}</h3>
 
                   <div className="mb-1">
-                    {discount > 0 ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <span className="text-[var(--color-text-secondary)] line-through text-base">&#8377;{plan.price}</span>
-                        <span className="text-3xl md:text-4xl font-extrabold text-[var(--color-primary)]">&#8377;{final}</span>
-                      </div>
-                    ) : (
-                      <span className="text-3xl md:text-4xl font-extrabold">&#8377;{plan.price}</span>
-                    )}
+                    <span className="text-3xl md:text-4xl font-extrabold">&#8377;{plan.price}</span>
                   </div>
 
                   <p className="text-xs text-[var(--color-text-secondary)] mb-4">
@@ -178,39 +126,6 @@ export function Component() {
             </motion.div>
           ))}
         </div>
-      </Section>
-
-      {/* Promo Code Section */}
-      <Section size="narrow" spacing="compact">
-        <motion.div
-          variants={fadeUp}
-          className="bg-white border border-gray-100 rounded-2xl p-8 text-center max-w-lg mx-auto"
-        >
-          <h3 className="font-bold text-base mb-4">Have a Promo Code?</h3>
-          {appliedPromo ? (
-            <div className="flex items-center justify-center gap-3">
-              <span className="bg-emerald-100 text-emerald-700 font-semibold px-4 py-2 rounded-full text-sm">
-                {appliedPromo} — {PROMO_CODES[appliedPromo].label} applied
-              </span>
-              <button onClick={removePromo} className="text-[var(--color-text-secondary)] hover:text-red-500 transition-colors" aria-label="Remove promo code">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-          ) : (
-            <div className="flex gap-2">
-              <Input
-                label="Promo code" hideLabel
-                value={promoInput}
-                onChange={(e) => { setPromoInput(e.target.value); setPromoError(''); }}
-                onKeyDown={(e) => e.key === 'Enter' && applyPromo()}
-                placeholder="Enter code"
-                error={promoError || undefined}
-                className="rounded-full"
-              />
-              <Button onClick={applyPromo} size="md">Apply</Button>
-            </div>
-          )}
-        </motion.div>
       </Section>
 
       {/* Trust Section */}

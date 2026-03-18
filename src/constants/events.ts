@@ -122,12 +122,27 @@ export const getEventBySlug = (slug: string): EventConfig | undefined =>
 export const getEventByType = (type: EventType): EventConfig | undefined =>
   EVENTS.find(e => e.type === type);
 
-export const PROMO_CODES: Record<string, { discount: number; label: string }> = {
-  'SAVE10': { discount: 10, label: '10% OFF' },
-};
-
 export const PRICING_PLANS = [
   { id: '1month', label: '1 Month', price: 99, duration: 30, preferred: false },
   { id: '3months', label: '3 Months', price: 199, duration: 90, preferred: true },
+  { id: '6months', label: '6 Months', price: 399, duration: 180, preferred: false },
   { id: '1year', label: '1 Year', price: 499, duration: 365, preferred: false },
 ];
+
+export interface BusinessPlan {
+  registrationFee: number;
+  domain: string;
+  features: string[];
+}
+
+export const BUSINESS_PLAN: BusinessPlan = {
+  registrationFee: 1000,
+  domain: 'events.yourdomain.com',
+  features: [
+    'Postpaid plan — pay per invitation',
+    'All invitations under your branding',
+    'Catalog management',
+    'Ad-free invitations',
+    'Dedicated customer support',
+  ],
+};
