@@ -25,7 +25,7 @@ export const SectionTitle = forwardRef<HTMLDivElement, SectionTitleProps>(
             {kicker}
           </p>
         )}
-        <h2 id={id} className="text-2xl md:text-3xl font-bold serif">
+        <h2 id={id} className="text-2xl md:text-3xl font-bold">
           {title}
         </h2>
         {subtitle && (

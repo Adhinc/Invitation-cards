@@ -51,7 +51,7 @@ function AccordionItem({ id, title, children, className }: AccordionItemProps) {
       <button
         onClick={() => toggle(id)}
         aria-expanded={isOpen}
-        className="w-full flex items-center justify-between px-6 py-4 text-left font-medium hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-primary)]"
+        className="w-full flex items-center justify-between px-6 py-4 text-left font-medium hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-accent)]"
       >
         <span>{title}</span>
         <ChevronDown className={cn('w-5 h-5 shrink-0 transition-transform duration-200', isOpen && 'rotate-180')} />

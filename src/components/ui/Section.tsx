@@ -4,7 +4,7 @@ import { cn } from '../../utils/cn';
 import { stagger } from '../../utils/animations';
 
 const SIZE_CLASSES = {
-  wide: 'max-w-6xl',
+  wide: 'max-w-7xl',
   narrow: 'max-w-3xl',
 } as const;
 
@@ -31,7 +31,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         ref={ref}
         className={cn(
           SPACING_CLASSES[spacing],
-          muted && 'bg-[var(--color-surface-muted)]',
+          muted && 'bg-[#f9fafb]',
         )}
         style={style}
         aria-labelledby={label ? id : undefined}

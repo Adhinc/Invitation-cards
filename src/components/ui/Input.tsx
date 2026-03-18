@@ -31,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             'w-full px-4 py-2.5 rounded-full border bg-[var(--color-surface)] text-sm outline-none transition-all',
             error
               ? 'border-[var(--color-error)] focus:ring-2 focus:ring-red-200'
-              : 'border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)]',
+              : 'border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)]',
             className,
           )}
           aria-invalid={error ? true : undefined}

@@ -6,7 +6,7 @@ const VARIANT_CLASSES = {
   warning: 'bg-amber-100 text-amber-700',
   error: 'bg-red-100 text-red-700',
   info: 'bg-blue-100 text-blue-700',
-  premium: 'bg-[var(--color-primary)] text-white',
+  premium: 'bg-gray-900 text-white',
 } as const;
 
 interface BadgeProps extends ComponentPropsWithoutRef<'span'> {
