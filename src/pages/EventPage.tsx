@@ -1,5 +1,6 @@
-import { useParams, Navigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mail, MessageCircle, MapPin, Camera, ClipboardList, Music,
   Clock, Smartphone, ArrowRight, Check, X,
@@ -7,7 +8,7 @@ import {
 } from 'lucide-react';
 import { getEventBySlug, type EventConfig } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
-import { cn } from '../utils/cn';
+
 
 /* ------------------------------------------------------------------ */
 /*  Shared constants                                                   */
@@ -16,6 +17,21 @@ import { cn } from '../utils/cn';
 const HEADING_FONT: React.CSSProperties = { fontFamily: "'Fraunces', Georgia, serif" };
 const CTA_GRADIENT = 'linear-gradient(135deg, #B8405E, #D4548F)';
 const CTA_SHADOW = '0 6px 28px rgba(184,64,94,0.35)';
+
+/* ------------------------------------------------------------------ */
+/*  Templates constant                                                 */
+/* ------------------------------------------------------------------ */
+
+const TEMPLATES = [
+  { id: 'midnight', name: 'Midnight Constellation', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400', tier: 'Basic' },
+  { id: 'lavender', name: 'Lavender Fields', image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400', tier: 'Standard' },
+  { id: 'blossom', name: 'Simple Blossom', image: 'https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=400', tier: 'Basic' },
+  { id: 'golden', name: 'Golden Hour', image: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400', tier: 'Premium' },
+  { id: 'royal', name: 'Royal Elegance', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400', tier: 'Premium' },
+  { id: 'minimal', name: 'Modern Minimal', image: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=400', tier: 'Standard' },
+];
+
+type Template = typeof TEMPLATES[number];
 
 /* ------------------------------------------------------------------ */
 /*  Dynamic text helpers                                               */
@@ -46,7 +62,7 @@ function dynamicNoun(event: EventConfig) {
 /*  1. Hero Section                                                    */
 /* ------------------------------------------------------------------ */
 
-function HeroSection({ event }: { event: EventConfig }) {
+function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateClick: () => void }) {
   return (
     <section
       className="relative overflow-hidden"
@@ -110,19 +126,18 @@ function HeroSection({ event }: { event: EventConfig }) {
 
           {/* CTA button */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}>
-            <Link to={`/chatbot?event=${event.type}`}>
-              <button
-                className="mt-8 inline-flex items-center gap-2 text-white font-semibold px-8 py-3.5 text-base cursor-pointer transition-transform hover:scale-[1.03]"
-                style={{
-                  background: CTA_GRADIENT,
-                  borderRadius: 28,
-                  boxShadow: CTA_SHADOW,
-                  border: 'none',
-                }}
-              >
-                Create Your {event.label} Website <ArrowRight className="w-5 h-5" />
-              </button>
-            </Link>
+            <button
+              onClick={onCreateClick}
+              className="mt-8 inline-flex items-center gap-2 text-white font-semibold px-8 py-3.5 text-base cursor-pointer transition-transform hover:scale-[1.03]"
+              style={{
+                background: CTA_GRADIENT,
+                borderRadius: 28,
+                boxShadow: CTA_SHADOW,
+                border: 'none',
+              }}
+            >
+              Create Your {event.label} Website <ArrowRight className="w-5 h-5" />
+            </button>
           </motion.div>
 
           <motion.p
@@ -723,7 +738,7 @@ function UrgencySection({ event }: { event: EventConfig }) {
 /*  10. Final CTA Section                                              */
 /* ------------------------------------------------------------------ */
 
-function FinalCTASection({ event }: { event: EventConfig }) {
+function FinalCTASection({ event, onCreateClick }: { event: EventConfig; onCreateClick: () => void }) {
   return (
     <section style={{ background: 'linear-gradient(#FEF6F7, #FCE8EB)', padding: '70px 20px' }}>
       <motion.div
@@ -740,23 +755,306 @@ function FinalCTASection({ event }: { event: EventConfig }) {
           Join {event.socialProof} who already made their celebrations unforgettable.
         </p>
 
-        <Link to={`/chatbot?event=${event.type}`}>
-          <button
-            className="mt-8 inline-flex items-center gap-2 text-white font-semibold px-10 py-4 text-base cursor-pointer transition-transform hover:scale-[1.03]"
-            style={{
-              background: CTA_GRADIENT,
-              borderRadius: 28,
-              boxShadow: CTA_SHADOW,
-              border: 'none',
-            }}
-          >
-            Start Creating Now <ArrowRight className="w-5 h-5" />
-          </button>
-        </Link>
+        <button
+          onClick={onCreateClick}
+          className="mt-8 inline-flex items-center gap-2 text-white font-semibold px-10 py-4 text-base cursor-pointer transition-transform hover:scale-[1.03]"
+          style={{
+            background: CTA_GRADIENT,
+            borderRadius: 28,
+            boxShadow: CTA_SHADOW,
+            border: 'none',
+          }}
+        >
+          Start Creating Now <ArrowRight className="w-5 h-5" />
+        </button>
 
         <p className="mt-4 text-sm text-[#8D8A86]">Free to try. No credit card needed.</p>
       </motion.div>
     </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  11. "Try it Free!" Modal                                           */
+/* ------------------------------------------------------------------ */
+
+function TryItFreeModal({ onClose, onChooseTemplate }: { onClose: () => void; onChooseTemplate: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: 20 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className="relative bg-white rounded-2xl w-full max-w-[420px] mx-4"
+        style={{ padding: 40, fontFamily: "'DM Sans', sans-serif" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors cursor-pointer"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        {/* WhatsApp icon + phone animation */}
+        <div className="flex justify-center mb-6">
+          <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+            className="relative"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-[#25D366] flex items-center justify-center shadow-lg">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+            </div>
+            {/* Small phone icon floating */}
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+              className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-white shadow-md flex items-center justify-center"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-[#B8405E]" />
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Heading */}
+        <h2 className="text-center" style={{ fontSize: 28, fontWeight: 700, color: '#1e293b', marginBottom: 6 }}>
+          Try it Free!
+        </h2>
+        <p className="text-center text-sm" style={{ color: '#64748b', marginBottom: 24 }}>
+          Create your invitation website today
+        </p>
+
+        {/* Bullet points */}
+        <div className="space-y-3 mb-6">
+          {[
+            { text: '1 day free trial', color: '#10B981' },
+            { text: 'Pay only when satisfied', color: '#10B981' },
+            { text: 'No ads \u00B7 Transparent pricing', color: '#10B981' },
+          ].map((item) => (
+            <div key={item.text} className="flex items-center gap-3">
+              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: item.color }}>
+                <Check className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-sm" style={{ color: '#334155', fontWeight: 500 }}>{item.text}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Activation badge */}
+        <div
+          className="flex items-center justify-center gap-2 rounded-lg mb-6 py-2.5 px-4"
+          style={{ background: '#FFF7ED', border: '1px solid #FED7AA' }}
+        >
+          <Zap className="w-4 h-4 text-orange-500" />
+          <span className="text-xs font-medium" style={{ color: '#9a3412' }}>
+            46% users activated within 30 mins
+          </span>
+        </div>
+
+        {/* Choose a Template button */}
+        <button
+          onClick={onChooseTemplate}
+          className="w-full py-3.5 text-white font-semibold text-base cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          style={{
+            background: '#10B981',
+            borderRadius: 9999,
+            border: 'none',
+            boxShadow: '0 4px 14px rgba(16,185,129,0.35)',
+          }}
+        >
+          Choose a Template <ArrowRight className="w-4 h-4 inline-block ml-1" />
+        </button>
+
+        {/* Contact link */}
+        <p className="text-center mt-4 text-xs" style={{ color: '#94a3b8' }}>
+          For pricing or bulk usage discounts?{' '}
+          <a href="#" className="underline hover:text-[#64748b] transition-colors">Contact us</a>
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  12. Fullscreen Template Overlay                                    */
+/* ------------------------------------------------------------------ */
+
+function TemplateOverlay({
+  selectedTemplate,
+  setSelectedTemplate,
+  onClose,
+  onContinue,
+}: {
+  selectedTemplate: Template | null;
+  setSelectedTemplate: (t: Template) => void;
+  onClose: () => void;
+  onContinue: () => void;
+}) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  const tierBadgeColor = (tier: string) => {
+    if (tier === 'Premium') return { bg: '#FEF3C7', text: '#92400E' };
+    if (tier === 'Standard') return { bg: '#DBEAFE', text: '#1E40AF' };
+    return { bg: '#F1F5F9', text: '#475569' };
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-50 flex flex-col"
+      style={{ background: '#f8fafc', fontFamily: "'DM Sans', sans-serif" }}
+    >
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shrink-0">
+        <h2 className="text-lg font-bold" style={{ color: '#1e293b' }}>Choose Your Template</h2>
+        <button
+          onClick={onClose}
+          className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors cursor-pointer"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Scrollable template grid */}
+      <div
+        ref={gridRef}
+        className="flex-1 overflow-y-auto px-6 py-6"
+        style={{ paddingBottom: 220 }}
+      >
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-5">
+          {TEMPLATES.map((t) => {
+            const isSelected = selectedTemplate?.id === t.id;
+            const badge = tierBadgeColor(t.tier);
+            return (
+              <motion.div
+                key={t.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setSelectedTemplate(t)}
+                className="cursor-pointer rounded-2xl overflow-hidden bg-white shadow-sm transition-all"
+                style={{
+                  border: isSelected ? '3px solid #0EA5E9' : '2px solid #e2e8f0',
+                  boxShadow: isSelected ? '0 0 0 3px rgba(14,165,233,0.2)' : undefined,
+                }}
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {/* Tier badge */}
+                  <span
+                    className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                    style={{ background: badge.bg, color: badge.text }}
+                  >
+                    {t.tier}
+                  </span>
+                  {/* Selected checkmark */}
+                  {isSelected && (
+                    <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-[#0EA5E9] flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-white" />
+                    </div>
+                  )}
+                </div>
+                <div className="px-3 py-2.5">
+                  <p className="text-sm font-semibold" style={{ color: '#1e293b' }}>{t.name}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Bottom sheet */}
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        exit={{ y: 100 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className="fixed bottom-0 left-0 right-0 bg-white z-60"
+        style={{
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          boxShadow: '0 -8px 30px rgba(0,0,0,0.12)',
+          padding: '12px 24px 28px',
+        }}
+      >
+        {/* Handle bar */}
+        <div className="flex justify-center mb-4">
+          <div className="w-10 h-1 rounded-full" style={{ background: '#d1d5db' }} />
+        </div>
+
+        {/* Title row */}
+        <div className="flex items-center gap-2 mb-2">
+          <h3 className="text-base font-bold" style={{ color: '#1e293b' }}>Website Preview</h3>
+          <span
+            className="text-xs font-bold px-2 py-0.5 rounded-full"
+            style={{ background: '#DCFCE7', color: '#166534' }}
+          >
+            FREE
+          </span>
+        </div>
+
+        {/* Info lines */}
+        <div className="space-y-1.5 mb-5">
+          <div className="flex items-center gap-2">
+            <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+            <span className="text-xs" style={{ color: '#64748b' }}>Completely FREE</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Check className="w-3.5 h-3.5 text-green-500" />
+            <span className="text-xs" style={{ color: '#64748b' }}>Trusted by 4500+ happy customers</span>
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              gridRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex-1 py-3 text-sm font-semibold rounded-xl cursor-pointer transition-colors hover:bg-gray-50"
+            style={{
+              background: 'white',
+              border: '2px solid #e2e8f0',
+              color: '#475569',
+            }}
+          >
+            Change Theme
+          </button>
+          <button
+            onClick={onContinue}
+            disabled={!selectedTemplate}
+            className="flex-1 py-3 text-sm font-semibold text-white rounded-xl cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              background: selectedTemplate ? 'linear-gradient(135deg, #0EA5E9, #0284C7)' : '#94a3b8',
+              border: 'none',
+              boxShadow: selectedTemplate ? '0 4px 14px rgba(14,165,233,0.35)' : 'none',
+            }}
+          >
+            Continue to Chatbot <ArrowRight className="w-4 h-4 inline-block ml-1" />
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -766,13 +1064,34 @@ function FinalCTASection({ event }: { event: EventConfig }) {
 
 export function Component() {
   const { eventSlug } = useParams();
+  const navigate = useNavigate();
   const event = getEventBySlug(eventSlug || '');
+
+  const [showModal, setShowModal] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
 
   if (!event) return <Navigate to="/" replace />;
 
+  const handleCreateClick = () => {
+    setShowModal(true);
+  };
+
+  const handleChooseTemplate = () => {
+    setShowModal(false);
+    setShowTemplates(true);
+  };
+
+  const handleContinueToChatbot = () => {
+    if (selectedTemplate) {
+      sessionStorage.setItem('inviteSelectedTemplate', JSON.stringify(selectedTemplate));
+    }
+    navigate(`/chatbot?event=${event.type}`);
+  };
+
   return (
     <div>
-      <HeroSection event={event} />
+      <HeroSection event={event} onCreateClick={handleCreateClick} />
       <QRPaperDigitalSection event={event} />
       <WhatsAppSection event={event} />
       <StatsSection />
@@ -781,7 +1100,27 @@ export function Component() {
       <StepsSection />
       <TestimonialsSection event={event} />
       <UrgencySection event={event} />
-      <FinalCTASection event={event} />
+      <FinalCTASection event={event} onCreateClick={handleCreateClick} />
+
+      <AnimatePresence>
+        {showModal && (
+          <TryItFreeModal
+            onClose={() => setShowModal(false)}
+            onChooseTemplate={handleChooseTemplate}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showTemplates && (
+          <TemplateOverlay
+            selectedTemplate={selectedTemplate}
+            setSelectedTemplate={setSelectedTemplate}
+            onClose={() => setShowTemplates(false)}
+            onContinue={handleContinueToChatbot}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
