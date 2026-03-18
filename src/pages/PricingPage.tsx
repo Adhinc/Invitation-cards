@@ -1,13 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  Check, Star, Ban, Crown, Users, ImageIcon,
-  Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones,
-} from 'lucide-react';
-import { PRICING_PLANS } from '../constants/events';
+import { Check, Star, Crown, Users, ImageIcon, Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones, Ban, Building2, User } from 'lucide-react';
+import { PRICING_PLANS, BUSINESS_PLAN } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
 import { Accordion, Badge, Button, Card, Section, SectionTitle } from '../components/ui';
-import { cn } from '../utils/cn';
 
 const FEATURES = [
   { label: 'All Templates Unlocked', icon: Crown },
@@ -36,10 +32,10 @@ export function Component() {
       <Section spacing="compact" className="text-center pt-8">
         <motion.div initial="hidden" animate="visible" variants={stagger}>
           <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-bold serif mb-4">
-            Pricing Plan
+            Simple, Transparent Pricing
           </motion.h1>
           <motion.p variants={fadeUp} className="text-[var(--color-text-secondary)] text-base max-w-xl mx-auto">
-            Simple, transparent pricing for your special moments
+            Choose the plan that fits your celebration
           </motion.p>
         </motion.div>
       </Section>
@@ -65,51 +61,105 @@ export function Component() {
         </motion.div>
       </Section>
 
-      {/* Duration Pricing Cards */}
+      {/* Individual + Business Two-Column Layout */}
       <Section size="narrow" label="Pricing plans">
-        <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
-          {PRICING_PLANS.map((plan) => {
-            const pricePerMonth = plan.price / (plan.duration / 30);
-            const isPreferred = plan.preferred;
+        <motion.div
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={stagger}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+        >
+          {/* Individual Plan Card */}
+          <motion.div variants={fadeUp}>
+            <Card className="p-8 relative h-full">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-900">
+                  <User className="w-5 h-5" />
+                </span>
+                <h3 className="text-2xl font-bold serif">Individual Plan</h3>
+              </div>
 
-            return (
-              <motion.div key={plan.id} variants={fadeUp} whileHover={{ y: -4 }}>
-                <Card
-                  variant={isPreferred ? 'elevated' : 'default'}
-                  className={cn(
-                    'p-6 text-center relative',
-                    isPreferred ? 'border-2 border-[var(--color-primary)] md:scale-105 z-10' : 'shadow-md',
-                  )}
-                >
-                  {isPreferred && (
-                    <Badge variant="premium" className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      Most Popular
-                    </Badge>
-                  )}
+              <p className="text-sm text-[var(--color-text-secondary)] mb-6">
+                your-name.<strong>invitationai.events</strong>
+              </p>
 
-                  <h3 className="text-xl font-bold serif mt-2 mb-1">{plan.label}</h3>
-
-                  <div className="mb-1">
-                    <span className="text-3xl md:text-4xl font-extrabold">&#8377;{plan.price}</span>
+              {/* Pricing Tiers Grid */}
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                {PRICING_PLANS.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className={`relative rounded-xl border-2 p-4 text-center transition-colors ${
+                      plan.preferred
+                        ? 'border-gray-900 bg-gray-50'
+                        : 'border-gray-200'
+                    }`}
+                  >
+                    {plan.preferred && (
+                      <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-semibold bg-gray-900 text-white px-2 py-0.5 rounded-full whitespace-nowrap">
+                        Popular
+                      </span>
+                    )}
+                    <p className="text-xs text-[var(--color-text-secondary)] mb-1">{plan.label}</p>
+                    <p className="text-2xl font-extrabold">&#8377;{plan.price}</p>
                   </div>
+                ))}
+              </div>
 
-                  <p className="text-xs text-[var(--color-text-secondary)] mb-4">
-                    ~&#8377;{Math.round(pricePerMonth)}/month
-                  </p>
-
-                  <span className="inline-flex items-center gap-1 text-xs font-medium bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full mb-6">
-                    <Ban className="w-3 h-3" /> Zero Ads
+              {/* Individual Features */}
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center gap-2 text-sm">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
+                    <Check className="w-3 h-3" strokeWidth={3} />
                   </span>
+                  Ad free invitation
+                </li>
+                <li className="flex items-center gap-2 text-sm">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
+                    <Check className="w-3 h-3" strokeWidth={3} />
+                  </span>
+                  Dedicated customer support
+                </li>
+              </ul>
 
-                  <div>
-                    <Button className="w-full" variant={isPreferred ? 'primary' : 'secondary'} size="lg">
-                      Activate Now
-                    </Button>
-                  </div>
-                </Card>
-              </motion.div>
-            );
-          })}
+              <Button variant="primary" size="lg" className="w-full">Proceed</Button>
+            </Card>
+          </motion.div>
+
+          {/* Business Plan Card */}
+          <motion.div variants={fadeUp}>
+            <Card className="p-8 relative h-full">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-900">
+                  <Building2 className="w-5 h-5" />
+                </span>
+                <h3 className="text-2xl font-bold serif">Business Plan</h3>
+              </div>
+
+              <p className="text-sm text-[var(--color-text-secondary)] mb-6">
+                events.<strong>yourdomain.com</strong>
+              </p>
+
+              {/* Lifetime Registration Badge */}
+              <div className="flex items-center justify-center mb-6">
+                <span className="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-full">
+                  <Crown className="w-4 h-4" />
+                  &#8377;{BUSINESS_PLAN.registrationFee} Lifetime Registration
+                </span>
+              </div>
+
+              {/* Business Features */}
+              <ul className="space-y-3 mb-8">
+                {BUSINESS_PLAN.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 text-sm">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
+                      <Check className="w-3 h-3" strokeWidth={3} />
+                    </span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <Button variant="primary" size="lg" className="w-full">Proceed</Button>
+            </Card>
+          </motion.div>
         </motion.div>
       </Section>
 
@@ -132,7 +182,7 @@ export function Component() {
       <Section size="narrow" spacing="compact" className="text-center">
         <motion.div variants={fadeUp}>
           <div className="flex justify-center -space-x-3 mb-4">
-            {['bg-rose-300', 'bg-amber-300', 'bg-sky-300', 'bg-emerald-300', 'bg-violet-300'].map((bg, i) => (
+            {['bg-gray-400', 'bg-amber-300', 'bg-sky-300', 'bg-emerald-300', 'bg-violet-300'].map((bg, i) => (
               <div key={i} className={`w-10 h-10 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-xs font-bold`}>
                 {String.fromCharCode(65 + i)}
               </div>
