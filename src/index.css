@@ -1,106 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════════════════════
-   DESIGN SYSTEM TOKENS
-   ═══════════════════════════════════════════════════════════════════
-
-   Typography Scale (5 steps — use ONLY these):
-   ─────────────────────────────────────────────
-   display    → 2.5rem / 40px  (hero headlines only)
-   heading    → 1.875rem / 30px (section headings)
-   subheading → 1.25rem / 20px  (card titles, sub-sections)
-   body       → 1rem / 16px     (paragraphs, descriptions)
-   small      → 0.875rem / 14px (captions, labels, nav items)
-   micro      → 0.75rem / 12px  (badges, timestamps, legal)
-
-   Tailwind mapping:
-   display    → text-4xl md:text-5xl
-   heading    → text-2xl md:text-3xl
-   subheading → text-xl
-   body       → text-base
-   small      → text-sm
-   micro      → text-xs
-
-   Spacing Scale (sections):
-   ──────────────────────────
-   section-y  → py-20 md:py-28     (standard sections)
-   section-y  → py-12 md:py-16     (compact: stats, banners)
-   gap-title  → mb-12              (heading block → content)
-   gap-inner  → gap-6              (between cards/items)
-
-   Container Widths (2 tiers):
-   ────────────────────────────
-   wide       → max-w-6xl          (full-width sections)
-   narrow     → max-w-3xl          (focused content: pricing, CTA, how-it-works)
-
-   Card Padding:
-   ──────────────
-   standard   → p-6                (all cards, all contexts)
-
-   ═══════════════════════════════════════════════════════════════════ */
-
 :root {
-  /* ── Brand ── */
-  --color-primary: #C85C6C;
-  --color-primary-hover: #b34d5c;
-  --color-primary-light: rgba(200, 92, 108, 0.08);
-  --color-primary-glow: rgba(200, 92, 108, 0.15);
-
-  /* ── Surfaces ── */
-  --color-bg: #FFFBF8;
+  --color-primary: #111827;
+  --color-primary-hover: #1f2937;
+  --color-accent: #6366f1;
+  --color-accent-hover: #4f46e5;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-surface-elevated: #ffffff;
   --color-surface-muted: #f9fafb;
-
-  /* ── Text ── */
-  --color-text-primary: #1a1a1a;
+  --color-surface-elevated: #ffffff;
+  --color-text-primary: #111827;
   --color-text-secondary: #6b7280;
   --color-text-muted: #9ca3af;
-
-  /* ── Borders ── */
-  --color-border: #f0f0f0;
-  --color-border-hover: #e5e7eb;
-
-  /* ── Semantic ── */
+  --color-border: #e5e7eb;
+  --color-border-hover: #d1d5db;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
-
-  /* ── Shadows ── */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 4px 20px rgba(200, 92, 108, 0.2);
-
-  /* ── Transitions ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --transition-fast: 150ms ease;
   --transition-normal: 300ms ease;
-
-  /* ── Typography ── */
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'DM Sans', system-ui, sans-serif;
-  --font-script: 'Great Vibes', cursive;
-
-  /* ── Radii ── */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
-
-  /* ── Legacy aliases (used by VenueMap, Shagun, CountdownTimer, CinematicGallery) ── */
-  --primary-rose: #C85C6C;
-  --text-primary: #1a1a1a;
+  --primary-rose: #111827;
+  --text-primary: #111827;
   --text-secondary: #6b7280;
-  --bg-cream: var(--color-bg);
+  --bg-cream: #ffffff;
+  --font-serif: 'Inter', system-ui, sans-serif;
+  --font-script: 'Inter', system-ui, sans-serif;
+  --color-primary-light: rgba(17, 24, 39, 0.05);
+  --color-primary-glow: rgba(17, 24, 39, 0.1);
+  --shadow-glow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   background-color: var(--color-bg);
@@ -112,22 +52,14 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, .serif {
-  font-family: var(--font-serif);
+h1, h2, h3, .serif {
+  font-family: var(--font-sans);
   color: var(--color-text-primary);
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
-h3 {
-  color: var(--color-text-primary);
-  line-height: 1.4;
-}
+.script { font-family: var(--font-sans); font-style: italic; }
 
-.script {
-  font-family: var(--font-script);
-}
-
-/* ── Legacy component classes (VenueMap, Shagun, CountdownTimer, CinematicGallery) ── */
 .glass-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -136,69 +68,40 @@ h3 {
   overflow: hidden;
   transition: all var(--transition-fast);
 }
-
-.glass-card:hover {
-  box-shadow: var(--shadow-md);
-}
+.glass-card:hover { box-shadow: var(--shadow-md); }
 
 .btn-premium {
   background: var(--color-primary);
   color: #fff;
-  padding: 14px 32px;
+  padding: 12px 28px;
   border-radius: var(--radius-full);
   border: none;
   font-weight: 600;
   font-size: 0.875rem;
-  letter-spacing: 0.02em;
   cursor: pointer;
   transition: all var(--transition-fast);
-  box-shadow: var(--shadow-glow);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   text-decoration: none;
 }
+.btn-premium:hover { background: var(--color-primary-hover); }
 
-.btn-premium:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(200, 92, 108, 0.3);
-  background: var(--color-primary-hover);
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, #2D2D2D 0%, var(--color-primary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
-}
+.text-gradient { color: var(--color-text-primary); font-weight: 800; }
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #bbb; }
 
-/* Focus ring */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
-/* Screen reader only */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
