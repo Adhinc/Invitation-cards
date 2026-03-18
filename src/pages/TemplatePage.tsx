@@ -27,7 +27,7 @@ export function Component() {
   if (!actualFormData) return <Navigate to="/" replace />;
 
   const event = getEventByType(actualEventType as Parameters<typeof getEventByType>[0]);
-  const accentColor = event?.accentColor || '#C85C6C';
+  const accentColor = event?.accentColor || '#111827';
   const selectedTemplate = TEMPLATES.find((t) => t.id === selectedId);
 
   return (
@@ -47,7 +47,7 @@ export function Component() {
               {event.label}
             </span>
           )}
-          <h1 className="serif text-2xl md:text-3xl font-bold">
+          <h1 className="text-2xl md:text-3xl font-bold">
             Choose Your Template
           </h1>
           <p className="mt-2 text-[var(--color-text-muted)] text-sm md:text-base max-w-md mx-auto">
@@ -68,13 +68,13 @@ export function Component() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
                 onClick={() => setSelectedId(template.id)}
-                className="group relative rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-shadow focus:outline-none"
+                className="group relative rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow focus:outline-none"
               >
                 {/* Border highlight */}
                 <motion.div
                   className="absolute inset-0 z-10 rounded-2xl pointer-events-none"
                   animate={{
-                    boxShadow: isSelected ? `inset 0 0 0 3px ${accentColor}` : 'inset 0 0 0 0px transparent',
+                    boxShadow: isSelected ? 'inset 0 0 0 3px #111827' : 'inset 0 0 0 0px transparent',
                   }}
                   transition={{ duration: 0.25 }}
                 />
@@ -98,8 +98,7 @@ export function Component() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
-                    style={{ backgroundColor: accentColor }}
+                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center shadow-lg"
                   >
                     <Check size={16} className="text-white stroke-[3]" />
                   </motion.div>
@@ -151,7 +150,7 @@ export function Component() {
                 state: { formData: actualFormData, eventType: actualEventType, selectedTemplate },
               });
             }}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#C85C6C] text-white font-bold text-sm shadow-lg shadow-rose-200/50 hover:brightness-110 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 text-white font-bold text-sm shadow-lg shadow-gray-300/50 hover:bg-gray-800 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
           >
             Continue
             <ArrowRight size={16} />
