@@ -33,7 +33,7 @@ function HeroSection({ event }: { event: EventConfig }) {
     >
       <div className="max-w-6xl mx-auto px-5 py-20 md:py-32 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur border border-gray-200 rounded-full px-4 py-1.5 text-sm text-[var(--color-text-secondary)] mb-6">
+          <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur border border-[#F0E6DC] rounded-full px-4 py-1.5 text-sm text-[var(--color-text-secondary)] mb-6">
             <Star className="w-4 h-4" style={{ color: event.accentColor }} />
             {event.socialProof}
           </span>
@@ -59,7 +59,7 @@ function HeroSection({ event }: { event: EventConfig }) {
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
           <Link to={`/chatbot?event=${event.type}`}>
-            <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl bg-gray-900 hover:bg-gray-800">
+            <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl bg-[#B8405E] hover:bg-[#A03650] shadow-[0_6px_28px_rgba(184,64,94,0.4)]">
               Start Now
             </Button>
           </Link>
@@ -76,7 +76,7 @@ function HeroSection({ event }: { event: EventConfig }) {
             { icon: <Smartphone className="w-4 h-4" />, text: 'Mobile Ready' },
             { icon: <CreditCard className="w-4 h-4" />, text: 'No credit card required' },
           ].map((b) => (
-            <span key={b.text} className="inline-flex items-center gap-1.5 bg-white/60 backdrop-blur rounded-full px-3 py-1 border border-gray-100">
+            <span key={b.text} className="inline-flex items-center gap-1.5 bg-white/60 backdrop-blur rounded-full px-3 py-1 border border-[#F0E6DC]">
               {b.icon} {b.text}
             </span>
           ))}
@@ -95,7 +95,7 @@ function QRMockupSection({ event }: { event: EventConfig }) {
   const displayName = event.isCoupleEvent ? `${name1} & ${name2}` : name1;
 
   return (
-    <Section label="Invitation preview">
+    <Section bg="white" divider label="Invitation preview">
       <SectionTitle
         title="Your Invitation, Reimagined"
         subtitle="A sneak peek of how your invitation will look"
@@ -123,7 +123,7 @@ function QRMockupSection({ event }: { event: EventConfig }) {
             <p className="text-base font-semibold">14 Feb 2026</p>
             <p className="text-sm text-[var(--color-text-muted)] mt-1">Saturday, 6:00 PM</p>
 
-            <div className="mt-6 pt-4 border-t border-dashed border-gray-200">
+            <div className="mt-6 pt-4 border-t border-dashed border-[#F0E6DC]">
               <p className="text-xs text-[var(--color-text-muted)]">Scan to RSVP & view details</p>
             </div>
           </div>
@@ -142,7 +142,7 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
   const displayName = event.isCoupleEvent ? `${name1} & ${name2}` : name1;
 
   return (
-    <Section muted label="WhatsApp sharing">
+    <Section bg="blush" divider label="WhatsApp sharing">
       <SectionTitle
         title="Easy WhatsApp Sharing"
         subtitle="Share via WhatsApp with a single tap"
@@ -160,12 +160,12 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
           <div className="flex justify-end">
             <div className="bg-[#dcf8c6] rounded-xl rounded-tr-sm max-w-[85%] shadow-sm overflow-hidden">
               <div className="p-3" style={{ background: `${event.accentColor}18` }}>
-                <p className="text-xs font-semibold" style={{ color: event.accentColor }}>bigdates.in</p>
+                <p className="text-xs font-semibold" style={{ color: event.accentColor }}>invitation.ai</p>
                 <p className="text-sm font-bold text-gray-800 mt-0.5">{displayName}&apos;s {event.label}</p>
                 <p className="text-xs text-gray-500 mt-0.5">14 Feb 2026 | View invitation & RSVP</p>
               </div>
               <div className="px-4 py-2">
-                <p className="text-xs text-blue-600 underline">bigdates.in/invite/m-and-m</p>
+                <p className="text-xs text-blue-600 underline">invitation.ai/invite/m-and-m</p>
                 <p className="text-[10px] text-gray-400 text-right mt-1">10:42 AM</p>
               </div>
             </div>
@@ -197,19 +197,19 @@ function PaperVsDigitalSection({ event }: { event: EventConfig }) {
   ];
 
   return (
-    <Section label="Paper vs digital comparison">
+    <Section bg="white" divider label="Paper vs digital comparison">
       <SectionTitle
         title="Paper vs Digital"
         subtitle="One small choice today. A greener tomorrow."
       />
-      <motion.div variants={fadeUp} className="max-w-lg mx-auto bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-        <div className="grid grid-cols-3 text-center text-sm font-semibold border-b border-gray-100">
+      <motion.div variants={fadeUp} className="max-w-lg mx-auto bg-white rounded-2xl shadow-lg overflow-hidden border border-[#F0E6DC]">
+        <div className="grid grid-cols-3 text-center text-sm font-semibold border-b border-[#F0E6DC]">
           <div className="py-3" />
           <div className="py-3 text-[var(--color-text-muted)]">Paper</div>
-          <div className="py-3 text-white bg-gray-900">Digital</div>
+          <div className="py-3 text-white bg-[#B8405E]">Digital</div>
         </div>
         {rows.map((r) => (
-          <div key={r.label} className="grid grid-cols-3 text-center text-sm border-b border-gray-50 last:border-0">
+          <div key={r.label} className="grid grid-cols-3 text-center text-sm border-b border-[#F0E6DC]/50 last:border-0">
             <div className="py-3 text-left pl-4 text-[var(--color-text-secondary)]">{r.label}</div>
             <div className="py-3 flex items-center justify-center">
               {typeof r.paper === 'string' ? (
@@ -222,7 +222,7 @@ function PaperVsDigitalSection({ event }: { event: EventConfig }) {
             </div>
             <div className="py-3 flex items-center justify-center">
               {typeof r.digital === 'string' ? (
-                <span className="font-medium text-gray-900">{r.digital}</span>
+                <span className="font-medium text-[#2D2A26]">{r.digital}</span>
               ) : r.digital ? (
                 <Check className="w-4 h-4 text-green-500" />
               ) : (
@@ -256,7 +256,7 @@ const FEATURES = [
 
 function FeaturesSection({ event }: { event: EventConfig }) {
   return (
-    <Section muted label="Features">
+    <Section bg="muted" divider label="Features">
       <SectionTitle
         title="Features You'll Love"
         subtitle="Everything you need for the perfect invitation"
@@ -266,9 +266,9 @@ function FeaturesSection({ event }: { event: EventConfig }) {
           <motion.div key={f.title} variants={fadeUp}>
             <Card className="p-6 hover:shadow-md transition-shadow">
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-gray-100"
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-[#FFF5EE]"
               >
-                <f.icon className="w-6 h-6 text-gray-900" />
+                <f.icon className="w-6 h-6 text-[#B8405E]" />
               </div>
               <h3 className="font-semibold text-base">{f.title}</h3>
               <p className="text-sm text-[var(--color-text-secondary)] mt-1">{f.desc}</p>
@@ -293,7 +293,7 @@ const STEPS = [
 
 function HowItWorksSection({ event }: { event: EventConfig }) {
   return (
-    <Section label="How it works">
+    <Section bg="white" divider label="How it works">
       <SectionTitle
         title="How It Works"
         subtitle="From start to share in under 2 minutes"
@@ -303,12 +303,12 @@ function HowItWorksSection({ event }: { event: EventConfig }) {
           <motion.div key={s.title} variants={fadeUp} className="text-center">
             <div className="relative inline-flex">
               <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto bg-gray-900"
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto bg-[#B8405E] shadow-[0_4px_16px_rgba(184,64,94,0.3)]"
               >
                 <s.icon className="w-7 h-7 text-white" />
               </div>
               <span
-                className="absolute -top-1 -right-1 w-6 h-6 rounded-full text-white text-xs font-bold flex items-center justify-center bg-gray-900"
+                className="absolute -top-1 -right-1 w-6 h-6 rounded-full text-white text-xs font-bold flex items-center justify-center bg-[#2D2A26]"
               >
                 {i + 1}
               </span>
@@ -344,7 +344,7 @@ function getTestimonials(event: EventConfig) {
 function TestimonialsSection({ event }: { event: EventConfig }) {
   const items = getTestimonials(event);
   return (
-    <Section muted label="Testimonials">
+    <Section bg="blush" divider label="Testimonials">
       <SectionTitle
         title="What Our Users Say"
         subtitle="Hear from people who loved it"
@@ -360,7 +360,7 @@ function TestimonialsSection({ event }: { event: EventConfig }) {
                   ))}
                 </div>
                 <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">&ldquo;{t.text}&rdquo;</p>
-                <div className="mt-4 pt-3 border-t border-gray-100">
+                <div className="mt-4 pt-3 border-t border-[#F0E6DC]">
                   <p className="font-semibold text-sm">{t.name}</p>
                   <p className="text-xs text-[var(--color-text-muted)]">{t.role}</p>
                 </div>
@@ -385,13 +385,13 @@ function StatsBar({ event }: { event: EventConfig }) {
   ];
 
   return (
-    <Section spacing="compact" label="Stats" className="bg-gray-900">
+    <Section spacing="compact" divider label="Stats" className="bg-gradient-to-r from-[#B8405E] to-[#D4687C]">
       <div className="grid grid-cols-3 gap-4">
         {items.map((s) => (
           <motion.div key={s.label} variants={fadeUp} className="text-center">
             <s.icon className="w-6 h-6 mx-auto mb-2 text-white" />
             <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{s.value}</p>
-            <p className="text-sm text-gray-300">{s.label}</p>
+            <p className="text-sm text-[#8D8A86]">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -405,7 +405,7 @@ function StatsBar({ event }: { event: EventConfig }) {
 
 function PricingSection({ event }: { event: EventConfig }) {
   return (
-    <Section label="Pricing">
+    <Section bg="white" divider label="Pricing">
       <SectionTitle
         title="Choose Your Plan"
         subtitle="Simple, transparent pricing"
@@ -418,10 +418,10 @@ function PricingSection({ event }: { event: EventConfig }) {
               className={`relative p-6 text-center transition-shadow hover:shadow-lg ${
                 plan.preferred ? 'border-2 shadow-lg md:scale-105' : ''
               }`}
-              style={plan.preferred ? { borderColor: '#111827' } : {}}
+              style={plan.preferred ? { borderColor: '#B8405E' } : {}}
             >
               {plan.preferred && (
-                <Badge variant="premium" className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gray-900">
+                <Badge variant="premium" className="absolute -top-3 left-1/2 -translate-x-1/2">
                   Most Popular
                 </Badge>
               )}
@@ -435,7 +435,7 @@ function PricingSection({ event }: { event: EventConfig }) {
                   variant={plan.preferred ? 'primary' : 'outline'}
                   size="md"
                   className="w-full"
-                  style={plan.preferred ? { background: '#111827' } : {}}
+                  style={plan.preferred ? { background: '#B8405E' } : {}}
                 >
                   Get Started
                 </Button>
@@ -454,13 +454,13 @@ function PricingSection({ event }: { event: EventConfig }) {
 
 function OfferBanner({ event }: { event: EventConfig }) {
   return (
-    <Section spacing="compact" label="Special offer">
+    <Section spacing="compact" bg="muted" divider label="Special offer">
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="relative rounded-2xl overflow-hidden p-8 md:p-12 text-center text-white bg-gray-900"
+        className="relative rounded-2xl overflow-hidden p-8 md:p-12 text-center text-white bg-gradient-to-r from-[#B8405E] to-[#D4687C]"
       >
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_50%,white_0%,transparent_70%)]" />
 
@@ -484,7 +484,7 @@ function OfferBanner({ event }: { event: EventConfig }) {
           </p>
           <Link
             to={`/chatbot?event=${event.type}&promo=SAVE10`}
-            className="inline-flex items-center gap-2 mt-6 bg-white text-gray-900 font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="inline-flex items-center gap-2 mt-6 bg-white text-[#B8405E] font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all"
           >
             Apply Now <ArrowRight className="w-5 h-5" />
           </Link>
@@ -500,14 +500,14 @@ function OfferBanner({ event }: { event: EventConfig }) {
 
 function FinalCTA({ event }: { event: EventConfig }) {
   return (
-    <Section size="narrow" className="text-center" label="Get started">
+    <Section size="narrow" bg="blush" divider className="text-center" label="Get started">
       <motion.div variants={fadeUp}>
         <h2 className="text-2xl md:text-3xl font-bold">Ready to Get Started?</h2>
         <p className="mt-3 text-[var(--color-text-secondary)] text-base max-w-lg mx-auto">
           Create your beautiful {event.label.toLowerCase()} invitation in under 2 minutes.
         </p>
         <Link to={`/chatbot?event=${event.type}`}>
-          <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl bg-gray-900 hover:bg-gray-800">
+          <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl">
             Start Creating Now
           </Button>
         </Link>

@@ -59,7 +59,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       ];
     }
     return [
-      { role: 'assistant', content: "Hello! You've reached BigDate. I'll help you create a beautiful Website for your special day." },
+      { role: 'assistant', content: "Hello! You've reached Invitation.AI. I'll help you create a beautiful Website for your special day." },
       { role: 'assistant', content: "What's your Event ?" },
     ];
   });
@@ -241,16 +241,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className="bg-white border border-gray-200 p-3 md:p-4 rounded-2xl flex flex-col items-center gap-2 min-w-0 shadow-sm hover:border-gray-400 hover:bg-gray-50 group transition-all"
+      className="bg-white border border-[#F0E6DC] p-3 md:p-4 rounded-2xl flex flex-col items-center gap-2 min-w-0 shadow-sm hover:border-[#B8405E]/30 hover:bg-[#FFF5EE] group transition-all"
     >
       {icon ? (
         <img src={icon} alt={label} className="w-12 h-12 object-contain" />
       ) : (
-        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-900">
+        <div className="w-12 h-12 rounded-full bg-[#FFF0F4] flex items-center justify-center text-[#B8405E]">
            <Sparkles size={24} />
         </div>
       )}
-      <span className="font-bold text-sm text-[#333] group-hover:text-gray-900">{label}</span>
+      <span className="font-bold text-sm text-[#2D2A26] group-hover:text-[#B8405E]">{label}</span>
     </motion.button>
   );
 
@@ -310,8 +310,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       case STEPS.PERSON2_IMAGE:
         return (
            <div className="mt-4 flex gap-3">
-             <button onClick={() => handleSend("Add later")} className="px-6 py-2 bg-white border border-gray-200 text-gray-700 rounded-full text-sm font-bold hover:border-gray-400 hover:bg-gray-50">Add it later</button>
-             <button onClick={triggerUpload} className="px-6 py-2 bg-gray-900 text-white rounded-full text-sm font-bold flex items-center gap-2">
+             <button onClick={() => handleSend("Add later")} className="px-6 py-2 bg-white border border-[#F0E6DC] text-[#4A4744] rounded-full text-sm font-bold hover:border-[#B8405E]/30 hover:bg-[#FFF5EE]">Add it later</button>
+             <button onClick={triggerUpload} className="px-6 py-2 bg-[#B8405E] text-white rounded-full text-sm font-bold flex items-center gap-2">
                <Camera size={14} /> Upload Image
              </button>
            </div>
@@ -328,8 +328,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       case STEPS.PARENTS_QUESTION:
         return (
           <div className="mt-4 flex gap-3">
-            <button onClick={() => handleSend("Yes, add parents")} className="px-6 py-2 bg-gray-900 text-white rounded-full text-sm font-bold">Yes, add them</button>
-            <button onClick={() => handleSend("Skip parents")} className="px-6 py-2 bg-white border border-gray-200 text-gray-700 rounded-full text-sm font-bold hover:border-gray-400 hover:bg-gray-50">Skip</button>
+            <button onClick={() => handleSend("Yes, add parents")} className="px-6 py-2 bg-[#B8405E] text-white rounded-full text-sm font-bold">Yes, add them</button>
+            <button onClick={() => handleSend("Skip parents")} className="px-6 py-2 bg-white border border-[#F0E6DC] text-[#4A4744] rounded-full text-sm font-bold hover:border-[#B8405E]/30 hover:bg-[#FFF5EE]">Skip</button>
           </div>
         );
       case STEPS.PARENTS_FLOW_START:
@@ -339,7 +339,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
         if (parentsPhase) {
           return (
             <div className="mt-4">
-              <button onClick={() => handleSend("skip")} className="px-5 py-2 bg-white border border-gray-200 text-gray-400 rounded-full text-xs font-bold hover:border-gray-400 hover:text-gray-900 transition-colors">Skip this</button>
+              <button onClick={() => handleSend("skip")} className="px-5 py-2 bg-white border border-gray-200 text-gray-400 rounded-full text-xs font-bold hover:border-[#B8405E]/30 hover:text-[#B8405E] transition-colors">Skip this</button>
             </div>
           );
         }
@@ -355,7 +355,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       case STEPS.ADDRESS:
         return (
            <div className="mt-4 flex gap-3">
-             <button onClick={() => setShowMapPicker(true)} className="px-6 py-2 bg-gray-900 text-white rounded-full text-sm font-bold flex items-center gap-2 shadow-lg shadow-gray-200">
+             <button onClick={() => setShowMapPicker(true)} className="px-6 py-2 bg-[#B8405E] text-white rounded-full text-sm font-bold flex items-center gap-2 shadow-[0_6px_28px_rgba(184,64,94,0.3)]">
                <MapPin size={14} /> Select on Map
              </button>
            </div>
@@ -397,14 +397,14 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
         className="fixed inset-0 w-full h-full bg-white z-50 flex flex-col overflow-hidden"
       >
             {/* Header */}
-            <div className="p-5 border-b border-gray-200 flex justify-center items-center bg-gray-900">
+            <div className="p-5 border-b border-[#F0E6DC] flex justify-center items-center bg-[#B8405E]">
               <div className="flex items-center gap-2 text-white font-black text-sm uppercase tracking-widest">
-                <Sparkles size={16} /> BigDate AI
+                <Sparkles size={16} /> Invitation.AI
               </div>
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-5 scrollbar-hide bg-gradient-to-b from-white to-gray-50">
+            <div className="flex-1 overflow-y-auto p-5 scrollbar-hide bg-gradient-to-b from-[#FFFBF8] to-[#FFF5EE]">
               <div className="space-y-8 pb-10" aria-live="polite">
                 <AnimatePresence initial={false}>
                   {messages.map((m, i) => (
@@ -424,8 +424,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
                       <div className={`max-w-[85%] flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
                         <div className={`p-5 rounded-[28px] text-[15px] leading-relaxed shadow-sm transition-all duration-300 ${
                           m.role === 'user'
-                            ? 'bg-gray-900 text-white rounded-tr-none font-bold'
-                            : 'bg-gray-50 border border-gray-200 text-slate-800 rounded-tl-none font-bold'
+                            ? 'bg-[#B8405E] text-white rounded-tr-none font-bold'
+                            : 'bg-[#FFF5EE] border border-[#F0E6DC] text-[#2D2A26] rounded-tl-none font-bold'
                         }`}>
                           {m.role === 'assistant' && (
                             <div className="flex items-center gap-2 mb-2 text-gray-400 text-[9px] uppercase tracking-widest font-black">
@@ -439,7 +439,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
                               const highlights = ['Website', 'Event', 'Groom', 'Bride', 'Image', 'Date', 'Time', 'Address', 'Wedding', 'Birthday', 'Baptism', 'Baby', 'Father', 'Mother', 'Host', 'Child'];
                               const isHighlight = highlights.includes(cleanWord);
                               return (
-                                <span key={idx} className={isHighlight ? 'text-gray-900 font-black underline decoration-gray-300 underline-offset-4' : ''}>
+                                <span key={idx} className={isHighlight ? 'text-[#B8405E] font-black underline decoration-[#F0E6DC] underline-offset-4' : ''}>
                                   {word}{' '}
                                 </span>
                               );
@@ -497,7 +497,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
 
             {/* Input Area */}
             <div className="p-3 md:p-6 bg-white border-t border-slate-50 flex items-center gap-3 md:gap-4">
-              <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-4 md:px-6 py-3 md:py-4 flex items-center focus-within:bg-white focus-within:border-gray-400 transition-all">
+              <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-4 md:px-6 py-3 md:py-4 flex items-center focus-within:bg-white focus-within:border-[#B8405E] transition-all">
                 <label htmlFor="chat-input" className="sr-only">Type your message</label>
                 <input
                   id="chat-input"
@@ -512,7 +512,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
               <button 
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isProcessing}
-                className="w-12 h-12 md:w-14 md:h-14 bg-gray-900 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-gray-200 hover:bg-gray-800 active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none shrink-0"
+                className="w-12 h-12 md:w-14 md:h-14 bg-[#B8405E] text-white rounded-2xl flex items-center justify-center shadow-[0_6px_28px_rgba(184,64,94,0.3)] hover:bg-[#A03650] active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none shrink-0"
               >
                 <Send size={20} />
               </button>

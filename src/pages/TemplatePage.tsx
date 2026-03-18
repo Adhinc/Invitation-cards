@@ -27,7 +27,7 @@ export function Component() {
   if (!actualFormData) return <Navigate to="/" replace />;
 
   const event = getEventByType(actualEventType as Parameters<typeof getEventByType>[0]);
-  const accentColor = event?.accentColor || '#111827';
+  const accentColor = event?.accentColor || '#B8405E';
   const selectedTemplate = TEMPLATES.find((t) => t.id === selectedId);
 
   return (
@@ -74,7 +74,7 @@ export function Component() {
                 <motion.div
                   className="absolute inset-0 z-10 rounded-2xl pointer-events-none"
                   animate={{
-                    boxShadow: isSelected ? 'inset 0 0 0 3px #111827' : 'inset 0 0 0 0px transparent',
+                    boxShadow: isSelected ? 'inset 0 0 0 3px #B8405E' : 'inset 0 0 0 0px transparent',
                   }}
                   transition={{ duration: 0.25 }}
                 />
@@ -98,7 +98,7 @@ export function Component() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center shadow-lg"
+                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-[#B8405E] flex items-center justify-center shadow-lg"
                   >
                     <Check size={16} className="text-white stroke-[3]" />
                   </motion.div>
@@ -117,11 +117,11 @@ export function Component() {
       </div>
 
       {/* Fixed Bottom Action Bar */}
-      <div className="fixed bottom-0 inset-x-0 z-50 bg-white/80 backdrop-blur-xl border-t border-slate-100">
+      <div className="fixed bottom-0 inset-x-0 z-50 bg-[#FFFBF8]/90 backdrop-blur-xl border-t border-[#F0E6DC]">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 px-5 py-3 rounded-xl border-2 border-slate-200 text-slate-600 font-bold text-sm hover:border-slate-300 transition-colors"
+            className="flex items-center gap-2 px-5 py-3 rounded-xl border-2 border-[#F0E6DC] text-[#4A4744] font-bold text-sm hover:border-[#B8405E]/30 transition-colors"
           >
             <ArrowLeft size={16} />
             Back
@@ -150,7 +150,7 @@ export function Component() {
                 state: { formData: actualFormData, eventType: actualEventType, selectedTemplate },
               });
             }}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 text-white font-bold text-sm shadow-lg shadow-gray-300/50 hover:bg-gray-800 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#B8405E] text-white font-bold text-sm shadow-[0_6px_28px_rgba(184,64,94,0.4)] hover:bg-[#A03650] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
           >
             Continue
             <ArrowRight size={16} />

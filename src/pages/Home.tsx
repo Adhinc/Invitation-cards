@@ -4,43 +4,86 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import {
-  MessageCircle,
-  Palette,
-  Share2,
   Star,
-  Sparkles,
+  ArrowRight,
+  Check,
+  Lock,
+  Zap,
+  MessageCircle,
+  Image,
+  Share2,
   QrCode,
 } from 'lucide-react';
 import { EVENTS, PRICING_PLANS } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
-import {
-  Button,
-  Card,
-  Badge,
-  Section,
-  SectionTitle,
-  CheckList,
-  FeatureRow,
-} from '../components/ui';
+import { Button, Badge, Card } from '../components/ui';
 import { cn } from '../utils/cn';
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
 
-const sampleInvitations = [
-  { label: 'Wedding', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=300&h=520&fit=crop' },
-  { label: 'Birthday', image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=300&h=520&fit=crop' },
-  { label: 'Baptism', image: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=300&h=520&fit=crop' },
-  { label: 'Baby Shower', image: 'https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=300&h=520&fit=crop' },
-  { label: 'Housewarming', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&h=520&fit=crop' },
-  { label: 'Holy Communion', image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&h=520&fit=crop' },
+const CATEGORY_CARDS = [
+  { label: 'Wedding', tagline: 'Two hearts, one journey', accent: '#B8405E', bg: '#FFF0F4', slug: 'wedding', thumb: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=80&h=80&fit=crop' },
+  { label: 'Birthday', tagline: 'Another year of happy memories', accent: '#9B59B6', bg: '#F5EDFF', slug: 'birthday', thumb: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=80&h=80&fit=crop' },
+  { label: 'Baptism', tagline: 'Blessed beginnings', accent: '#5D9BCC', bg: '#F0F7FC', slug: 'baptism', thumb: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=80&h=80&fit=crop' },
+  { label: 'Holy Communion', tagline: 'A moment of faith and grace', accent: '#C9A227', bg: '#FFFBF0', slug: 'holy-communion', thumb: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=80&h=80&fit=crop' },
+  { label: 'Naming Ceremony', tagline: 'A name given with love', accent: '#E8A87C', bg: '#FFF8F2', slug: 'naming-ceremony', thumb: 'https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=80&h=80&fit=crop' },
+  { label: 'Baby Shower', tagline: 'Awaiting a little miracle', accent: '#E87A90', bg: '#FFF5F8', slug: 'baby-shower', thumb: 'https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=80&h=80&fit=crop' },
+  { label: 'Housewarming', tagline: 'Beginning life in a new home', accent: '#6B8E6B', bg: '#F0F7F0', slug: 'housewarming', thumb: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=80&h=80&fit=crop' },
+  { label: 'Other Events', tagline: 'Moments worth sharing', accent: '#0D9488', bg: '#E6F7F6', slug: null, thumb: null },
+];
+
+const showcaseCards = [
+  { label: 'Wedding', accent: '#E8A5A5', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=350&fit=crop' },
+  { label: 'Wedding', accent: '#E8A5A5', image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=200&h=350&fit=crop' },
+  { label: 'Birthday', accent: '#FFB366', image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=200&h=350&fit=crop' },
+  { label: 'Baptism', accent: '#5D9BCC', image: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=200&h=350&fit=crop' },
+  { label: 'Birthday', accent: '#FFB366', image: 'https://images.unsplash.com/photo-1464349153459-f0199f5d0ab1?w=200&h=350&fit=crop' },
+  { label: 'Wedding', accent: '#E8A5A5', image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=200&h=350&fit=crop' },
+  { label: 'Naming Ceremony', accent: '#E8A5C8', image: 'https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=200&h=350&fit=crop' },
+  { label: 'Housewarming', accent: '#C4A574', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=200&h=350&fit=crop' },
+  { label: 'Wedding', accent: '#E8A5A5', image: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=200&h=350&fit=crop' },
+  { label: 'Birthday', accent: '#FFB366', image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=200&h=350&fit=crop' },
 ];
 
 const steps = [
-  { num: '1', icon: <MessageCircle size={22} />, title: 'Chat with our AI', desc: 'Answer a few simple questions about your event.' },
-  { num: '2', icon: <Palette size={22} />, title: 'Pick your style', desc: 'Choose from beautiful, ready-made templates.' },
-  { num: '3', icon: <Share2 size={22} />, title: 'Share with everyone', desc: 'Send via WhatsApp, SMS, or a personalized link.' },
+  {
+    num: '1',
+    title: 'Start with a Chat',
+    desc: 'Simply tell our AI Chatbot about your celebration',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+    ),
+  },
+  {
+    num: '2',
+    title: 'Choose Your Style',
+    desc: 'Pick a design that feels like you.',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <polyline points="21 15 16 10 5 21" />
+      </svg>
+    ),
+  },
+  {
+    num: '3',
+    title: 'Share Instantly',
+    desc: 'Share your invitation website on social media',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="18" cy="5" r="3" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="19" r="3" />
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+      </svg>
+    ),
+  },
 ];
 
 const benefits = [
@@ -53,15 +96,15 @@ const benefits = [
 ];
 
 const testimonials = [
-  { name: 'Priya & Arjun', event: 'Wedding', city: 'Kochi', quote: 'Our guests loved the website! It was so easy to share all the details. Created in just 3 minutes.' },
-  { name: 'Sneha M.', event: 'Birthday', city: 'Mumbai', quote: "Created my daughter's birthday invite in 5 minutes. Absolutely loved the templates and how easy sharing was." },
-  { name: 'Rahul K.', event: 'Housewarming', city: 'Bangalore', quote: 'The chatbot made everything simple. No design skills needed. Guests kept complimenting the invite!' },
+  { initials: 'SM', name: 'Sneha M.', event: 'Family Celebration', quote: 'The website was perfect! All our guests loved the digital invite.' },
+  { initials: 'RK', name: 'Rajesh K.', event: 'Special Occasion', quote: 'Created a beautiful theme in just 2 minutes. So easy!' },
+  { initials: 'PS', name: 'Priya S.', event: 'Milestone Event', quote: 'Made our event extra special with a gorgeous website.' },
 ];
 
 const stats = [
-  { value: '10,000+', label: 'Happy Families' },
-  { value: '50,000+', label: 'Websites Created' },
-  { value: '4.9/5', label: 'User Rating' },
+  { value: '10,000+', label: 'Happy families' },
+  { value: '50,000+', label: 'Websites created' },
+  { value: '4.9/5', label: 'User rating' },
 ];
 
 /** Show only 1M, 3M, 1Y plans */
@@ -70,47 +113,133 @@ const visiblePlans = PRICING_PLANS.filter(
 );
 
 /* ------------------------------------------------------------------ */
-/*  WhatsApp Chat Mockup                                               */
+/*  SVG Arrow Connector (between steps)                                */
 /* ------------------------------------------------------------------ */
 
-function WhatsAppMockup() {
+function StepConnector() {
   return (
-    <div className="w-full max-w-[320px] mx-auto">
-      <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-200/60">
-        <div className="bg-[#075E54] text-white px-4 py-3 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-xs font-semibold">FA</div>
-          <div>
-            <p className="text-sm font-medium">Family Group</p>
-            <p className="text-xs opacity-60">Mom, Dad, Priya, +12 more</p>
+    <div className="hidden md:flex items-center justify-center px-1">
+      <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+        <path d="M0 12h35M30 6l6 6-6 6" stroke="#E8E8E8" strokeWidth="2" />
+      </svg>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Phone Mockup (Hero — matches BigDates.ai structure)                */
+/* ------------------------------------------------------------------ */
+
+function PhoneMockup() {
+  return (
+    <div className="relative" style={{ maxWidth: 400 }}>
+      <div className="phone_mockup">
+        <div className="relative bg-[#1a1a1a] rounded-[44px] p-[10px] shadow-2xl">
+          {/* Phone back with camera module */}
+          <div className="absolute inset-0 rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]" />
+
+          {/* Volume buttons */}
+          <div className="absolute left-[-3px] top-[120px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
+          <div className="absolute left-[-3px] top-[160px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
+          {/* Power button */}
+          <div className="absolute right-[-3px] top-[140px] w-[3px] h-[40px] bg-[#333] rounded-r-sm" />
+
+          <div className="relative bg-white rounded-[36px] overflow-hidden" style={{ aspectRatio: '9/19.5' }}>
+            {/* Dynamic Island */}
+            <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-10 flex items-center justify-center">
+              <div className="w-[8px] h-[8px] rounded-full bg-[#1a1a2e] ring-1 ring-[#2a2a3e]" />
+            </div>
+
+            {/* Screen content — invitation preview */}
+            <div className="w-full h-full bg-gradient-to-b from-[#FFF0F4] to-white p-6 pt-14 text-center">
+              <p className="text-[9px] uppercase tracking-[3px] text-[#B8405E] font-medium mt-4">You're Invited</p>
+              <h3 className="text-lg font-bold text-[#2D2A26] mt-2" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
+                Priya & Arjun
+              </h3>
+              <p className="text-[11px] text-[#8D8A86] mt-1">are getting married</p>
+              <div className="my-4 w-full aspect-[16/10] bg-gradient-to-b from-[#FFF0F4] to-[#FFE8DC] rounded-xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1519741497674-611481863552?w=300&h=200&fit=crop"
+                  alt="Wedding"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-sm font-semibold text-[#2D2A26]">March 15, 2026</p>
+              <p className="text-[11px] text-[#8D8A86]">Kochi, Kerala</p>
+              <button className="mt-3 px-8 py-2.5 bg-gradient-to-r from-[#B8405E] to-[#D4548F] text-white text-xs font-bold rounded-full shadow-[0_4px_16px_rgba(184,64,94,0.3)]">
+                RSVP Now
+              </button>
+            </div>
           </div>
         </div>
-        <div className="bg-[#ECE5DD] px-3 py-3 space-y-2">
-          <div className="flex justify-end">
-            <div className="bg-[#DCF8C6] rounded-lg rounded-tr-none px-2.5 py-1.5 max-w-[80%]">
-              <p className="text-xs text-gray-800">Hey everyone! Here's our wedding invitation</p>
-              <p className="text-[9px] text-gray-400 text-right mt-0.5">10:32 AM</p>
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <div className="bg-[#DCF8C6] rounded-lg rounded-tr-none px-2.5 py-1.5 max-w-[80%]">
-              <div className="bg-white rounded p-2 mb-1">
-                <p className="text-xs font-semibold text-gray-900">Priya & Arjun's Wedding</p>
-                <p className="text-[9px] text-gray-400">March 15, 2026 &bull; Kochi, Kerala</p>
-                <p className="text-[9px] text-blue-500 mt-0.5">invitation.ai/priya-arjun</p>
+      </div>
+
+      {/* Floating elements — matches BigDates */}
+      <div className="absolute -top-4 -right-6 animate-[float_3s_ease-in-out_infinite]">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="#FFD700">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+        </svg>
+      </div>
+      <div className="absolute -left-8 top-1/3 animate-[float_4s_ease-in-out_infinite_0.5s]">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#E8A5A5">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+      </div>
+      <div className="absolute -bottom-2 -right-4 animate-[float_3.5s_ease-in-out_infinite_1s]">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#7DBDCE">
+          <circle cx="12" cy="12" r="10" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  WhatsApp Phone Mockup                                              */
+/* ------------------------------------------------------------------ */
+
+function WhatsAppPhoneMockup() {
+  return (
+    <div className="relative" style={{ maxWidth: 280 }}>
+      <div className="relative bg-[#1a1a1a] rounded-[44px] p-[10px] shadow-2xl">
+        <div className="absolute left-[-3px] top-[120px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
+        <div className="absolute left-[-3px] top-[160px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
+        <div className="absolute right-[-3px] top-[140px] w-[3px] h-[40px] bg-[#333] rounded-r-sm" />
+
+        <div className="relative bg-white rounded-[36px] overflow-hidden" style={{ aspectRatio: '9/19.5' }}>
+          {/* Dynamic Island */}
+          <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-10" />
+
+          {/* Status bar */}
+          <div className="flex items-center justify-between px-6 pt-[14px] pb-1 text-[10px] text-[#333]">
+            <span className="font-medium">9:41</span>
+            <div className="flex items-center gap-1">
+              <div className="flex gap-[2px]">
+                {[12, 10, 8, 6].map((h, i) => (
+                  <div key={i} className="w-[3px] bg-[#333] rounded-sm" style={{ height: h }} />
+                ))}
               </div>
-              <p className="text-[9px] text-gray-400 text-right">10:32 AM</p>
             </div>
           </div>
-          <div className="flex justify-start">
-            <div className="bg-white rounded-lg rounded-tl-none px-2.5 py-1.5 max-w-[80%]">
-              <p className="text-xs text-gray-800">This is beautiful! Congrats!</p>
-              <p className="text-[9px] text-gray-400 text-right mt-0.5">10:34 AM</p>
+
+          {/* Browser loading state */}
+          <div className="mx-3 mt-1">
+            <div className="bg-[#f2f2f2] rounded-lg px-3 py-2">
+              <div className="flex items-center gap-1.5">
+                <div className="flex gap-1">
+                  <span className="w-2 h-2 rounded-full bg-[#FF5F57]" />
+                  <span className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
+                  <span className="w-2 h-2 rounded-full bg-[#28C840]" />
+                </div>
+                <div className="flex items-center gap-1 ml-2 text-[9px] text-[#666]">
+                  <Lock size={8} />
+                  <span>invitation.ai/priya-arjun</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex justify-start">
-            <div className="bg-white rounded-lg rounded-tl-none px-2.5 py-1.5 max-w-[80%]">
-              <p className="text-xs text-gray-800">RSVP done! Can't wait!</p>
-              <p className="text-[9px] text-gray-400 text-right mt-0.5">10:35 AM</p>
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="w-8 h-8 border-3 border-[#B8405E]/20 border-t-[#B8405E] rounded-full animate-spin" />
+              <span className="text-[10px] text-[#8D8A86] mt-3">Opening invitation...</span>
             </div>
           </div>
         </div>
@@ -120,26 +249,88 @@ function WhatsAppMockup() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  QR Card + Phone Mockup                                             */
+/*  QR Paper Card + Phone Mockup                                       */
 /* ------------------------------------------------------------------ */
 
-function QRMockup() {
+function QRSection() {
   return (
-    <div className="relative py-6">
-      <div className="w-52 h-64 bg-white rounded-xl shadow-md border border-gray-100 p-5 flex flex-col items-center justify-center text-center">
-        <p className="script text-xl text-gray-900 mb-1">You're Invited</p>
-        <p className="text-xs text-gray-400 mb-5">Priya & Arjun's Wedding</p>
-        <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center mb-2">
-          <QrCode size={32} className="text-gray-300" />
+    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-[900px] mx-auto">
+      {/* Paper Card */}
+      <div className="relative">
+        <div className="w-[240px] bg-white rounded-xl shadow-lg border border-[#F0E6DC] p-6">
+          <div className="border-2 border-[#F0E6DC] rounded-lg p-5 text-center relative">
+            {/* Corner ornaments */}
+            <div className="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 border-[#B8405E]/30 rounded-tl" />
+            <div className="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 border-[#B8405E]/30 rounded-tr" />
+            <div className="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 border-[#B8405E]/30 rounded-bl" />
+            <div className="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 border-[#B8405E]/30 rounded-br" />
+
+            <p className="text-xs text-[#B8405E] tracking-wider uppercase">You're Invited</p>
+            <h3 className="text-xl mt-2 text-[#2D2A26]" style={{ fontFamily: "'Great Vibes', cursive" }}>
+              Priya <span className="text-[#B8405E]">&</span> Arjun
+            </h3>
+            <div className="flex items-center justify-center gap-1.5 mt-3 text-[11px] text-[#8D8A86]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              <span>15 Mar 2026</span>
+            </div>
+            <div className="mt-4">
+              <div className="w-20 h-20 mx-auto bg-[#FFF0F4] rounded-lg flex items-center justify-center">
+                <QrCode size={40} className="text-[#B8405E]" />
+              </div>
+              <p className="text-[9px] text-[#8D8A86] uppercase tracking-widest mt-2 font-medium">Scan for E-Invite</p>
+            </div>
+          </div>
         </div>
-        <p className="text-[8px] text-gray-400 uppercase tracking-widest font-medium">Scan for E-Invite</p>
       </div>
-      <div className="absolute right-0 sm:-right-5 -bottom-3 w-24 h-40 bg-gray-900 rounded-xl shadow-md flex items-center justify-center p-0.5">
-        <div className="w-full h-full bg-white rounded-[10px] flex flex-col items-center justify-center p-1.5">
-          <Sparkles size={12} className="text-gray-900 mb-1" />
-          <p className="text-[6px] font-semibold text-gray-900">Priya & Arjun</p>
-          <p className="text-[5px] text-gray-400">March 15, 2026</p>
-          <div className="w-full h-8 bg-gray-100 rounded mt-1.5" />
+
+      {/* Flow Connector */}
+      <div className="hidden md:flex items-center">
+        <svg viewBox="0 0 120 40" fill="none" className="w-24 h-10">
+          <path d="M0 20 Q30 20 40 10 T80 20 T120 20" stroke="url(#wave_grad)" strokeWidth="2" strokeDasharray="6 4" strokeLinecap="round" fill="none" />
+          <circle r="5" fill="#B8405E">
+            <animateMotion dur="1.5s" repeatCount="indefinite" path="M0 20 Q30 20 40 10 T80 20 T120 20" />
+          </circle>
+          <defs>
+            <linearGradient id="wave_grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#B8405E" stopOpacity="0.3" />
+              <stop offset="50%" stopColor="#B8405E" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#B8405E" stopOpacity="0.3" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 -ml-2">
+          <path d="M4 12h12M12 5l7 7-7 7" stroke="#B8405E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+
+      {/* Phone showing invitation */}
+      <div className="relative" style={{ maxWidth: 220 }}>
+        <div className="relative bg-[#1a1a1a] rounded-[36px] p-[8px] shadow-2xl">
+          <div className="absolute left-[-2px] top-[80px] w-[2px] h-[24px] bg-[#333] rounded-l-sm" />
+          <div className="absolute left-[-2px] top-[110px] w-[2px] h-[24px] bg-[#333] rounded-l-sm" />
+          <div className="absolute right-[-2px] top-[100px] w-[2px] h-[32px] bg-[#333] rounded-r-sm" />
+          <div className="relative bg-white rounded-[30px] overflow-hidden" style={{ aspectRatio: '9/19.5' }}>
+            <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-[70px] h-[22px] bg-black rounded-full z-10" />
+            <div className="w-full h-full bg-gradient-to-b from-[#FFF0F4] to-white p-4 pt-12 text-center">
+              <p className="text-[8px] uppercase tracking-[2px] text-[#B8405E] font-medium">You're Invited</p>
+              <h4 className="text-sm font-bold text-[#2D2A26] mt-1" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
+                Priya & Arjun
+              </h4>
+              <p className="text-[8px] text-[#8D8A86]">March 15, 2026</p>
+              <div className="w-full aspect-[16/10] bg-gradient-to-b from-[#FFF0F4] to-[#FFE8DC] rounded-lg mt-2 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=120&fit=crop"
+                  alt="Wedding"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -155,322 +346,677 @@ export function Component() {
     <div>
 
       {/* ══════════════════════════════════════════════════════════════
-          1. HERO — clean white bg, dark text
+          1. HERO — gradient bg, two-column, star badge
+          bg: linear-gradient(#FFFBF8, #FFF5EE)
+          padding: 126px 72px 40px
       ══════════════════════════════════════════════════════════════ */}
-      <section className="relative pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden bg-white">
-        <div className="relative max-w-3xl mx-auto px-5 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-gray-900"
-          >
-            Create beautiful invitations for your special moments
-          </motion.h1>
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(rgb(255, 251, 248) 0%, rgb(255, 245, 238) 100%)',
+          padding: 'clamp(100px, 10vw, 126px) clamp(20px, 5vw, 72px) clamp(32px, 4vw, 40px)',
+        }}
+      >
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-[1100px] mx-auto">
+          {/* Left: Text — max-width 540px like BigDates */}
+          <div className="max-w-[540px]">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              {/* Hero badge — star icon + text like BigDates */}
+              <span className="inline-flex items-center gap-2 bg-white/80 border border-[#F0E6DC] rounded-full px-4 py-1.5 text-sm text-[#4A4744] mb-6">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+                <span>Loved by 10,000+ families</span>
+              </span>
+            </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-base text-gray-500 mt-5 mb-8 max-w-xl mx-auto"
-          >
-            Weddings, birthdays, and celebrations deserve to be remembered. Create your invitation website in minutes — no design skills needed.
-          </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[clamp(32px,4vw,44px)] leading-[1.15] tracking-tight text-[#2D2A26]"
+              style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+            >
+              Create beautiful invitations for your{' '}
+              <span className="text-[#B8405E]">special moments</span>
+            </motion.h1>
 
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-base text-[#4A4744] mt-5 mb-8 leading-relaxed"
+            >
+              Weddings, birthdays, and celebrations deserve to be remembered.
+              Create your invitation website in minutes — no design skills needed.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              {/* CTA button — gradient like BigDates: linear-gradient(135deg, #B8405E, #D4548F) */}
+              <Link to={EVENTS[0].urlPath}>
+                <button
+                  className="inline-flex items-center gap-2 text-white font-semibold px-8 py-3.5 rounded-[28px] shadow-[0_6px_28px_rgba(184,64,94,0.4)] transition-all hover:shadow-[0_8px_36px_rgba(184,64,94,0.5)] hover:-translate-y-0.5"
+                  style={{ background: 'linear-gradient(135deg, #B8405E, #D4548F)' }}
+                >
+                  <span>Create Website</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </button>
+              </Link>
+              <p className="text-xs text-[#8D8A86] mt-3">No credit card required &bull; Ready in minutes</p>
+            </motion.div>
+          </div>
+
+          {/* Right: Phone Mockup — max-width 400px like BigDates */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col items-center gap-4"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex justify-center"
           >
-            <Link to={EVENTS[0].urlPath}>
-              <Button size="xl" className="bg-gray-900 text-white hover:bg-gray-800">
-                Create Website
-              </Button>
-            </Link>
-            <span className="text-xs text-gray-400">
-              No credit card required &middot; Ready in minutes
-            </span>
-          </motion.div>
-
-          {/* Large stat */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mt-14"
-          >
-            <p className="text-4xl md:text-5xl font-bold text-gray-900">41,000+</p>
-            <p className="text-sm text-gray-400 mt-1">Trusted Worldwide</p>
+            <PhoneMockup />
           </motion.div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          2. GALLERY CAROUSEL
+          2. SHOWCASE (Trusted Worldwide) — scrolling card carousel
+          bg: linear-gradient(#FFF5EE, #FFFBF8)
+          padding: 60px 0 80px
       ══════════════════════════════════════════════════════════════ */}
-      <Section spacing="compact" label="Sample invitations">
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(rgb(255, 245, 238) 0%, rgb(255, 251, 248) 100%)',
+          padding: 'clamp(40px, 5vw, 60px) 0 clamp(50px, 6vw, 80px)',
+        }}
+      >
+        {/* Header */}
+        <div className="text-center px-5 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 mb-4"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8405E" strokeWidth="2">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+            </svg>
+            <span className="text-2xl font-bold text-[#B8405E]">49,799</span>
+          </motion.div>
+          <h2
+            className="text-[clamp(28px,3.5vw,40px)] text-[#2D2A26] mb-3"
+            style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+          >
+            Trusted Worldwide
+          </h2>
+          <p className="text-[#8D8A86] text-base max-w-lg mx-auto">
+            Join thousands who created beautiful digital invitations for their special occasions
+          </p>
+        </div>
+
+        {/* Carousel — infinite scroll */}
         <Swiper
           modules={[Autoplay]}
-          autoplay={{ delay: 2800, disableOnInteraction: false }}
-          spaceBetween={12}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
+          spaceBetween={16}
           loop
           breakpoints={{
-            0: { slidesPerView: 2, spaceBetween: 8 },
-            480: { slidesPerView: 3, spaceBetween: 10 },
-            768: { slidesPerView: 4, spaceBetween: 12 },
-            1024: { slidesPerView: 5, spaceBetween: 12 },
+            0: { slidesPerView: 2, spaceBetween: 10 },
+            480: { slidesPerView: 3, spaceBetween: 12 },
+            768: { slidesPerView: 4, spaceBetween: 14 },
+            1024: { slidesPerView: 5, spaceBetween: 16 },
+            1280: { slidesPerView: 6, spaceBetween: 16 },
           }}
+          className="px-4"
         >
-          {sampleInvitations.map((inv) => (
-            <SwiperSlide key={inv.label}>
-              <div className="rounded-xl overflow-hidden aspect-[9/16] relative group cursor-pointer">
-                <img
-                  src={inv.image}
-                  alt={inv.label}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                <div className="absolute bottom-2.5 left-2.5">
-                  <span className="text-xs font-medium text-white bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full">
-                    {inv.label}
-                  </span>
+          {showcaseCards.map((card, i) => (
+            <SwiperSlide key={i}>
+              <div className="rounded-xl overflow-hidden relative group cursor-pointer">
+                <div className="aspect-[9/16] bg-[#f5f5f5]">
+                  <img
+                    src={card.image}
+                    alt={`${card.label} invitation`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
+                <div
+                  className="absolute bottom-3 left-3 px-3 py-1 rounded-full text-white text-xs font-medium"
+                  style={{ background: card.accent }}
+                >
+                  {card.label}
+                </div>
+                {/* Card reflection effect */}
+                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/10 to-transparent" />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-      </Section>
+      </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          3. EVENT CATEGORIES — white cards with accent dot
+          3. CATEGORIES — "What Are You Celebrating?"
+          bg: linear-gradient(#FFFBF8, #FFF5EE 50%, #FFFBF8)
+          padding: 60px 72px 50px
+          4-column grid of compact row cards
       ══════════════════════════════════════════════════════════════ */}
-      <Section muted label="Event categories">
-        <SectionTitle
-          title="Create for Every Occasion"
-          subtitle="Beautiful templates for every celebration."
-        />
+      <section
+        style={{
+          background: 'linear-gradient(rgb(255, 251, 248) 0%, rgb(255, 245, 238) 50%, rgb(255, 251, 248) 100%)',
+          padding: 'clamp(40px, 5vw, 60px) clamp(20px, 5vw, 72px) clamp(36px, 4vw, 50px)',
+        }}
+      >
+        {/* Section header */}
+        <div className="text-center max-w-[600px] mx-auto mb-6">
+          <h2
+            className="text-[clamp(28px,3.5vw,40px)] text-[#2D2A26] mb-2"
+            style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+          >
+            What Are You <span className="text-[#B8405E]">Celebrating?</span>
+          </h2>
+          <p className="text-[#8D8A86] text-base">
+            Every moment deserves its own beautiful invitation website.
+          </p>
+        </div>
 
-        <motion.div variants={stagger} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {EVENTS.map((ev) => (
-            <motion.div key={ev.slug} variants={fadeUp}>
-              <Link
-                to={ev.urlPath}
-                className="block rounded-xl p-5 text-center bg-white border border-gray-100 transition-all duration-200 hover:shadow-md hover:-translate-y-px"
-              >
-                <div
-                  className="w-3 h-3 rounded-full mx-auto mb-3"
-                  style={{ backgroundColor: ev.accentColor }}
-                />
-                <h3 className="font-medium text-sm">{ev.label}</h3>
-                <p className="text-xs text-gray-400 mt-0.5 leading-snug hidden sm:block">{ev.tagline}</p>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
-
-      {/* ══════════════════════════════════════════════════════════════
-          4. HOW IT WORKS — dark circle icons
-      ══════════════════════════════════════════════════════════════ */}
-      <Section size="narrow" label="How it works">
-        <SectionTitle
-          title="How It Works"
-          subtitle="Three simple steps. That's all."
-        />
-
-        <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6">
-          {steps.map((s) => (
-            <motion.div key={s.num} variants={fadeUp} className="text-center">
-              <div className="w-14 h-14 rounded-full bg-gray-900 text-white flex items-center justify-center mx-auto mb-4">
-                {s.icon}
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-1.5">Step {s.num}</p>
-              <h3 className="font-semibold text-base mb-1.5">{s.title}</h3>
-              <p className="text-sm text-gray-500 max-w-[220px] mx-auto">{s.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
-
-      {/* ══════════════════════════════════════════════════════════════
-          5. WHATSAPP SHARING
-      ══════════════════════════════════════════════════════════════ */}
-      <Section muted label="WhatsApp sharing">
-        <FeatureRow
-          kicker="No App Needed"
-          title="Share Instantly via WhatsApp"
-          description="Your guests simply tap the link to view your beautiful invitation. Share to individuals, groups, or broadcast lists."
-          visual={<WhatsAppMockup />}
+        {/* Compact grid — 4 columns on desktop like BigDates */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1200px] mx-auto"
         >
-          <CheckList
-            items={[
-              'One tap sharing to any contact or group',
-              'Beautiful link preview with event details',
-              'Guests RSVP directly from the invitation',
-              'Works on any phone — no app needed',
-            ]}
-            color="#10b981"
-          />
-        </FeatureRow>
-      </Section>
+          {CATEGORY_CARDS.map((cat, i) => {
+            const isComingSoon = cat.slug === null;
+            const eventConfig = !isComingSoon ? EVENTS.find(e => e.slug === cat.slug) : null;
+            const Wrapper = isComingSoon ? 'div' : Link;
+            const wrapperProps = isComingSoon
+              ? {}
+              : { to: eventConfig?.urlPath || '/' };
 
-      {/* ══════════════════════════════════════════════════════════════
-          6. QR BRIDGE
-      ══════════════════════════════════════════════════════════════ */}
-      <Section label="QR code bridge">
-        <FeatureRow
-          kicker="Best of Both Worlds"
-          title="Bridge Print & Digital"
-          description="Add a QR code to your printed cards that links directly to your digital invitation. Guests scan to see photos, get directions, and RSVP."
-          visual={<QRMockup />}
-          reverse
-        >
-          <CheckList
-            items={[
-              'Auto-generated QR code for your invitation',
-              'Print on physical cards, share digitally too',
-              'Guests access full details instantly',
-              'No more lost or forgotten invites',
-            ]}
-          />
-        </FeatureRow>
-      </Section>
+            return (
+              <motion.div key={cat.label} variants={fadeUp}>
+                <Wrapper
+                  {...(wrapperProps as any)}
+                  className={cn(
+                    'flex items-center gap-3 rounded-xl p-3 border transition-all duration-200',
+                    !isComingSoon && 'hover:shadow-md hover:-translate-y-px cursor-pointer',
+                    isComingSoon && 'opacity-80',
+                  )}
+                  style={{
+                    background: cat.bg,
+                    borderColor: `${cat.accent}40`,
+                    animationDelay: `${i * 0.05}s`,
+                  }}
+                >
+                  {/* Thumbnail */}
+                  <div
+                    className="w-12 h-12 rounded-lg bg-cover bg-center flex-shrink-0"
+                    style={{
+                      backgroundColor: `${cat.accent}20`,
+                      backgroundImage: cat.thumb ? `url(${cat.thumb})` : undefined,
+                    }}
+                  />
 
-      {/* ══════════════════════════════════════════════════════════════
-          7. WHY CHOOSE INVITATION.AI — 6 cards
-      ══════════════════════════════════════════════════════════════ */}
-      <Section muted label="Why choose Invitation.AI">
-        <SectionTitle
-          title="Why Choose Invitation.AI"
-          subtitle="Everything a paper invitation does, but better."
-        />
-
-        <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {benefits.map((b) => (
-            <motion.div key={b.title} variants={fadeUp}>
-              <Card className="h-full hover:shadow-md transition-shadow">
-                <Card.Body>
-                  <h3 className="font-semibold text-sm mb-1">{b.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{b.desc}</p>
-                </Card.Body>
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
-
-      {/* ══════════════════════════════════════════════════════════════
-          8. TESTIMONIALS
-      ══════════════════════════════════════════════════════════════ */}
-      <Section label="Testimonials">
-        <SectionTitle title="Loved by Thousands" />
-
-        <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((t) => (
-            <motion.div key={t.name} variants={fadeUp}>
-              <Card className="h-full">
-                <Card.Body>
-                  <div className="flex gap-0.5 mb-3">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} size={14} className="text-amber-400" fill="#fbbf24" />
-                    ))}
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm text-[#2D2A26]">{cat.label}</h3>
+                    <p className="text-xs text-[#8D8A86] truncate">{cat.tagline}</p>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
-                  <p className="font-semibold text-sm">{t.name}</p>
-                  <p className="text-xs text-gray-400">{t.event} &middot; {t.city}</p>
-                </Card.Body>
-              </Card>
-            </motion.div>
-          ))}
+
+                  {/* Arrow or Coming Soon badge */}
+                  {isComingSoon ? (
+                    <span className="text-[9px] font-semibold uppercase tracking-wider text-[#0D9488] bg-[#0D9488]/10 px-2 py-1 rounded-full whitespace-nowrap">
+                      Coming Soon
+                    </span>
+                  ) : (
+                    <span className="flex-shrink-0" style={{ color: cat.accent }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  )}
+                </Wrapper>
+              </motion.div>
+            );
+          })}
         </motion.div>
-      </Section>
+      </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          9. STATS BANNER — dark bg
+          4. HOW IT WORKS — step number + icon + h3 + p, SVG connectors
+          bg: #FFFBF8
+          padding: 50px 72px
       ══════════════════════════════════════════════════════════════ */}
-      <Section size="narrow" spacing="compact" label="Stats">
-        <div className="bg-gray-900 rounded-2xl px-6 py-10">
-          <div className="grid grid-cols-3 text-center text-white gap-2">
-            {stats.map((s) => (
-              <motion.div key={s.label} variants={fadeUp}>
-                <p className="text-xl sm:text-2xl md:text-4xl font-bold">{s.value}</p>
-                <p className="text-[10px] sm:text-xs opacity-70 mt-1">{s.label}</p>
+      <section
+        style={{
+          background: 'rgb(255, 251, 248)',
+          padding: 'clamp(36px, 4vw, 50px) clamp(20px, 5vw, 72px)',
+        }}
+      >
+        {/* Section header */}
+        <div className="text-center max-w-[600px] mx-auto mb-6">
+          <h2
+            className="text-[clamp(28px,3.5vw,40px)] text-[#2D2A26] mb-2"
+            style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+          >
+            From Idea to Invitation in Minutes
+          </h2>
+          <p className="text-[#8D8A86] text-base">
+            No stress. No learning. Just simple steps.
+          </p>
+        </div>
+
+        {/* Steps row with connectors */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+          className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-0 max-w-[1000px] mx-auto"
+        >
+          {steps.map((s, i) => (
+            <div key={s.num} className="contents">
+              <motion.div variants={fadeUp} className="text-center max-w-[260px]">
+                {/* Step number */}
+                <div className="w-10 h-10 rounded-full bg-[#B8405E] text-white flex items-center justify-center mx-auto mb-3 text-sm font-bold">
+                  {s.num}
+                </div>
+                {/* Step icon */}
+                <div className="flex justify-center mb-3 text-[#B8405E]">
+                  {s.icon}
+                </div>
+                <h3 className="font-semibold text-base text-[#2D2A26] mb-1">{s.title}</h3>
+                <p className="text-sm text-[#8D8A86]">{s.desc}</p>
+              </motion.div>
+              {i < steps.length - 1 && <StepConnector />}
+            </div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          5. WHATSAPP — GREEN gradient background, two-column
+          bg: linear-gradient(#F0FFF4, #E8F5E9 50%, #F1F8E9)
+          padding: 80px 40px
+      ══════════════════════════════════════════════════════════════ */}
+      <section
+        className="overflow-hidden"
+        style={{
+          background: 'linear-gradient(rgb(240, 255, 244) 0%, rgb(232, 245, 233) 50%, rgb(241, 248, 233) 100%)',
+          padding: 'clamp(50px, 7vw, 80px) clamp(20px, 3vw, 40px)',
+        }}
+      >
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 max-w-[1100px] mx-auto">
+          {/* Left: Content */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="max-w-[480px]"
+          >
+            {/* WhatsApp badge */}
+            <motion.span
+              variants={fadeUp}
+              className="inline-flex items-center gap-2 bg-[#25D366]/10 text-[#128C7E] rounded-full px-4 py-1.5 text-sm font-medium mb-4"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+              Share via WhatsApp
+            </motion.span>
+
+            <motion.h2
+              variants={fadeUp}
+              className="text-[clamp(28px,3.5vw,40px)] text-[#2D2A26] mb-3"
+              style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+            >
+              Invite Guests <span className="text-[#25D366]">Instantly</span>
+            </motion.h2>
+
+            <motion.p variants={fadeUp} className="text-[#4A4744] text-base mb-6">
+              Just send a link. Guests open your invitation website instantly.
+            </motion.p>
+
+            {/* Benefits */}
+            <motion.div variants={fadeUp} className="space-y-3">
+              {['One-Tap Access', 'Share to Groups', 'No App Needed'].map((benefit) => (
+                <div key={benefit} className="flex items-center gap-2.5">
+                  <Check size={18} className="text-[#25D366] flex-shrink-0" />
+                  <span className="text-sm text-[#2D2A26] font-medium">{benefit}</span>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Phone Mockup */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <WhatsAppPhoneMockup />
+          </motion.div>
+        </div>
+
+        {/* Mobile benefits row */}
+        <div className="flex md:hidden justify-center gap-4 mt-8">
+          {['One-Tap Access', 'Share to Groups', 'No App Needed'].map((b) => (
+            <div key={b} className="flex items-center gap-1.5">
+              <Check size={14} className="text-[#25D366]" />
+              <span className="text-xs text-[#2D2A26]">{b}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          6. QR BRIDGE — "Tradition on Paper. Magic on Phone."
+          bg: linear-gradient(#FFFCF9, #FFF8F5 50%, #FFF4F0)
+          padding: 70px 20px
+      ══════════════════════════════════════════════════════════════ */}
+      <section
+        className="overflow-hidden"
+        style={{
+          background: 'linear-gradient(rgb(255, 252, 249) 0%, rgb(255, 248, 245) 50%, rgb(255, 244, 240) 100%)',
+          padding: 'clamp(50px, 6vw, 70px) clamp(16px, 2vw, 20px)',
+        }}
+      >
+        {/* Section header */}
+        <div className="text-center mb-12">
+          <span className="inline-flex items-center gap-2 bg-[#B8405E]/10 text-[#B8405E] rounded-full px-4 py-1.5 text-sm font-medium mb-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+            Paper + Digital
+          </span>
+          <h2
+            className="text-[clamp(28px,3.5vw,40px)] text-[#2D2A26] mb-3"
+            style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+          >
+            Tradition on Paper. <span className="text-[#B8405E]">Magic on Phone.</span>
+          </h2>
+          <p className="text-[#8D8A86] text-base max-w-lg mx-auto">
+            Print a QR code on your card. Guests scan to see your beautiful digital e-invite instantly!
+          </p>
+        </div>
+
+        <QRSection />
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          7. WHY CHOOSE — warm brown/mauve gradient with glass cards
+          bg: linear-gradient(145deg, #D4B8B8, #C9A8A8 20%, #BFA0A0 40%, #B89898 60%, #C4A8A8 80%, #D0B8B8)
+      ══════════════════════════════════════════════════════════════ */}
+      <section
+        className="py-16 md:py-24"
+        style={{
+          background: 'linear-gradient(145deg, rgb(212, 184, 184) 0%, rgb(201, 168, 168) 20%, rgb(191, 160, 160) 40%, rgb(184, 152, 152) 60%, rgb(196, 168, 168) 80%, rgb(208, 184, 184) 100%)',
+        }}
+      >
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+          className="mx-auto px-5 max-w-[1100px]"
+        >
+          <div className="text-center mb-10">
+            <h2
+              className="text-[clamp(28px,3.5vw,44px)] text-white mb-3"
+              style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 400 }}
+            >
+              Why Choose Invitation.AI?
+            </h2>
+            <p className="text-white/70 text-base max-w-lg mx-auto">
+              Everything a paper invitation does, but better.
+            </p>
+          </div>
+
+          <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {benefits.map((b) => (
+              <motion.div key={b.title} variants={fadeUp}>
+                <div className="h-full rounded-xl p-6 transition-all hover:bg-white/20"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.15)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                  }}
+                >
+                  <h3 className="font-semibold text-sm text-white mb-1.5">{b.title}</h3>
+                  <p className="text-sm text-white/75 leading-relaxed">{b.desc}</p>
+                </div>
               </motion.div>
             ))}
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          8. TESTIMONIALS — avatar initials + quote + stars + stats
+          bg: linear-gradient(135deg, #F8F4FC, #FDF8F3)
+          padding: 50px 72px
+      ══════════════════════════════════════════════════════════════ */}
+      <section
+        style={{
+          background: 'linear-gradient(135deg, rgb(248, 244, 252) 0%, rgb(253, 248, 243) 100%)',
+          padding: 'clamp(36px, 4vw, 50px) clamp(20px, 5vw, 72px)',
+        }}
+      >
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+          className="max-w-[1100px] mx-auto"
+        >
+          {/* Header */}
+          <div className="text-center max-w-[600px] mx-auto mb-8">
+            <h2
+              className="text-[clamp(28px,3.5vw,40px)] text-[#2D2A26] mb-2"
+              style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+            >
+              Real stories, real smiles
+            </h2>
+            <p className="text-[#8D8A86] text-base">
+              Join thousands of families who chose Invitation.AI
+            </p>
           </div>
-        </div>
-      </Section>
+
+          {/* Testimonial cards grid — 3 columns */}
+          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[1000px] mx-auto mb-10">
+            {testimonials.map((t, i) => (
+              <motion.div key={t.name} variants={fadeUp}>
+                <div
+                  className="bg-white rounded-xl p-6 shadow-sm border border-[#F0E6DC]/50 h-full"
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                >
+                  {/* Avatar initials */}
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#B8405E] to-[#D4548F] flex items-center justify-center mb-4">
+                    <span className="text-white text-sm font-bold">{t.initials}</span>
+                  </div>
+
+                  {/* Quote */}
+                  <p className="text-sm text-[#4A4744] leading-relaxed mb-4">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+
+                  {/* Author */}
+                  <div className="mb-3">
+                    <span className="font-semibold text-sm text-[#2D2A26] block">{t.name}</span>
+                    <span className="text-xs text-[#8D8A86]">{t.event}</span>
+                  </div>
+
+                  {/* Stars */}
+                  <div className="flex gap-0.5">
+                    {Array.from({ length: 5 }).map((_, j) => (
+                      <svg key={j} width="16" height="16" viewBox="0 0 24 24" fill="#F5A623">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Stats row — inside testimonials section like BigDates */}
+          <div className="flex items-center justify-center gap-8 md:gap-12">
+            {stats.map((s, i) => (
+              <div key={s.label} className="flex items-center gap-8 md:gap-12">
+                {i > 0 && <div className="w-px h-10 bg-[#E0D4C8]" />}
+                <div className="text-center">
+                  <span className="text-xl md:text-2xl font-bold text-[#2D2A26] block">{s.value}</span>
+                  <span className="text-xs text-[#8D8A86]">{s.label}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          10. PRICING — 3 plans (1M, 3M, 1Y)
+          9. FINAL CTA — "Your celebration deserves to be special"
+          bg: #FFFBF8
+          padding: 60px 72px
       ══════════════════════════════════════════════════════════════ */}
-      <Section size="narrow" label="Pricing">
-        <SectionTitle
-          title="Simple Pricing"
-          subtitle="Preview free. Pay only to activate your shareable link."
-        />
-        <motion.div variants={fadeUp} className="text-center -mt-8 mb-10">
-          <span className="text-xs text-gray-400">
-            Secure payment &middot; Instant activation &middot; No hidden fees
-          </span>
-        </motion.div>
+      <section
+        className="text-center"
+        style={{
+          background: 'rgb(255, 251, 248)',
+          padding: 'clamp(40px, 5vw, 60px) clamp(20px, 5vw, 72px)',
+        }}
+      >
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={stagger}
+          className="max-w-xl mx-auto"
+        >
+          <motion.h2
+            variants={fadeUp}
+            className="text-[clamp(24px,3vw,36px)] text-[#2D2A26] mb-4"
+            style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+          >
+            Your celebration deserves to be special
+          </motion.h2>
 
-        <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {visiblePlans.map((plan) => (
-            <motion.div key={plan.id} variants={fadeUp}>
-              <Card
-                variant={plan.preferred ? 'elevated' : 'default'}
-                className={cn(
-                  'p-6 text-center relative',
-                  plan.preferred && 'border-2 border-gray-900 md:scale-[1.03]',
-                )}
+          <motion.p variants={fadeUp} className="text-[#4A4744] text-base mb-8">
+            Start creating your beautiful invitation website right now.
+          </motion.p>
+
+          <motion.div variants={fadeUp}>
+            <Link to={EVENTS[0].urlPath}>
+              <button
+                className="inline-flex items-center gap-2 text-white font-semibold px-10 py-4 rounded-[28px] shadow-[0_6px_28px_rgba(184,64,94,0.4)] transition-all hover:shadow-[0_8px_36px_rgba(184,64,94,0.5)] hover:-translate-y-0.5 text-lg"
+                style={{ background: 'linear-gradient(135deg, #B8405E, #D4548F)' }}
               >
-                {plan.preferred && (
-                  <Badge variant="premium" className="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                    Most Popular
-                  </Badge>
-                )}
-                <h3 className="font-medium text-sm mb-1.5 mt-1">{plan.label}</h3>
-                <p className="text-3xl font-bold text-gray-900 mb-0.5">
-                  <span className="text-sm align-top mr-0.5">&#8377;</span>{plan.price}
-                </p>
-                <p className="text-xs text-gray-400 mb-5">{plan.duration} days</p>
-                <Link to={EVENTS[0].urlPath}>
-                  <Button
-                    variant={plan.preferred ? 'primary' : 'outline'}
-                    size="md"
-                    className={cn('w-full', plan.preferred && 'bg-gray-900 hover:bg-gray-800')}
-                  >
-                    Get Started
-                  </Button>
-                </Link>
-              </Card>
-            </motion.div>
-          ))}
+                Create Your Invitation
+              </button>
+            </Link>
+          </motion.div>
+
+          {/* Trust badges */}
+          <motion.div variants={fadeUp} className="flex items-center justify-center gap-6 mt-6">
+            <div className="flex items-center gap-1.5 text-sm text-[#8D8A86]">
+              <Lock size={14} />
+              <span>Safe & secure</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-sm text-[#8D8A86]">
+              <Zap size={14} />
+              <span>Fast & easy</span>
+            </div>
+          </motion.div>
         </motion.div>
-      </Section>
+      </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          11. FINAL CTA — clean white
+          10. PRICING — kept from original, styled to match
       ══════════════════════════════════════════════════════════════ */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="max-w-xl mx-auto px-5 text-center">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-            <motion.h2 variants={fadeUp} className="text-2xl md:text-3xl font-bold mb-4">
-              Turn Your Celebration Into a Beautiful Memory
-            </motion.h2>
-            <motion.p variants={fadeUp} className="text-gray-500 text-base mb-8">
-              Start creating your beautiful invitation now. It only takes a few minutes.
-            </motion.p>
-            <motion.div variants={fadeUp}>
-              <Link to={EVENTS[0].urlPath}>
-                <Button size="xl" className="bg-gray-900 text-white hover:bg-gray-800">
-                  Create Website
-                </Button>
-              </Link>
-            </motion.div>
+      <section
+        style={{
+          background: 'linear-gradient(rgb(255, 251, 248) 0%, rgb(255, 245, 238) 100%)',
+          padding: 'clamp(40px, 5vw, 60px) clamp(20px, 5vw, 72px)',
+        }}
+      >
+        <div className="max-w-[900px] mx-auto">
+          <div className="text-center mb-8">
+            <h2
+              className="text-[clamp(28px,3.5vw,40px)] text-[#2D2A26] mb-2"
+              style={{ fontFamily: "'Fraunces', Georgia, serif", fontWeight: 600 }}
+            >
+              Simple Pricing
+            </h2>
+            <p className="text-[#8D8A86] text-base">
+              Preview free. Pay only to activate your shareable link.
+            </p>
+            <p className="text-xs text-[#8D8A86] mt-2">
+              Secure payment &middot; Instant activation &middot; No hidden fees
+            </p>
+          </div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4"
+          >
+            {visiblePlans.map((plan) => (
+              <motion.div key={plan.id} variants={fadeUp}>
+                <div
+                  className={cn(
+                    'bg-white rounded-xl p-6 text-center relative border transition-shadow hover:shadow-md',
+                    plan.preferred
+                      ? 'border-2 border-[#B8405E] md:scale-[1.03] shadow-lg'
+                      : 'border-[#F0E6DC]',
+                  )}
+                >
+                  {plan.preferred && (
+                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#B8405E] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full whitespace-nowrap">
+                      Most Popular
+                    </span>
+                  )}
+                  <h3 className="font-medium text-sm mb-1.5 mt-1 text-[#2D2A26]">{plan.label}</h3>
+                  <p className="text-3xl font-bold text-[#2D2A26] mb-0.5">
+                    <span className="text-sm align-top mr-0.5">&#8377;</span>{plan.price}
+                  </p>
+                  <p className="text-xs text-[#8D8A86] mb-5">{plan.duration} days</p>
+                  <Link to={EVENTS[0].urlPath}>
+                    <button
+                      className={cn(
+                        'w-full py-2.5 rounded-full text-sm font-semibold transition-all',
+                        plan.preferred
+                          ? 'text-white shadow-[0_4px_16px_rgba(184,64,94,0.3)]'
+                          : 'border border-[#B8405E] text-[#B8405E] hover:bg-[#B8405E]/5',
+                      )}
+                      style={plan.preferred ? { background: 'linear-gradient(135deg, #B8405E, #D4548F)' } : undefined}
+                    >
+                      Get Started
+                    </button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>

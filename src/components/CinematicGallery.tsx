@@ -54,14 +54,14 @@ const CinematicGallery: React.FC<GalleryProps> = ({ images, maxPhotos = 50, tier
       </Swiper>
 
       {/* Photo count & tier info */}
-      <div className="px-6 py-3 flex items-center justify-between bg-white/80 border-t border-gray-100">
+      <div className="px-6 py-3 flex items-center justify-between bg-white/80 border-t border-[#F0E6DC]">
         <div className="flex items-center gap-2 text-slate-400">
           <ImageIcon size={14} />
           <span className="text-[10px] font-bold uppercase tracking-wider">
             {limitedImages.length} / {maxPhotos} photos
           </span>
         </div>
-        <span className="text-[10px] font-black uppercase tracking-wider text-gray-900/60">
+        <span className="text-[10px] font-black uppercase tracking-wider text-[#2D2A26]/60">
           {tier} Gallery
         </span>
       </div>

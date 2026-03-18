@@ -42,10 +42,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      className="flex flex-col items-center justify-center p-4 bg-white border border-gray-200 rounded-2xl min-w-[80px]"
+      className="flex flex-col items-center justify-center p-4 bg-white border border-[#F0E6DC] rounded-2xl min-w-[80px]"
     >
-      <span className="text-3xl font-extrabold text-gray-900">{value}</span>
-      <span className="text-xs uppercase tracking-widest text-gray-500 mt-1">{label}</span>
+      <span className="text-3xl font-extrabold text-[#2D2A26]">{value}</span>
+      <span className="text-xs uppercase tracking-widest text-[#4A4744] mt-1">{label}</span>
     </motion.div>
   );
 

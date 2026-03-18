@@ -2,9 +2,9 @@ import { forwardRef, type ComponentPropsWithoutRef } from 'react';
 import { cn } from '../../utils/cn';
 
 const VARIANT_CLASSES = {
-  default: 'bg-white border border-[var(--color-border)] hover:shadow-md',
-  glass: 'bg-white/80 backdrop-blur border border-[var(--color-border)] hover:shadow-md',
-  elevated: 'bg-white border border-[var(--color-border)] shadow-lg hover:shadow-xl',
+  default: 'bg-white border border-[#F0E6DC] hover:shadow-md',
+  glass: 'bg-white/80 backdrop-blur-lg border border-[#F0E6DC]/60 hover:shadow-md',
+  elevated: 'bg-white border border-[#F0E6DC] shadow-lg hover:shadow-xl',
 } as const;
 
 interface CardProps extends ComponentPropsWithoutRef<'div'> {

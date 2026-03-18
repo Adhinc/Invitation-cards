@@ -117,7 +117,7 @@ function FloatingHearts() {
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute text-gray-900/10"
+          className="absolute text-[#2D2A26]/10"
           initial={{
             x: `${15 + i * 15}%`,
             y: '110%',
@@ -232,7 +232,7 @@ export function Component() {
             initial={{ y: -60, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
-            className="fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white px-3 md:px-4 py-2.5 md:py-3 flex items-center justify-center gap-2 md:gap-3 shadow-lg flex-wrap"
+            className="fixed top-0 left-0 right-0 z-50 bg-[#B8405E] text-white px-3 md:px-4 py-2.5 md:py-3 flex items-center justify-center gap-2 md:gap-3 shadow-lg flex-wrap"
           >
             <Sparkles size={14} className="shrink-0 hidden sm:block" />
             <span className="text-xs md:text-sm font-semibold">
@@ -240,7 +240,7 @@ export function Component() {
             </span>
             <button
               onClick={() => navigate('/pricing')}
-              className="bg-white text-gray-900 text-[10px] md:text-xs font-black uppercase tracking-wider px-3 md:px-4 py-1 md:py-1.5 rounded-full hover:bg-gray-100 transition-colors"
+              className="bg-white text-[#B8405E] text-[10px] md:text-xs font-black uppercase tracking-wider px-3 md:px-4 py-1 md:py-1.5 rounded-full hover:bg-[#FFF5EE] transition-colors"
             >
               Activate Now
             </button>
@@ -264,17 +264,17 @@ export function Component() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            className="w-20 h-20 mx-auto mb-6 rounded-full bg-gray-900/10 flex items-center justify-center"
+            className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#B8405E]/10 flex items-center justify-center"
           >
-            <IconComponent size={36} className="text-gray-900" />
+            <IconComponent size={36} className="text-[#B8405E]" />
           </motion.div>
 
-          <p className="text-sm uppercase tracking-[0.25em] text-gray-900/60 font-bold mb-2">
+          <p className="text-sm uppercase tracking-[0.25em] text-[#2D2A26]/60 font-bold mb-2">
             {tagline}
           </p>
           <p className="text-sm text-slate-400 font-medium mb-6">{subtitle}</p>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl text-gray-900 font-bold leading-tight mb-4 break-words">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl text-[#2D2A26] font-bold leading-tight mb-4 break-words">
             {names}
           </h1>
 
@@ -295,25 +295,25 @@ export function Component() {
 
         {/* ── Divider ──────────────────────────────────── */}
         <div className="flex items-center justify-center gap-3 my-6">
-          <div className="h-px w-16 bg-gray-900/20" />
-          <Heart size={12} className="text-gray-900/30" fill="currentColor" />
-          <div className="h-px w-16 bg-gray-900/20" />
+          <div className="h-px w-16 bg-[#2D2A26]/20" />
+          <Heart size={12} className="text-[#B8405E]/30" fill="currentColor" />
+          <div className="h-px w-16 bg-[#2D2A26]/20" />
         </div>
 
         {/* ── 3. Photo Gallery ─────────────────────────── */}
-        <Section>
+        <Section bg="white" className="rounded-2xl border border-[#F0E6DC] mt-6 p-4">
           <CinematicGallery images={galleryImages} maxPhotos={50} tier="Premium" />
         </Section>
 
         {/* ── 4. Countdown ─────────────────────────────── */}
-        <Section className="mt-12">
-          <h2 className="text-2xl text-center text-gray-900 mb-2">{countdownLabel}</h2>
+        <Section bg="blush" className="mt-8 rounded-2xl p-6">
+          <h2 className="text-2xl text-center text-[#2D2A26] mb-2">{countdownLabel}</h2>
           <CountdownTimer targetDate={actualFormData.date + 'T12:00:00'} />
         </Section>
 
         {/* ── 5. Venue Map ─────────────────────────────── */}
         {(actualFormData.location || actualFormData.address) && (
-          <Section>
+          <Section bg="white" className="mt-8 rounded-2xl border border-[#F0E6DC] p-4">
             <VenueMap
               locationName={actualFormData.location || 'Venue'}
               address={actualFormData.address || actualFormData.location || ''}
@@ -323,7 +323,7 @@ export function Component() {
         )}
 
         {/* ── 6. Shagun ────────────────────────────────── */}
-        <Section>
+        <Section bg="muted" className="mt-8 rounded-2xl p-4">
           <Shagun
             upiId="wedding.invitation@okaxis"
             recipientName={names}
@@ -331,7 +331,7 @@ export function Component() {
         </Section>
 
         {/* ── 7. Action Buttons ────────────────────────── */}
-        <Section className="mt-12 grid grid-cols-2 gap-3">
+        <Section bg="white" className="mt-8 rounded-2xl border border-[#F0E6DC] p-4 grid grid-cols-2 gap-3">
           {/* RSVP */}
           <motion.button
             whileTap={{ scale: 0.95 }}
@@ -339,8 +339,8 @@ export function Component() {
             aria-label={rsvpStatus === 'attending' ? 'Cancel RSVP' : 'RSVP to event'}
             className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm transition-all border ${
               rsvpStatus === 'attending'
-                ? 'bg-gray-900 text-white border-gray-900 shadow-lg shadow-gray-300'
-                : 'bg-white text-gray-900 border-gray-300 hover:border-gray-900'
+                ? 'bg-[#B8405E] text-white border-[#B8405E] shadow-lg shadow-[rgba(184,64,94,0.3)]'
+                : 'bg-white text-[#2D2A26] border-[#F0E6DC] hover:border-[#B8405E]'
             }`}
           >
             <CheckCircle2 size={18} />
@@ -352,9 +352,9 @@ export function Component() {
             whileTap={{ scale: 0.95 }}
             onClick={handleAddToCalendar}
             aria-label="Add event to calendar"
-            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-gray-300 hover:border-gray-900 transition-all"
+            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-[#F0E6DC] hover:border-[#B8405E] transition-all"
           >
-            <CalendarPlus size={18} className="text-gray-900" />
+            <CalendarPlus size={18} className="text-[#B8405E]" />
             Add to Calendar
           </motion.button>
 
@@ -363,9 +363,9 @@ export function Component() {
             whileTap={{ scale: 0.95 }}
             onClick={handleGetDirections}
             aria-label="Get directions to venue"
-            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-gray-300 hover:border-gray-900 transition-all"
+            className="flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm bg-white text-slate-700 border border-[#F0E6DC] hover:border-[#B8405E] transition-all"
           >
-            <MapPin size={18} className="text-gray-900" />
+            <MapPin size={18} className="text-[#B8405E]" />
             Get Directions
           </motion.button>
 
@@ -384,13 +384,13 @@ export function Component() {
         {/* ── 8. Footer ────────────────────────────────── */}
         <Section className="text-center mt-16 mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-12 bg-gray-900/20" />
-            <Heart size={10} className="text-gray-900/30" fill="currentColor" />
-            <div className="h-px w-12 bg-gray-900/20" />
+            <div className="h-px w-12 bg-[#2D2A26]/20" />
+            <Heart size={10} className="text-[#B8405E]/30" fill="currentColor" />
+            <div className="h-px w-12 bg-[#2D2A26]/20" />
           </div>
           <p className="text-lg text-slate-500 italic mb-2">{footerText}</p>
           <p className="text-[10px] uppercase tracking-[0.3em] text-slate-300 font-black">
-            Crafted with Love by BigDate
+            Crafted with Love by Invitation.AI
           </p>
         </Section>
       </div>
@@ -400,7 +400,7 @@ export function Component() {
         initial={{ y: 80 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
-        className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-gray-200 px-4 py-3 safe-bottom"
+        className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-[#F0E6DC] px-4 py-3 safe-bottom"
       >
         <div className="max-w-lg mx-auto flex gap-3">
           <motion.button
@@ -410,7 +410,7 @@ export function Component() {
                 state: { formData: actualFormData, eventType: eventType || actualFormData.eventType },
               })
             }
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-slate-600 bg-[#FFF5EE] hover:bg-[#FFE8DC] transition-colors"
           >
             <Palette size={18} />
             Change Theme
@@ -418,7 +418,7 @@ export function Component() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/pricing')}
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white bg-gray-900 shadow-lg shadow-gray-300 hover:bg-gray-800 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white bg-[#B8405E] shadow-lg shadow-[rgba(184,64,94,0.3)] hover:bg-[#A03650] transition-colors"
           >
             <Crown size={18} />
             Activate Now

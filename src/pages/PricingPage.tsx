@@ -29,7 +29,7 @@ export function Component() {
   return (
     <div>
       {/* Header */}
-      <Section spacing="compact" className="text-center pt-8">
+      <Section spacing="compact" bg="blush" className="text-center pt-8">
         <motion.div initial="hidden" animate="visible" variants={stagger}>
           <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-bold serif mb-4">
             Simple, Transparent Pricing
@@ -41,10 +41,10 @@ export function Component() {
       </Section>
 
       {/* Free Tier Card */}
-      <Section spacing="compact" size="narrow">
+      <Section spacing="compact" size="narrow" bg="white" divider>
         <motion.div
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}
-          className="relative bg-white border border-gray-100 rounded-2xl p-8 md:p-10 text-center"
+          className="relative bg-white border border-[#F0E6DC] rounded-2xl p-8 md:p-10 text-center"
         >
           <Badge variant="success" className="absolute -top-3 left-1/2 -translate-x-1/2">Free</Badge>
           <h2 className="text-2xl md:text-3xl font-bold serif mt-2 mb-3">Website Preview</h2>
@@ -62,7 +62,7 @@ export function Component() {
       </Section>
 
       {/* Individual + Business Two-Column Layout */}
-      <Section size="narrow" label="Pricing plans">
+      <Section size="narrow" bg="muted" divider label="Pricing plans">
         <motion.div
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={stagger}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
@@ -71,7 +71,7 @@ export function Component() {
           <motion.div variants={fadeUp}>
             <Card className="p-8 relative h-full">
               <div className="flex items-center gap-3 mb-2">
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-900">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FFF5EE] text-[#B8405E]">
                   <User className="w-5 h-5" />
                 </span>
                 <h3 className="text-2xl font-bold serif">Individual Plan</h3>
@@ -88,12 +88,12 @@ export function Component() {
                     key={plan.id}
                     className={`relative rounded-xl border-2 p-4 text-center transition-colors ${
                       plan.preferred
-                        ? 'border-gray-900 bg-gray-50'
-                        : 'border-gray-200'
+                        ? 'border-[#B8405E] bg-[#FFF0F4]'
+                        : 'border-[#F0E6DC]'
                     }`}
                   >
                     {plan.preferred && (
-                      <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-semibold bg-gray-900 text-white px-2 py-0.5 rounded-full whitespace-nowrap">
+                      <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-semibold bg-[#B8405E] text-white px-2 py-0.5 rounded-full whitespace-nowrap">
                         Popular
                       </span>
                     )}
@@ -127,7 +127,7 @@ export function Component() {
           <motion.div variants={fadeUp}>
             <Card className="p-8 relative h-full">
               <div className="flex items-center gap-3 mb-2">
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-900">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FFF5EE] text-[#B8405E]">
                   <Building2 className="w-5 h-5" />
                 </span>
                 <h3 className="text-2xl font-bold serif">Business Plan</h3>
@@ -139,7 +139,7 @@ export function Component() {
 
               {/* Lifetime Registration Badge */}
               <div className="flex items-center justify-center mb-6">
-                <span className="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-full">
+                <span className="inline-flex items-center gap-2 bg-[#B8405E] text-white text-sm font-semibold px-5 py-2.5 rounded-full">
                   <Crown className="w-4 h-4" />
                   &#8377;{BUSINESS_PLAN.registrationFee} Lifetime Registration
                 </span>
@@ -164,7 +164,7 @@ export function Component() {
       </Section>
 
       {/* Features List */}
-      <Section size="narrow" label="Features included">
+      <Section size="narrow" bg="white" divider label="Features included">
         <SectionTitle title="All Plans Include" />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {FEATURES.map((f) => (
@@ -179,7 +179,7 @@ export function Component() {
       </Section>
 
       {/* Trust Section */}
-      <Section size="narrow" spacing="compact" className="text-center">
+      <Section size="narrow" spacing="compact" bg="blush" divider className="text-center">
         <motion.div variants={fadeUp}>
           <div className="flex justify-center -space-x-3 mb-4">
             {['bg-gray-400', 'bg-amber-300', 'bg-sky-300', 'bg-emerald-300', 'bg-violet-300'].map((bg, i) => (
@@ -200,7 +200,7 @@ export function Component() {
       </Section>
 
       {/* FAQ Section */}
-      <Section size="narrow" label="FAQ">
+      <Section size="narrow" bg="white" divider label="FAQ">
         <SectionTitle title="Frequently Asked Questions" />
         <Accordion>
           {FAQ.map((item, idx) => (

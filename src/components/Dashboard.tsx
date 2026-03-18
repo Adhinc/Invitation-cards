@@ -66,10 +66,10 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-slate-800 flex flex-col md:flex-row overflow-hidden">
+    <div className="min-h-screen bg-[#FFFBF8] text-[#2D2A26] flex flex-col md:flex-row overflow-hidden">
       {/* Sidebar */}
-      <aside className="hidden md:flex w-72 bg-white h-screen border-r border-gray-200 p-8 flex-col shadow-sm">
-        <div className="text-3xl font-black text-gray-900 mb-12 flex items-center gap-2">
+      <aside className="hidden md:flex w-72 bg-white h-screen border-r border-[#F0E6DC] p-8 flex-col shadow-sm">
+        <div className="text-3xl font-black text-[#2D2A26] mb-12 flex items-center gap-2">
            <Sparkles size={24} /> Invitation.AI
         </div>
 
@@ -80,8 +80,8 @@ const Dashboard: React.FC = () => {
               aria-current={item === 'Overview' ? 'page' : undefined}
               className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${
                 item === 'Overview'
-                ? 'bg-gray-900 text-white shadow-lg shadow-gray-200'
-                : 'text-slate-400 hover:text-gray-900 hover:bg-gray-50'
+                ? 'bg-[#B8405E] text-white shadow-lg shadow-[rgba(184,64,94,0.3)]'
+                : 'text-[#8D8A86] hover:text-[#B8405E] hover:bg-[#FFF5EE]'
               }`}
             >
               <div className="flex items-center gap-4">
@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
                 </span>
                 <span className="text-sm font-black uppercase tracking-widest">{item}</span>
               </div>
-              {item === 'My Invitations' && <span className="text-[10px] font-black bg-gray-100 text-gray-900 px-2 py-0.5 rounded-full">{SAMPLE_INVITATIONS.length}</span>}
+              {item === 'My Invitations' && <span className="text-[10px] font-black bg-[#FFF0F4] text-[#B8405E] px-2 py-0.5 rounded-full">{SAMPLE_INVITATIONS.length}</span>}
             </button>
           ))}
 
@@ -109,14 +109,14 @@ const Dashboard: React.FC = () => {
                     onClick={() => setActiveFilter(filter)}
                     className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                       activeFilter === filter
-                        ? 'bg-gray-100 text-gray-900'
+                        ? 'bg-[#FFF0F4] text-[#B8405E]'
                         : 'text-slate-300 hover:text-slate-500 hover:bg-slate-50'
                     }`}
                   >
                     <span>{filter}</span>
                     {count > 0 && (
                       <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${
-                        activeFilter === filter ? 'bg-gray-900 text-white' : 'bg-slate-100 text-slate-400'
+                        activeFilter === filter ? 'bg-[#B8405E] text-white' : 'bg-slate-100 text-slate-400'
                       }`}>{count}</span>
                     )}
                   </button>
@@ -127,7 +127,7 @@ const Dashboard: React.FC = () => {
         </nav>
 
         {/* Upgrade Banner in Sidebar */}
-        <div className="mt-8 p-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-[32px] text-white relative overflow-hidden group">
+        <div className="mt-8 p-6 bg-gradient-to-br from-[#B8405E] to-[#8B2E45] rounded-[32px] text-white relative overflow-hidden group">
            <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
            <Star className="text-amber-400 mb-4 fill-amber-400" size={24} />
            <h4 className="text-sm font-black uppercase tracking-widest mb-2">Upgrade to Business</h4>
@@ -137,14 +137,14 @@ const Dashboard: React.FC = () => {
            </button>
         </div>
 
-        <button className="flex items-center gap-3 p-6 text-slate-300 hover:text-gray-900 transition-colors font-black uppercase tracking-widest text-[10px] mt-8 border-t border-slate-50">
+        <button className="flex items-center gap-3 p-6 text-slate-300 hover:text-[#B8405E] transition-colors font-black uppercase tracking-widest text-[10px] mt-8 border-t border-slate-50">
           <LogOut size={16} /> Logout
         </button>
       </aside>
 
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200">
-        <div className="text-xl font-black text-gray-900 flex items-center gap-2">
+      <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-[#F0E6DC]">
+        <div className="text-xl font-black text-[#2D2A26] flex items-center gap-2">
           <Sparkles size={18} /> Invitation.AI
         </div>
         <div className="flex items-center gap-2">
@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-12 overflow-y-auto bg-gray-50">
+      <main className="flex-1 p-4 md:p-12 overflow-y-auto bg-[#FFFBF8]">
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-12">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2 italic">Welcome back,</p>
@@ -266,7 +266,7 @@ const Dashboard: React.FC = () => {
             <h3 className="text-xl md:text-3xl font-black text-slate-800">
               {activeFilter === 'All' ? 'Active Websites' : `${activeFilter} Invites`}
             </h3>
-            <button className="text-[10px] font-black uppercase tracking-widest text-gray-900 flex items-center gap-2 hover:gap-3 transition-all">
+            <button className="text-[10px] font-black uppercase tracking-widest text-[#B8405E] flex items-center gap-2 hover:gap-3 transition-all">
                View All <ChevronRight size={14} />
             </button>
           </div>
@@ -280,7 +280,7 @@ const Dashboard: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white p-4 md:p-6 rounded-[24px] md:rounded-[40px] border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4 md:gap-6 hover:border-gray-400 transition-all group relative overflow-hidden"
+                  className="bg-white p-4 md:p-6 rounded-[24px] md:rounded-[40px] border border-[#F0E6DC] shadow-sm flex flex-col md:flex-row gap-4 md:gap-6 hover:border-[#B8405E]/30 transition-all group relative overflow-hidden"
                 >
                   <div className="w-full h-40 md:w-32 md:h-44 rounded-2xl md:rounded-[28px] overflow-hidden bg-slate-100 shrink-0 border-4 border-slate-50 shadow-inner">
                     <img src={inv.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
@@ -289,9 +289,9 @@ const Dashboard: React.FC = () => {
                      <div className="flex justify-between items-start mb-4">
                         <div>
                           <h4 className="text-xl font-black text-slate-800">{inv.names}</h4>
-                          <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">{inv.eventType} Celebration</p>
+                          <p className="text-[10px] font-black text-[#8D8A86] uppercase tracking-widest mt-1">{inv.eventType} Celebration</p>
                         </div>
-                        <div className="bg-gray-100 p-2 rounded-full text-gray-600">
+                        <div className="bg-[#FFF5EE] p-2 rounded-full text-[#B8405E]">
                            <ExternalLink size={16} />
                         </div>
                      </div>
@@ -322,9 +322,9 @@ const Dashboard: React.FC = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 bg-white rounded-[32px] border border-gray-200">
+            <div className="text-center py-20 bg-white rounded-[32px] border border-[#F0E6DC]">
               <p className="text-slate-300 font-bold text-sm">No {activeFilter.toLowerCase()} invitations yet</p>
-              <button className="mt-4 px-6 py-2 bg-gray-900 text-white rounded-xl text-xs font-bold">Create One</button>
+              <button className="mt-4 px-6 py-2 bg-[#B8405E] text-white rounded-xl text-xs font-bold">Create One</button>
             </div>
           )}
         </div>

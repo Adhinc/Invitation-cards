@@ -2,8 +2,8 @@ import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react
 import { cn } from '../../utils/cn';
 
 const VARIANT_CLASSES = {
-  ghost: 'bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-900',
-  outline: 'bg-transparent border border-gray-200 text-gray-500 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]',
+  ghost: 'bg-transparent text-[#4A4744] hover:bg-[#FFF5EE] hover:text-[#2D2A26]',
+  outline: 'bg-transparent border border-[#F0E6DC] text-[#4A4744] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]',
 } as const;
 
 const SIZE_CLASSES = {
