@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
     : SAMPLE_INVITATIONS.filter(inv => inv.eventType === activeFilter);
 
   const stats = [
-    { label: 'Total Views', value: '12,847', icon: <Eye />, trend: '+12%', color: 'rose' },
+    { label: 'Total Views', value: '12,847', icon: <Eye />, trend: '+12%', color: 'slate' },
     { label: 'Active Invites', value: String(SAMPLE_INVITATIONS.length), icon: <Layout />, trend: '+5', color: 'slate' },
     { label: 'RSVPs Today', value: '142', icon: <Users />, trend: '+28%', color: 'emerald' },
     { label: 'Revenue', value: '₹42,900', icon: <DollarSign />, trend: '+15%', color: 'amber' }
@@ -66,11 +66,11 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF9F5] text-slate-800 flex flex-col md:flex-row overflow-hidden">
+    <div className="min-h-screen bg-gray-50 text-slate-800 flex flex-col md:flex-row overflow-hidden">
       {/* Sidebar */}
-      <aside className="hidden md:flex w-72 bg-white h-screen border-r border-rose-100 p-8 flex-col shadow-sm">
-        <div className="serif text-3xl font-black text-[var(--color-primary)] italic mb-12 flex items-center gap-2">
-           <Sparkles size={24} /> BigDate
+      <aside className="hidden md:flex w-72 bg-white h-screen border-r border-gray-200 p-8 flex-col shadow-sm">
+        <div className="text-3xl font-black text-gray-900 mb-12 flex items-center gap-2">
+           <Sparkles size={24} /> Invitation.AI
         </div>
 
         <nav aria-label="Dashboard navigation" className="flex-1 space-y-3">
@@ -80,8 +80,8 @@ const Dashboard: React.FC = () => {
               aria-current={item === 'Overview' ? 'page' : undefined}
               className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl transition-all ${
                 item === 'Overview'
-                ? 'bg-[var(--color-primary)] text-white shadow-lg shadow-rose-100'
-                : 'text-slate-400 hover:text-[var(--color-primary)] hover:bg-rose-50'
+                ? 'bg-gray-900 text-white shadow-lg shadow-gray-200'
+                : 'text-slate-400 hover:text-gray-900 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-center gap-4">
@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
                 </span>
                 <span className="text-sm font-black uppercase tracking-widest">{item}</span>
               </div>
-              {item === 'My Invitations' && <span className="text-[10px] font-black bg-rose-50 text-[var(--color-primary)] px-2 py-0.5 rounded-full">{SAMPLE_INVITATIONS.length}</span>}
+              {item === 'My Invitations' && <span className="text-[10px] font-black bg-gray-100 text-gray-900 px-2 py-0.5 rounded-full">{SAMPLE_INVITATIONS.length}</span>}
             </button>
           ))}
 
@@ -109,14 +109,14 @@ const Dashboard: React.FC = () => {
                     onClick={() => setActiveFilter(filter)}
                     className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                       activeFilter === filter
-                        ? 'bg-rose-50 text-[var(--color-primary)]'
+                        ? 'bg-gray-100 text-gray-900'
                         : 'text-slate-300 hover:text-slate-500 hover:bg-slate-50'
                     }`}
                   >
                     <span>{filter}</span>
                     {count > 0 && (
                       <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${
-                        activeFilter === filter ? 'bg-[var(--color-primary)] text-white' : 'bg-slate-100 text-slate-400'
+                        activeFilter === filter ? 'bg-gray-900 text-white' : 'bg-slate-100 text-slate-400'
                       }`}>{count}</span>
                     )}
                   </button>
@@ -132,26 +132,26 @@ const Dashboard: React.FC = () => {
            <Star className="text-amber-400 mb-4 fill-amber-400" size={24} />
            <h4 className="text-sm font-black uppercase tracking-widest mb-2">Upgrade to Business</h4>
            <p className="text-[10px] text-slate-400 font-bold leading-relaxed mb-6">Unlock agency mode, custom branding & analytics.</p>
-           <button className="w-full py-3 bg-white text-slate-900 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-colors">
+           <button className="w-full py-3 bg-white text-slate-900 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition-colors">
               Upgrade Now
            </button>
         </div>
 
-        <button className="flex items-center gap-3 p-6 text-slate-300 hover:text-rose-500 transition-colors font-black uppercase tracking-widest text-[10px] mt-8 border-t border-slate-50">
+        <button className="flex items-center gap-3 p-6 text-slate-300 hover:text-gray-900 transition-colors font-black uppercase tracking-widest text-[10px] mt-8 border-t border-slate-50">
           <LogOut size={16} /> Logout
         </button>
       </aside>
 
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-rose-100">
-        <div className="serif text-xl font-black text-[var(--color-primary)] italic flex items-center gap-2">
-          <Sparkles size={18} /> BigDate
+      <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200">
+        <div className="text-xl font-black text-gray-900 flex items-center gap-2">
+          <Sparkles size={18} /> Invitation.AI
         </div>
         <div className="flex items-center gap-2">
           <select
             value={activeFilter}
             onChange={(e) => setActiveFilter(e.target.value as EventFilter)}
-            className="text-xs font-bold border border-rose-100 rounded-lg px-2 py-1.5 bg-white text-slate-600"
+            className="text-xs font-bold border border-gray-200 rounded-lg px-2 py-1.5 bg-white text-slate-600"
           >
             {EVENT_FILTERS.map((f) => (
               <option key={f} value={f}>{f}</option>
@@ -161,11 +161,11 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-12 overflow-y-auto bg-[#FFF9F5]">
+      <main className="flex-1 p-4 md:p-12 overflow-y-auto bg-gray-50">
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-12">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2 italic">Welcome back,</p>
-            <h1 className="text-2xl md:text-4xl serif font-black text-slate-800 italic">Akhil Kottikkal</h1>
+            <h1 className="text-2xl md:text-4xl font-black text-slate-800">Akhil Kottikkal</h1>
           </div>
           <Link to="/">
             <Button size="lg" leftIcon={<Plus size={18} className="stroke-[3]" />}>
@@ -241,10 +241,9 @@ const Dashboard: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="p-4 md:p-8 rounded-2xl md:rounded-[32px] group hover:shadow-xl hover:shadow-rose-100/50 transition-all duration-500">
+              <Card className="p-4 md:p-8 rounded-2xl md:rounded-[32px] group hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-500">
                 <div className="flex justify-between items-start mb-4 md:mb-6">
                   <div className={`p-2.5 md:p-4 rounded-xl md:rounded-2xl ${
-                    s.color === 'rose' ? 'bg-rose-50 text-rose-500' :
                     s.color === 'emerald' ? 'bg-emerald-50 text-emerald-500' :
                     s.color === 'amber' ? 'bg-amber-50 text-amber-500' : 'bg-slate-50 text-slate-500'
                   }`}>
@@ -264,10 +263,10 @@ const Dashboard: React.FC = () => {
         {/* Active Websites Grid */}
         <div className="space-y-8">
           <div className="flex justify-between items-center">
-            <h3 className="serif text-xl md:text-3xl font-black text-slate-800 italic">
+            <h3 className="text-xl md:text-3xl font-black text-slate-800">
               {activeFilter === 'All' ? 'Active Websites' : `${activeFilter} Invites`}
             </h3>
-            <button className="text-[10px] font-black uppercase tracking-widest text-[var(--color-primary)] flex items-center gap-2 hover:gap-3 transition-all">
+            <button className="text-[10px] font-black uppercase tracking-widest text-gray-900 flex items-center gap-2 hover:gap-3 transition-all">
                View All <ChevronRight size={14} />
             </button>
           </div>
@@ -281,7 +280,7 @@ const Dashboard: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white p-4 md:p-6 rounded-[24px] md:rounded-[40px] border border-rose-100 shadow-sm flex flex-col md:flex-row gap-4 md:gap-6 hover:border-rose-300 transition-all group relative overflow-hidden"
+                  className="bg-white p-4 md:p-6 rounded-[24px] md:rounded-[40px] border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4 md:gap-6 hover:border-gray-400 transition-all group relative overflow-hidden"
                 >
                   <div className="w-full h-40 md:w-32 md:h-44 rounded-2xl md:rounded-[28px] overflow-hidden bg-slate-100 shrink-0 border-4 border-slate-50 shadow-inner">
                     <img src={inv.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
@@ -290,9 +289,9 @@ const Dashboard: React.FC = () => {
                      <div className="flex justify-between items-start mb-4">
                         <div>
                           <h4 className="text-xl font-black text-slate-800">{inv.names}</h4>
-                          <p className="text-[10px] font-black text-[var(--color-primary)] uppercase tracking-widest mt-1 italic">{inv.eventType} Celebration</p>
+                          <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">{inv.eventType} Celebration</p>
                         </div>
-                        <div className="bg-rose-50 p-2 rounded-full text-[var(--color-primary)]">
+                        <div className="bg-gray-100 p-2 rounded-full text-gray-600">
                            <ExternalLink size={16} />
                         </div>
                      </div>
@@ -302,8 +301,8 @@ const Dashboard: React.FC = () => {
                            <span className="text-[10px] font-black text-slate-300 uppercase block mb-1">Total Views</span>
                            <span className="text-lg font-black text-slate-700">{inv.views}</span>
                         </div>
-                        <div className="p-4 bg-rose-50/50 rounded-2xl">
-                           <span className="text-[10px] font-black text-[var(--color-primary)]/50 uppercase block mb-1">Status</span>
+                        <div className="p-4 bg-gray-50 rounded-2xl">
+                           <span className="text-[10px] font-black text-gray-400 uppercase block mb-1">Status</span>
                            <Badge variant={inv.status === 'ACTIVE' ? 'success' : 'error'}>
                              {inv.status}
                            </Badge>
@@ -323,9 +322,9 @@ const Dashboard: React.FC = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 bg-white rounded-[32px] border border-rose-100">
+            <div className="text-center py-20 bg-white rounded-[32px] border border-gray-200">
               <p className="text-slate-300 font-bold text-sm">No {activeFilter.toLowerCase()} invitations yet</p>
-              <button className="mt-4 px-6 py-2 bg-[var(--color-primary)] text-white rounded-xl text-xs font-bold">Create One</button>
+              <button className="mt-4 px-6 py-2 bg-gray-900 text-white rounded-xl text-xs font-bold">Create One</button>
             </div>
           )}
         </div>
