@@ -46,7 +46,7 @@ const CinematicGallery: React.FC<GalleryProps> = ({ images, maxPhotos = 50, tier
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="absolute bottom-10 left-10"
               >
-                <h3 className="serif text-3xl text-white">Moments of Love</h3>
+                <h3 className="text-3xl text-white font-bold">Moments of Love</h3>
               </motion.div>
             </div>
           </SwiperSlide>
@@ -54,14 +54,14 @@ const CinematicGallery: React.FC<GalleryProps> = ({ images, maxPhotos = 50, tier
       </Swiper>
 
       {/* Photo count & tier info */}
-      <div className="px-6 py-3 flex items-center justify-between bg-white/80 border-t border-rose-50">
+      <div className="px-6 py-3 flex items-center justify-between bg-white/80 border-t border-gray-100">
         <div className="flex items-center gap-2 text-slate-400">
           <ImageIcon size={14} />
           <span className="text-[10px] font-bold uppercase tracking-wider">
             {limitedImages.length} / {maxPhotos} photos
           </span>
         </div>
-        <span className="text-[10px] font-black uppercase tracking-wider text-[#C85C6C]/60">
+        <span className="text-[10px] font-black uppercase tracking-wider text-gray-900/60">
           {tier} Gallery
         </span>
       </div>

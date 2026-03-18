@@ -19,18 +19,18 @@ const VenueMap: React.FC<VenueMapProps> = ({ address, locationName, coords }) =>
 
   return (
     <div className="venue-map-container glass-card overflow-hidden mt-10">
-      <div className="p-6 border-b border-white/10 flex justify-between items-center">
+      <div className="p-6 border-b border-gray-200 flex justify-between items-center">
         <div>
-          <h3 className="serif text-2xl text-gradient">{locationName}</h3>
-          <p className="text-secondary text-sm flex items-center mt-1">
-            <MapPin size={14} className="mr-1 text-accent" /> {address}
+          <h3 className="text-2xl font-extrabold text-gray-900">{locationName}</h3>
+          <p className="text-gray-500 text-sm flex items-center mt-1">
+            <MapPin size={14} className="mr-1 text-gray-900" /> {address}
           </p>
         </div>
         <a
           href={directionsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-premium text-xs py-2 px-4 flex items-center"
+          className="text-xs py-2 px-4 flex items-center bg-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 transition-colors"
         >
           Directions <ExternalLink size={12} className="ml-1" />
         </a>
