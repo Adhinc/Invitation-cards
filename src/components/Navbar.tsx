@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sparkles, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { EVENTS } from '../constants/events';
 
-const DESKTOP_EVENTS = EVENTS.filter(e => e.type !== 'betrothal');
+const NAV_EVENTS = EVENTS.filter(e => e.type !== 'betrothal');
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -21,28 +28,29 @@ export default function Navbar() {
   }, [mobileOpen]);
 
   return (
-    <nav aria-label="Main navigation" className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-      <div className="mx-auto max-w-6xl px-5">
-        <div className="flex h-14 items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-1.5 shrink-0">
-            <Sparkles className="h-4 w-4 text-[var(--color-primary)]" />
-            <span className="text-lg font-serif italic font-semibold text-[var(--color-primary)]">
-              BigDate
-            </span>
+    <nav
+      aria-label="Main navigation"
+      className={`fixed top-0 inset-x-0 z-50 bg-white transition-shadow duration-200 ${scrolled ? 'shadow-sm' : ''} border-b border-gray-100`}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex h-16 items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
+            <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
+              <span className="text-white text-sm font-bold">I</span>
+            </div>
+            <span className="text-lg font-bold text-gray-900">Invitation.AI</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-0.5">
-            {DESKTOP_EVENTS.map(event => (
+          <div className="hidden lg:flex items-center gap-1">
+            {NAV_EVENTS.map(event => (
               <Link
                 key={event.slug}
                 to={event.urlPath}
                 aria-current={isActive(event.urlPath) ? 'page' : undefined}
-                className={`px-2.5 py-1.5 text-sm font-medium rounded-full transition-colors ${
+                className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                   isActive(event.urlPath)
-                    ? 'bg-[var(--color-primary)] text-white'
-                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+                    ? 'bg-gray-900 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                 }`}
               >
                 {event.label}
@@ -50,28 +58,28 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center">
+          <div className="hidden lg:flex items-center gap-3">
+            <Link to="/dashboard" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+              Login
+            </Link>
             <Link
               to="/events/wedding"
-              className="px-5 py-1.5 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-full hover:bg-[var(--color-primary-hover)] transition-colors"
+              className="px-5 py-2.5 text-sm font-semibold text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors"
             >
-              Create
+              Create Website
             </Link>
           </div>
 
-          {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2.5 -mr-2 text-[var(--color-text-secondary)]"
+            className="lg:hidden p-2 -mr-2 text-gray-600 hover:text-gray-900"
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -81,7 +89,7 @@ export default function Navbar() {
             transition={{ duration: 0.2 }}
             className="lg:hidden overflow-hidden bg-white border-b border-gray-100"
           >
-            <div className="px-5 py-3 space-y-0.5">
+            <div className="px-4 py-3 space-y-1">
               {EVENTS.map(event => (
                 <Link
                   key={event.slug}
@@ -90,20 +98,21 @@ export default function Navbar() {
                   aria-current={isActive(event.urlPath) ? 'page' : undefined}
                   className={`block px-3 py-2.5 text-sm font-medium rounded-lg transition-colors ${
                     isActive(event.urlPath)
-                      ? 'bg-[var(--color-primary)] text-white'
-                      : 'text-[var(--color-text-secondary)] hover:bg-gray-50'
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-600 hover:bg-gray-50'
                   }`}
                 >
                   {event.label}
                 </Link>
               ))}
-              <div className="pt-3 mt-2 border-t border-gray-100">
-                <Link
-                  to="/events/wedding"
-                  onClick={() => setMobileOpen(false)}
-                  className="block w-full py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-lg text-center hover:bg-[var(--color-primary-hover)]"
-                >
-                  Create Invitation
+              <div className="pt-3 mt-2 border-t border-gray-100 space-y-2">
+                <Link to="/dashboard" onClick={() => setMobileOpen(false)}
+                  className="block w-full py-2.5 text-sm font-medium text-gray-600 text-center hover:text-gray-900">
+                  Login
+                </Link>
+                <Link to="/events/wedding" onClick={() => setMobileOpen(false)}
+                  className="block w-full py-2.5 text-sm font-semibold text-white bg-gray-900 rounded-lg text-center hover:bg-gray-800">
+                  Create Website
                 </Link>
               </div>
             </div>
