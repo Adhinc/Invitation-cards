@@ -59,7 +59,7 @@ function HeroSection({ event }: { event: EventConfig }) {
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
           <Link to={`/chatbot?event=${event.type}`}>
-            <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
+            <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl bg-gray-900 hover:bg-gray-800">
               Start Now
             </Button>
           </Link>
@@ -206,7 +206,7 @@ function PaperVsDigitalSection({ event }: { event: EventConfig }) {
         <div className="grid grid-cols-3 text-center text-sm font-semibold border-b border-gray-100">
           <div className="py-3" />
           <div className="py-3 text-[var(--color-text-muted)]">Paper</div>
-          <div className="py-3 text-white" style={{ background: event.accentColor }}>Digital</div>
+          <div className="py-3 text-white bg-gray-900">Digital</div>
         </div>
         {rows.map((r) => (
           <div key={r.label} className="grid grid-cols-3 text-center text-sm border-b border-gray-50 last:border-0">
@@ -222,7 +222,7 @@ function PaperVsDigitalSection({ event }: { event: EventConfig }) {
             </div>
             <div className="py-3 flex items-center justify-center">
               {typeof r.digital === 'string' ? (
-                <span className="font-medium" style={{ color: event.accentColor }}>{r.digital}</span>
+                <span className="font-medium text-gray-900">{r.digital}</span>
               ) : r.digital ? (
                 <Check className="w-4 h-4 text-green-500" />
               ) : (
@@ -266,10 +266,9 @@ function FeaturesSection({ event }: { event: EventConfig }) {
           <motion.div key={f.title} variants={fadeUp}>
             <Card className="p-6 hover:shadow-md transition-shadow">
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                style={{ background: `${event.accentColor}18` }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-gray-100"
               >
-                <f.icon className="w-6 h-6" style={{ color: event.accentColor }} />
+                <f.icon className="w-6 h-6 text-gray-900" />
               </div>
               <h3 className="font-semibold text-base">{f.title}</h3>
               <p className="text-sm text-[var(--color-text-secondary)] mt-1">{f.desc}</p>
@@ -304,14 +303,12 @@ function HowItWorksSection({ event }: { event: EventConfig }) {
           <motion.div key={s.title} variants={fadeUp} className="text-center">
             <div className="relative inline-flex">
               <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
-                style={{ background: `${event.accentColor}18` }}
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto bg-gray-900"
               >
-                <s.icon className="w-7 h-7" style={{ color: event.accentColor }} />
+                <s.icon className="w-7 h-7 text-white" />
               </div>
               <span
-                className="absolute -top-1 -right-1 w-6 h-6 rounded-full text-white text-xs font-bold flex items-center justify-center"
-                style={{ background: event.accentColor }}
+                className="absolute -top-1 -right-1 w-6 h-6 rounded-full text-white text-xs font-bold flex items-center justify-center bg-gray-900"
               >
                 {i + 1}
               </span>
@@ -388,13 +385,13 @@ function StatsBar({ event }: { event: EventConfig }) {
   ];
 
   return (
-    <Section spacing="compact" label="Stats" style={{ background: `linear-gradient(135deg, ${event.accentColor}15, ${event.accentColor}08)` }}>
+    <Section spacing="compact" label="Stats" className="bg-gray-900">
       <div className="grid grid-cols-3 gap-4">
         {items.map((s) => (
           <motion.div key={s.label} variants={fadeUp} className="text-center">
-            <s.icon className="w-6 h-6 mx-auto mb-2" style={{ color: event.accentColor }} />
-            <p className="text-xl sm:text-2xl md:text-3xl font-bold">{s.value}</p>
-            <p className="text-sm text-[var(--color-text-secondary)]">{s.label}</p>
+            <s.icon className="w-6 h-6 mx-auto mb-2 text-white" />
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{s.value}</p>
+            <p className="text-sm text-gray-300">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -421,10 +418,10 @@ function PricingSection({ event }: { event: EventConfig }) {
               className={`relative p-6 text-center transition-shadow hover:shadow-lg ${
                 plan.preferred ? 'border-2 shadow-lg md:scale-105' : ''
               }`}
-              style={plan.preferred ? { borderColor: event.accentColor, background: `${event.accentColor}08` } : {}}
+              style={plan.preferred ? { borderColor: '#111827' } : {}}
             >
               {plan.preferred && (
-                <Badge variant="premium" className="absolute -top-3 left-1/2 -translate-x-1/2" style={{ background: event.accentColor }}>
+                <Badge variant="premium" className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gray-900">
                   Most Popular
                 </Badge>
               )}
@@ -438,7 +435,7 @@ function PricingSection({ event }: { event: EventConfig }) {
                   variant={plan.preferred ? 'primary' : 'outline'}
                   size="md"
                   className="w-full"
-                  style={plan.preferred ? { background: event.accentColor } : {}}
+                  style={plan.preferred ? { background: '#111827' } : {}}
                 >
                   Get Started
                 </Button>
@@ -463,8 +460,7 @@ function OfferBanner({ event }: { event: EventConfig }) {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="relative rounded-2xl overflow-hidden p-8 md:p-12 text-center text-white"
-        style={{ background: `linear-gradient(135deg, ${event.accentColor}, ${event.accentColor}cc)` }}
+        className="relative rounded-2xl overflow-hidden p-8 md:p-12 text-center text-white bg-gray-900"
       >
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_50%,white_0%,transparent_70%)]" />
 
@@ -488,8 +484,7 @@ function OfferBanner({ event }: { event: EventConfig }) {
           </p>
           <Link
             to={`/chatbot?event=${event.type}&promo=SAVE10`}
-            className="inline-flex items-center gap-2 mt-6 bg-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-            style={{ color: event.accentColor }}
+            className="inline-flex items-center gap-2 mt-6 bg-white text-gray-900 font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all"
           >
             Apply Now <ArrowRight className="w-5 h-5" />
           </Link>
@@ -507,12 +502,12 @@ function FinalCTA({ event }: { event: EventConfig }) {
   return (
     <Section size="narrow" className="text-center" label="Get started">
       <motion.div variants={fadeUp}>
-        <h2 className="text-2xl md:text-3xl font-bold serif">Ready to Get Started?</h2>
+        <h2 className="text-2xl md:text-3xl font-bold">Ready to Get Started?</h2>
         <p className="mt-3 text-[var(--color-text-secondary)] text-base max-w-lg mx-auto">
           Create your beautiful {event.label.toLowerCase()} invitation in under 2 minutes.
         </p>
         <Link to={`/chatbot?event=${event.type}`}>
-          <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl" style={{ background: event.accentColor }}>
+          <Button size="xl" rightIcon={<ArrowRight className="w-5 h-5" />} className="mt-8 shadow-lg hover:shadow-xl bg-gray-900 hover:bg-gray-800">
             Start Creating Now
           </Button>
         </Link>
