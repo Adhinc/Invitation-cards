@@ -38,7 +38,7 @@ export default function Navbar() {
             <div className="w-8 h-8 bg-[#B8405E] rounded-lg flex items-center justify-center">
               <span className="text-white text-sm font-bold">I</span>
             </div>
-            <span className="text-lg font-bold text-[#2D2A26]" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>Invitation.AI</span>
+            <span className="text-lg font-bold text-[#1F1A1B]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Invitation.AI</span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-1.5">

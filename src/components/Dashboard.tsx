@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFBF8] text-[#2D2A26] flex flex-col md:flex-row overflow-hidden" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#FFFBF8] text-[#2D2A26] flex flex-col md:flex-row overflow-hidden" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>
       {/* Sidebar */}
       <aside className="hidden md:flex w-72 bg-white h-screen border-r border-[#F0E6DC] p-8 flex-col shadow-sm">
         <div className="text-3xl font-black text-[#2D2A26] mb-12 flex items-center gap-2">
@@ -165,7 +165,7 @@ const Dashboard: React.FC = () => {
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-12">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2 italic">Welcome back,</p>
-            <h1 className="text-2xl md:text-4xl font-black text-slate-800" style={{ fontFamily: "'Fraunces', serif" }}>Akhil Kottikkal</h1>
+            <h1 className="text-2xl md:text-4xl font-black text-slate-800" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Akhil Kottikkal</h1>
           </div>
           <Link to="/">
             <Button size="lg" leftIcon={<Plus size={18} className="stroke-[3]" />}>

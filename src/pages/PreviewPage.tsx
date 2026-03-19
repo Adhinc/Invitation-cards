@@ -222,7 +222,7 @@ export function Component() {
 
   // ── Render ─────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#FFFBF8] relative" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#FFFBF8] relative" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>
       <FloatingHearts />
 
       {/* ── 1. Upgrade Banner (fixed top) ──────────────── */}
@@ -307,7 +307,7 @@ export function Component() {
 
         {/* ── 4. Countdown ─────────────────────────────── */}
         <Section bg="blush" className="mt-8 rounded-2xl p-6">
-          <h2 className="text-2xl text-center text-[#2D2A26] mb-2" style={{ fontFamily: "'Fraunces', serif" }}>{countdownLabel}</h2>
+          <h2 className="text-2xl text-center text-[#2D2A26] mb-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>{countdownLabel}</h2>
           <CountdownTimer targetDate={actualFormData.date + 'T12:00:00'} />
         </Section>
 

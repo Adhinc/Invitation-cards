@@ -6,31 +6,34 @@ export default function Footer() {
   return (
     <footer>
       {/* Let's Get In Touch CTA Section */}
-      <div className="bg-gradient-to-b from-[#FFFBF8] to-[#FFF0F4] py-20 text-center">
-        <h2 className="text-4xl md:text-[56px] font-bold text-[#2D2A26] leading-tight" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>
-          Let's Get In Touch
-        </h2>
-        <p className="mt-4 text-[#4A4744] text-base max-w-md mx-auto">
-          Ready to create something beautiful? We'd love to help you celebrate.
-        </p>
-        <Link
-          to="/events/wedding"
-          className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 bg-[#B8405E] text-white font-bold text-[15px] rounded-full shadow-[0_6px_28px_rgba(184,64,94,0.4)] hover:shadow-[0_8px_32px_rgba(184,64,94,0.5)] hover:bg-[#A03650] transition-all"
-        >
-          Create Your Invitation
-        </Link>
+      <div style={{ background: 'linear-gradient(to bottom, #FFFBF8, #FFF0F4)', padding: '80px 20px' }} className="text-center">
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <h2 className="text-[#1F1A1B]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 56, lineHeight: '67.2px', marginBottom: 16 }}>
+            Let's Get In Touch
+          </h2>
+          <p style={{ color: '#4A4744', fontSize: 16, lineHeight: '25.6px', maxWidth: 420, margin: '0 auto', marginBottom: 32 }}>
+            Ready to create something beautiful? We'd love to help you celebrate.
+          </p>
+          <Link
+            to="/events/wedding"
+            className="inline-flex items-center gap-2 text-white transition-all hover:shadow-[0_8px_32px_rgba(184,64,94,0.5)] hover:-translate-y-0.5"
+            style={{ background: '#B8405E', padding: '14px 32px', borderRadius: 50, fontSize: 15, fontWeight: 700, boxShadow: '0 6px 28px rgba(184,64,94,0.4)' }}
+          >
+            Create Your Invitation
+          </Link>
+        </div>
       </div>
 
       {/* Footer Links */}
-      <div className="bg-[#2D2A26] text-[#A8A4A0]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16">
+      <div className="bg-[#1F1A1B] text-[#A8A4A0]">
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 20px' }}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
             <div className="col-span-2 md:col-span-1">
               <Link to="/" className="flex items-center gap-2 mb-4">
                 <div className="w-7 h-7 bg-[#B8405E] rounded-md flex items-center justify-center">
                   <span className="text-white text-xs font-bold">I</span>
                 </div>
-                <span className="text-base font-bold text-white" style={{ fontFamily: "'Fraunces', Georgia, serif" }}>Invitation.AI</span>
+                <span className="text-base font-bold text-white" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Invitation.AI</span>
               </Link>
               <p className="text-sm leading-relaxed mb-4 max-w-[240px]">
                 Create beautiful digital invitation websites for every celebration. Trusted by 10,000+ families.

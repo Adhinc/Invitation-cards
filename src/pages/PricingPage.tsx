@@ -37,19 +37,19 @@ export function Component() {
           style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}
         >
           <motion.h1 variants={fadeUp} style={{
-            fontFamily: "'Fraunces', serif",
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: 44,
             fontWeight: 600,
-            color: '#2D2A26',
+            color: '#1F1A1B',
             marginBottom: 12,
             lineHeight: 1.15,
           }}>
             Pricing <span style={{ color: '#B8405E' }}>Plan</span>
           </motion.h1>
           <motion.p variants={fadeUp} style={{
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: "'Nunito Sans', sans-serif",
             fontSize: 18,
-            color: '#6B6560',
+            color: '#4A4044',
             maxWidth: 480,
             margin: '0 auto',
           }}>
@@ -93,10 +93,10 @@ export function Component() {
                 <User style={{ width: 36, height: 36, color: '#B8405E' }} />
               </div>
               <h3 style={{
-                fontFamily: "'Fraunces', serif",
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
                 fontSize: 28,
                 fontWeight: 600,
-                color: '#2D2A26',
+                color: '#1F1A1B',
                 marginBottom: 0,
               }}>Individual</h3>
             </div>
@@ -111,8 +111,8 @@ export function Component() {
                 padding: '8px 16px',
                 marginBottom: 24,
                 fontSize: 14,
-                color: '#6B6560',
-                fontFamily: "'DM Sans', sans-serif",
+                color: '#4A4044',
+                fontFamily: "'Nunito Sans', sans-serif",
               }}>
                 <span style={{ color: '#B8405E', fontWeight: 600 }}>your-name</span>.invitationai.events
               </div>
@@ -124,15 +124,15 @@ export function Component() {
                     padding: '10px 0',
                     borderBottom: '1px solid #F0E6DC',
                     fontSize: 15,
-                    fontFamily: "'DM Sans', sans-serif",
-                    color: '#2D2A26',
+                    fontFamily: "'Nunito Sans', sans-serif",
+                    color: '#1F1A1B',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 8,
                   }}>
                     <Check style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={3} />
                     <span>
-                      <strong style={{ color: '#2D2A26' }}>₹{plan.price}</strong> per invitation for {plan.label.toLowerCase()}
+                      <strong style={{ color: '#1F1A1B' }}>₹{plan.price}</strong> per invitation for {plan.label.toLowerCase()}
                     </span>
                   </li>
                 ))}
@@ -140,8 +140,8 @@ export function Component() {
                   padding: '10px 0',
                   borderBottom: '1px solid #F0E6DC',
                   fontSize: 15,
-                  fontFamily: "'DM Sans', sans-serif",
-                  color: '#2D2A26',
+                  fontFamily: "'Nunito Sans', sans-serif",
+                  color: '#1F1A1B',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 8,
@@ -152,8 +152,8 @@ export function Component() {
                 <li style={{
                   padding: '10px 0',
                   fontSize: 15,
-                  fontFamily: "'DM Sans', sans-serif",
-                  color: '#2D2A26',
+                  fontFamily: "'Nunito Sans', sans-serif",
+                  color: '#1F1A1B',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 8,
@@ -166,14 +166,14 @@ export function Component() {
               {/* CTA Button */}
               <Link to="/" style={{ textDecoration: 'none' }}>
                 <button style={{
-                  background: 'linear-gradient(45deg, #B8405E, #D4548F)',
+                  background: 'linear-gradient(45deg, #9A3350, #B8405E)',
                   color: '#fff',
                   border: 'none',
                   borderRadius: 8,
                   padding: '14px 48px',
                   fontSize: 15,
                   fontWeight: 600,
-                  fontFamily: "'DM Sans', sans-serif",
+                  fontFamily: "'Nunito Sans', sans-serif",
                   cursor: 'pointer',
                   transition: 'transform 0.2s, box-shadow 0.2s',
                   boxShadow: '0 4px 14px rgba(184, 64, 94, 0.3)',
@@ -212,14 +212,14 @@ export function Component() {
                 <Building2 style={{ width: 28, height: 28, color: '#fff' }} />
               </div>
               <h3 style={{
-                fontFamily: "'Fraunces', serif",
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
                 fontSize: 28,
                 fontWeight: 600,
                 color: '#fff',
                 marginBottom: 8,
               }}>Business</h3>
               <div style={{
-                fontFamily: "'Fraunces', serif",
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
                 fontSize: 40,
                 fontWeight: 700,
                 color: '#fff',
@@ -239,8 +239,8 @@ export function Component() {
                 padding: '8px 16px',
                 marginBottom: 24,
                 fontSize: 14,
-                color: '#6B6560',
-                fontFamily: "'DM Sans', sans-serif",
+                color: '#4A4044',
+                fontFamily: "'Nunito Sans', sans-serif",
               }}>
                 <span style={{ color: '#B8405E', fontWeight: 600 }}>events</span>.yourdomain.com
               </div>
@@ -251,8 +251,8 @@ export function Component() {
                   padding: '10px 0',
                   borderBottom: '1px solid #F0E6DC',
                   fontSize: 15,
-                  fontFamily: "'DM Sans', sans-serif",
-                  color: '#2D2A26',
+                  fontFamily: "'Nunito Sans', sans-serif",
+                  color: '#1F1A1B',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 8,
@@ -265,8 +265,8 @@ export function Component() {
                     padding: '10px 0',
                     borderBottom: i < BUSINESS_PLAN.features.length - 1 ? '1px solid #F0E6DC' : 'none',
                     fontSize: 15,
-                    fontFamily: "'DM Sans', sans-serif",
-                    color: '#2D2A26',
+                    fontFamily: "'Nunito Sans', sans-serif",
+                    color: '#1F1A1B',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 8,
@@ -280,14 +280,14 @@ export function Component() {
               {/* CTA Button */}
               <Link to="/" style={{ textDecoration: 'none' }}>
                 <button style={{
-                  background: 'linear-gradient(45deg, #B8405E, #D4548F)',
+                  background: 'linear-gradient(45deg, #9A3350, #B8405E)',
                   color: '#fff',
                   border: 'none',
                   borderRadius: 8,
                   padding: '14px 48px',
                   fontSize: 15,
                   fontWeight: 600,
-                  fontFamily: "'DM Sans', sans-serif",
+                  fontFamily: "'Nunito Sans', sans-serif",
                   cursor: 'pointer',
                   transition: 'transform 0.2s, box-shadow 0.2s',
                   boxShadow: '0 4px 14px rgba(184, 64, 94, 0.3)',
@@ -307,10 +307,10 @@ export function Component() {
       }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <h2 style={{
-            fontFamily: "'Fraunces', serif",
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: 36,
             fontWeight: 600,
-            color: '#2D2A26',
+            color: '#1F1A1B',
             textAlign: 'center',
             marginBottom: 48,
           }}>
@@ -350,8 +350,8 @@ export function Component() {
                 </span>
                 <span style={{
                   fontSize: 15,
-                  fontFamily: "'DM Sans', sans-serif",
-                  color: '#2D2A26',
+                  fontFamily: "'Nunito Sans', sans-serif",
+                  color: '#1F1A1B',
                 }}>{f.label}</span>
               </motion.div>
             ))}
@@ -380,7 +380,7 @@ export function Component() {
                 color: '#fff',
                 fontSize: 14,
                 fontWeight: 700,
-                fontFamily: "'DM Sans', sans-serif",
+                fontFamily: "'Nunito Sans', sans-serif",
                 marginLeft: i > 0 ? -12 : 0,
                 position: 'relative',
                 zIndex: 5 - i,
@@ -398,11 +398,11 @@ export function Component() {
           </div>
 
           <p style={{
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: "'Nunito Sans', sans-serif",
             fontSize: 16,
-            color: '#6B6560',
+            color: '#4A4044',
           }}>
-            Trusted by <strong style={{ color: '#2D2A26' }}>4,500+</strong> happy customers
+            Trusted by <strong style={{ color: '#1F1A1B' }}>4,500+</strong> happy customers
           </p>
         </motion.div>
       </section>
@@ -414,10 +414,10 @@ export function Component() {
       }}>
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           <h2 style={{
-            fontFamily: "'Fraunces', serif",
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: 36,
             fontWeight: 600,
-            color: '#2D2A26',
+            color: '#1F1A1B',
             textAlign: 'center',
             marginBottom: 48,
           }}>
@@ -434,14 +434,14 @@ export function Component() {
 
       {/* ─── Contact / CTA Footer ─── */}
       <section style={{
-        background: 'linear-gradient(135deg, #2D2A26 0%, #1A1816 100%)',
+        background: 'linear-gradient(135deg, #1F1A1B 0%, #1A1816 100%)',
         padding: '80px 24px',
       }}>
         <div style={{ maxWidth: 800, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 48, alignItems: 'flex-start' }}>
           {/* Left */}
           <div style={{ flex: '1 1 300px' }}>
             <p style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Nunito Sans', sans-serif",
               fontSize: 14,
               color: '#D4548F',
               fontWeight: 600,
@@ -450,7 +450,7 @@ export function Component() {
               marginBottom: 12,
             }}>Contact Us</p>
             <h2 style={{
-              fontFamily: "'Fraunces', serif",
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
               fontSize: 36,
               fontWeight: 600,
               color: '#fff',
@@ -460,7 +460,7 @@ export function Component() {
               Let's Get In Touch
             </h2>
             <p style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Nunito Sans', sans-serif",
               fontSize: 16,
               color: 'rgba(255,255,255,0.6)',
               lineHeight: 1.6,
@@ -472,14 +472,14 @@ export function Component() {
           {/* Right */}
           <div style={{ flex: '1 1 300px' }}>
             <h4 style={{
-              fontFamily: "'Fraunces', serif",
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
               fontSize: 20,
               fontWeight: 600,
               color: '#fff',
               marginBottom: 16,
             }}>Main Office</h4>
             <p style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Nunito Sans', sans-serif",
               fontSize: 14,
               color: 'rgba(255,255,255,0.5)',
               lineHeight: 1.8,
@@ -518,15 +518,15 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         gap: 16,
       }}>
         <h4 style={{
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: "'Nunito Sans', sans-serif",
           fontSize: 16,
           fontWeight: 600,
-          color: '#2D2A26',
+          color: '#1F1A1B',
           margin: 0,
         }}>{question}</h4>
         <ChevronDown style={{
           width: 20, height: 20,
-          color: '#6B6560',
+          color: '#4A4044',
           flexShrink: 0,
           transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
           transition: 'transform 0.2s',
@@ -534,9 +534,9 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       </div>
       {open && (
         <p style={{
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: "'Nunito Sans', sans-serif",
           fontSize: 15,
-          color: '#6B6560',
+          color: '#4A4044',
           marginTop: 12,
           lineHeight: 1.6,
         }}>

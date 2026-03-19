@@ -14,8 +14,8 @@ import { fadeUp, stagger } from '../utils/animations';
 /*  Shared constants                                                   */
 /* ------------------------------------------------------------------ */
 
-const HEADING_FONT: React.CSSProperties = { fontFamily: "'Fraunces', Georgia, serif" };
-const CTA_GRADIENT = 'linear-gradient(135deg, #B8405E, #D4548F)';
+const HEADING_FONT: React.CSSProperties = { fontFamily: "'Cormorant Garamond', Georgia, serif" };
+const CTA_GRADIENT = 'linear-gradient(135deg, #9A3350, #B8405E)';
 const CTA_SHADOW = '0 6px 28px rgba(184,64,94,0.35)';
 
 /* ------------------------------------------------------------------ */
@@ -68,9 +68,9 @@ function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateCli
       className="relative overflow-hidden"
       style={{ background: 'linear-gradient(#FEF6F7, #FFFAF8)', padding: '130px 50px 90px' }}
     >
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-        {/* Left — hero_content */}
-        <div className="flex-1 text-left">
+      <div className="max-w-6xl mx-auto flex flex-col items-center gap-12 text-center">
+        {/* Hero content — centered */}
+        <div className="max-w-[640px]">
           <motion.span
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,7 +100,7 @@ function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateCli
             className="mt-5 text-base md:text-lg text-[#6B6966] max-w-xl leading-relaxed"
           >
             Beautiful digital invitations your guests will love. Trusted by{' '}
-            <span className="font-bold text-[#2D2A26]">{event.socialProof}</span>.
+            <span className="font-bold text-[#1F1A1B]">{event.socialProof}</span>.
           </motion.p>
 
           {/* Feature pills */}
@@ -108,7 +108,7 @@ function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateCli
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.45 }}
-            className="mt-6 flex flex-wrap gap-3"
+            className="mt-6 flex flex-wrap justify-center gap-3"
           >
             {[
               { text: 'Start Now', icon: <Zap className="w-3.5 h-3.5" /> },
@@ -150,16 +150,16 @@ function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateCli
           </motion.p>
         </div>
 
-        {/* Right — hero_visual (phone mockup + floating icons) */}
+        {/* Phone mockup — centered below */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex-1 relative flex justify-center"
+          className="relative flex justify-center"
         >
           {/* Phone frame */}
-          <div className="relative w-[280px] h-[560px] rounded-[2.5rem] border-[6px] border-[#2D2A26] bg-white shadow-2xl overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#2D2A26] rounded-b-xl z-10" />
+          <div className="relative w-[280px] h-[560px] rounded-[2.5rem] border-[6px] border-[#1F1A1B] bg-white shadow-2xl overflow-hidden">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#1F1A1B] rounded-b-xl z-10" />
             <iframe
               src={`/preview/${event.slug}`}
               title="Preview"
@@ -267,8 +267,8 @@ function QRPaperDigitalSection({ event }: { event: EventConfig }) {
           </div>
 
           {/* Phone mockup */}
-          <div className="w-48 h-80 rounded-[2rem] border-[5px] border-[#2D2A26] bg-white shadow-xl overflow-hidden relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#2D2A26] rounded-b-lg z-10" />
+          <div className="w-48 h-80 rounded-[2rem] border-[5px] border-[#1F1A1B] bg-white shadow-xl overflow-hidden relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#1F1A1B] rounded-b-lg z-10" />
             <div className="h-full flex flex-col items-center justify-center p-4 text-center">
               <Smartphone className="w-8 h-8 text-[#B8405E] mb-2" />
               <p className="text-sm font-semibold">Your Digital</p>
@@ -295,14 +295,14 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
 
   return (
     <section style={{ background: 'linear-gradient(#F0FFF4, #E8F5E9 50%, #F1F8E9)', padding: '80px 40px' }}>
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-        {/* Left content */}
+      <div className="max-w-6xl mx-auto flex flex-col items-center gap-12 text-center">
+        {/* Content — centered */}
         <motion.div
           variants={stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="flex-1"
+          className="max-w-[580px]"
         >
           <motion.span
             variants={fadeUp}
@@ -315,31 +315,29 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
             Invite Guests <span className="text-green-600">Instantly</span>
           </motion.h2>
 
-          <motion.div variants={stagger} className="mt-8 space-y-6">
+          <motion.div variants={stagger} className="mt-8 flex flex-wrap justify-center gap-6">
             {benefits.map((b) => (
-              <motion.div key={b.title} variants={fadeUp} className="flex gap-4 items-start">
+              <motion.div key={b.title} variants={fadeUp} className="flex flex-col items-center gap-2 max-w-[160px]">
                 <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0 text-green-600">
                   {b.icon}
                 </div>
-                <div>
-                  <h3 className="font-semibold text-base">{b.title}</h3>
-                  <p className="text-sm text-[#6B6966] mt-0.5">{b.desc}</p>
-                </div>
+                <h3 className="font-semibold text-sm">{b.title}</h3>
+                <p className="text-xs text-[#6B6966]">{b.desc}</p>
               </motion.div>
             ))}
           </motion.div>
         </motion.div>
 
-        {/* Right — Phone mockup with browser loading */}
+        {/* Phone mockup — centered below */}
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="flex-1 flex justify-center"
+          className="flex justify-center"
         >
-          <div className="w-[240px] h-[440px] rounded-[2rem] border-[5px] border-[#2D2A26] bg-white shadow-xl overflow-hidden relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#2D2A26] rounded-b-lg z-10" />
+          <div className="w-[240px] h-[440px] rounded-[2rem] border-[5px] border-[#1F1A1B] bg-white shadow-xl overflow-hidden relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#1F1A1B] rounded-b-lg z-10" />
             {/* Browser bar */}
             <div className="mt-5 mx-3 bg-gray-100 rounded-lg px-3 py-1.5 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-400" />
@@ -391,7 +389,7 @@ function StatsSection() {
       >
         {stats.map((s) => (
           <motion.div key={s.label} variants={fadeUp} className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-[#2D2A26]" style={HEADING_FONT}>{s.value}</p>
+            <p className="text-2xl md:text-3xl font-bold text-[#1F1A1B]" style={HEADING_FONT}>{s.value}</p>
             <p className="text-sm text-[#8D8A86] mt-1">{s.label}</p>
           </motion.div>
         ))}
@@ -444,7 +442,7 @@ function WhyChooseSection({ event }: { event: EventConfig }) {
         </motion.h2>
 
         {/* Two comparison cards */}
-        <div className="mt-12 grid md:grid-cols-2 gap-8 text-left">
+        <div className="mt-12 grid md:grid-cols-2 gap-8 text-center">
           {/* Old way */}
           <motion.div variants={fadeUp} className="bg-white rounded-2xl border border-[#F0E6DC] p-8 shadow-sm">
             <p className="text-xs uppercase tracking-widest text-[#8D8A86] mb-2">The traditional way</p>
@@ -526,7 +524,7 @@ function BenefitsSection({ event }: { event: EventConfig }) {
           <span className="text-[#B8405E]">{event.label} Invitation</span>
         </motion.h2>
 
-        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
           {BENEFIT_CARDS.map((f) => (
             <motion.div
               key={f.title}
@@ -594,7 +592,7 @@ function StepsSection() {
                 >
                   <s.icon className="w-7 h-7 text-white" />
                 </div>
-                <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#2D2A26] text-white text-xs font-bold flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#1F1A1B] text-white text-xs font-bold flex items-center justify-center">
                   {i + 1}
                 </span>
               </div>
@@ -650,7 +648,7 @@ function TestimonialsSection({ event }: { event: EventConfig }) {
           Trusted by Happy <span className="text-[#B8405E]">{dynamicNoun(event)}</span>
         </motion.h2>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-6 text-left">
+        <div className="mt-12 grid md:grid-cols-3 gap-6 text-center">
           {items.map((t) => (
             <motion.div
               key={t.name}
@@ -795,7 +793,7 @@ function TryItFreeModal({ onClose, onChooseTemplate }: { onClose: () => void; on
         exit={{ opacity: 0, scale: 0.92, y: 20 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className="relative bg-white rounded-2xl w-full max-w-[420px] mx-4"
-        style={{ padding: 40, fontFamily: "'DM Sans', sans-serif" }}
+        style={{ padding: 40, fontFamily: "'Nunito Sans', sans-serif" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -918,7 +916,7 @@ function TemplateOverlay({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-50 flex flex-col"
-      style={{ background: '#f8fafc', fontFamily: "'DM Sans', sans-serif" }}
+      style={{ background: '#f8fafc', fontFamily: "'Nunito Sans', sans-serif" }}
     >
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shrink-0">
