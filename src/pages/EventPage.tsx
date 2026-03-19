@@ -161,39 +161,51 @@ function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateCli
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative flex justify-center"
         >
-          {/* Phone frame */}
-          <div className="relative w-[280px] h-[560px] rounded-[2.5rem] border-[6px] border-[#1F1A1B] bg-white shadow-2xl overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-[#1F1A1B] rounded-b-xl z-10" />
-            <iframe
-              src={`/preview/${event.slug}`}
-              title="Preview"
-              className="w-full h-full border-0 pointer-events-none"
-              loading="lazy"
-            />
-          </div>
+          {/* Floating invitation card */}
+          <div className="relative animate-[float_6s_ease-in-out_infinite]" style={{ maxWidth: 320 }}>
+            <div style={{
+              background: 'linear-gradient(135deg, #FFFBF8 0%, #FFF0F4 50%, #FFE8F0 100%)',
+              borderRadius: 20, padding: '32px 28px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+              boxShadow: '0 20px 60px rgba(184,64,94,0.15), 0 8px 24px rgba(0,0,0,0.06)',
+              border: '1px solid rgba(184,64,94,0.12)',
+            }}>
+              {/* Gold corners */}
+              <div style={{ position: 'absolute', top: 10, left: 10, width: 20, height: 20, borderTop: '2px solid #C9A227', borderLeft: '2px solid #C9A227', opacity: 0.5 }} />
+              <div style={{ position: 'absolute', top: 10, right: 10, width: 20, height: 20, borderTop: '2px solid #C9A227', borderRight: '2px solid #C9A227', opacity: 0.5 }} />
+              <div style={{ position: 'absolute', bottom: 10, left: 10, width: 20, height: 20, borderBottom: '2px solid #C9A227', borderLeft: '2px solid #C9A227', opacity: 0.5 }} />
+              <div style={{ position: 'absolute', bottom: 10, right: 10, width: 20, height: 20, borderBottom: '2px solid #C9A227', borderRight: '2px solid #C9A227', opacity: 0.5 }} />
 
-          {/* Floating decorative icons */}
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-            className="absolute -top-4 -left-4 w-14 h-14 rounded-full bg-pink-100 flex items-center justify-center shadow-lg"
-          >
-            <span className="text-2xl">💐</span>
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut', delay: 0.5 }}
-            className="absolute top-20 -right-6 w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center shadow-lg"
-          >
-            <span className="text-xl">💍</span>
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 2.8, ease: 'easeInOut', delay: 1 }}
-            className="absolute bottom-16 -left-8 w-11 h-11 rounded-full bg-purple-100 flex items-center justify-center shadow-lg"
-          >
-            <span className="text-lg">🎊</span>
-          </motion.div>
+              <p style={{ fontSize: 10, letterSpacing: 4, color: '#B8405E', fontWeight: 600, textTransform: 'uppercase', marginBottom: 6 }}>{event.tagline}</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 10 }}>
+                <div style={{ width: 36, height: 1, background: 'linear-gradient(to right, transparent, #C9A227)' }} />
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#C9A227"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
+                <div style={{ width: 36, height: 1, background: 'linear-gradient(to left, transparent, #C9A227)' }} />
+              </div>
+              <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 24, fontWeight: 600, color: '#1F1A1B', marginBottom: 4 }}>
+                Your <span style={{ color: '#B8405E' }}>{event.label}</span>
+              </h3>
+              <p style={{ fontSize: 12, color: '#8D8A86', marginBottom: 14 }}>{event.subtitle}</p>
+              <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 14, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=180&fit=crop" alt={event.label} style={{ width: '100%', height: 140, objectFit: 'cover', display: 'block' }} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 10 }}>
+                <div><p style={{ fontSize: 10, color: '#8D8A86' }}>Date</p><p style={{ fontSize: 13, fontWeight: 600, color: '#1F1A1B' }}>March 15, 2026</p></div>
+                <div style={{ width: 1, height: 24, background: '#E8E4E0' }} />
+                <div><p style={{ fontSize: 10, color: '#8D8A86' }}>Venue</p><p style={{ fontSize: 13, fontWeight: 600, color: '#1F1A1B' }}>Kochi, Kerala</p></div>
+              </div>
+              <button style={{ padding: '8px 28px', background: 'linear-gradient(135deg, #B8405E, #D4548F)', color: '#fff', fontSize: 12, fontWeight: 700, borderRadius: 50, border: 'none', letterSpacing: 0.5 }}>RSVP Now</button>
+            </div>
+            {/* Stacked cards behind */}
+            <div style={{ position: 'absolute', top: 10, left: 10, right: -10, bottom: -10, background: 'linear-gradient(135deg, #FFF5EE, #FFE8F0)', borderRadius: 20, border: '1px solid rgba(184,64,94,0.08)', zIndex: -1, transform: 'rotate(3deg)' }} />
+            <div style={{ position: 'absolute', top: 18, left: 18, right: -18, bottom: -18, background: '#FFF8F5', borderRadius: 20, border: '1px solid rgba(184,64,94,0.04)', zIndex: -2, transform: 'rotate(6deg)' }} />
+          </div>
+          {/* Floating decorations */}
+          <div className="absolute animate-[float_3s_ease-in-out_infinite]" style={{ top: -12, right: -16 }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 14 7 18 8C14 9 12 13 12 13C12 13 10 9 6 8C10 7 12 3 12 3Z" fill="#FFD700" opacity="0.7" /></svg>
+          </div>
+          <div className="absolute animate-[float_4s_ease-in-out_infinite_0.5s]" style={{ top: '35%', left: -24 }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#E8A5A5" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -270,14 +282,20 @@ function QRPaperDigitalSection({ event }: { event: EventConfig }) {
             <ArrowRight className="w-6 h-6 text-[#B8405E]" />
           </div>
 
-          {/* Phone mockup */}
-          <div className="w-48 h-80 rounded-[2rem] border-[5px] border-[#1F1A1B] bg-white shadow-xl overflow-hidden relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#1F1A1B] rounded-b-lg z-10" />
-            <div className="h-full flex flex-col items-center justify-center p-4 text-center">
-              <Smartphone className="w-8 h-8 text-[#B8405E] mb-2" />
-              <p className="text-sm font-semibold">Your Digital</p>
-              <p className="text-sm font-semibold text-[#B8405E]">{event.label} Website</p>
-              <p className="text-[10px] text-[#8D8A86] mt-2">Music, Photos, Maps, RSVP</p>
+          {/* Digital invitation card */}
+          <div className="animate-[float_6s_ease-in-out_infinite_0.5s]" style={{
+            width: 200, background: 'linear-gradient(135deg, #FFFBF8, #FFF0F4)', borderRadius: 16,
+            boxShadow: '0 16px 48px rgba(184,64,94,0.12)', border: '1px solid rgba(184,64,94,0.1)',
+            overflow: 'hidden',
+          }}>
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=300&h=120&fit=crop" alt={event.label} style={{ width: '100%', height: 90, objectFit: 'cover', display: 'block' }} />
+            <div style={{ padding: '12px 16px', textAlign: 'center' }}>
+              <p style={{ fontSize: 9, letterSpacing: 2, color: '#B8405E', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>You're Invited</p>
+              <h4 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 16, fontWeight: 600, color: '#1F1A1B', marginBottom: 2 }}>Your {event.label}</h4>
+              <p style={{ fontSize: 10, color: '#8D8A86' }}>Music, Photos, Maps, RSVP</p>
+              <div style={{ marginTop: 8, padding: '6px 16px', background: 'linear-gradient(135deg, #B8405E, #D4548F)', borderRadius: 50, display: 'inline-block' }}>
+                <span style={{ color: '#fff', fontSize: 10, fontWeight: 700 }}>View Invitation</span>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -340,28 +358,34 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
           transition={{ duration: 0.7 }}
           className="flex justify-center"
         >
-          <div className="w-[240px] h-[440px] rounded-[2rem] border-[5px] border-[#1F1A1B] bg-white shadow-xl overflow-hidden relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#1F1A1B] rounded-b-lg z-10" />
-            {/* Browser bar */}
-            <div className="mt-5 mx-3 bg-gray-100 rounded-lg px-3 py-1.5 flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-400" />
-              <span className="text-[9px] text-gray-400 truncate">invitation.ai/invite/...</span>
+          {/* WhatsApp chat card */}
+          <div className="animate-[float_5s_ease-in-out_infinite]" style={{
+            maxWidth: 280, background: '#fff', borderRadius: 16, overflow: 'hidden',
+            boxShadow: '0 16px 48px rgba(37,211,102,0.12), 0 4px 16px rgba(0,0,0,0.06)',
+            border: '1px solid rgba(37,211,102,0.15)',
+          }}>
+            <div style={{ background: '#075E54', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <MessageCircle size={14} color="#fff" />
+              </div>
+              <div>
+                <p style={{ fontSize: 12, fontWeight: 600, color: '#fff' }}>Family Group</p>
+                <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.7)' }}>Mom, Dad, +8 others</p>
+              </div>
             </div>
-            <div className="p-4 flex flex-col items-center justify-center h-[calc(100%-60px)] text-center">
-              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mb-3">
-                <MessageCircle className="w-5 h-5 text-green-600" />
+            <div style={{ background: '#ECE5DD', padding: '12px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div style={{ alignSelf: 'flex-end', maxWidth: '85%' }}>
+                <div style={{ background: '#DCF8C6', borderRadius: '10px 4px 10px 10px', padding: '6px 8px' }}>
+                  <p style={{ fontSize: 11, color: '#303030' }}>Check out our {event.label.toLowerCase()} invitation! ✨</p>
+                  <p style={{ textAlign: 'right', fontSize: 8, color: '#8D8A86', marginTop: 2 }}>10:32 AM ✓✓</p>
+                </div>
               </div>
-              <p className="text-sm font-semibold">Opening {event.label}</p>
-              <p className="text-sm font-semibold text-green-600">Invitation...</p>
-              {/* Loading bar */}
-              <div className="mt-4 w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                <motion.div
-                  className="h-full bg-green-500 rounded-full"
-                  animate={{ width: ['0%', '100%'] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-                />
+              <div style={{ alignSelf: 'flex-start', maxWidth: '70%' }}>
+                <div style={{ background: '#fff', borderRadius: '4px 10px 10px 10px', padding: '6px 8px' }}>
+                  <p style={{ fontSize: 11, color: '#303030' }}>So beautiful! We'll be there! 😍</p>
+                  <p style={{ textAlign: 'right', fontSize: 8, color: '#8D8A86', marginTop: 2 }}>10:33 AM</p>
+                </div>
               </div>
-              <p className="text-[10px] text-[#8D8A86] mt-2">Shared via WhatsApp</p>
             </div>
           </div>
         </motion.div>
