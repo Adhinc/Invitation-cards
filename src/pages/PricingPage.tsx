@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, Star, Crown, Users, ImageIcon, Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones, Ban, Building2, User, ChevronDown } from 'lucide-react';
 import { PRICING_PLANS, BUSINESS_PLAN } from '../constants/events';
+import { useAuth } from '../lib/auth';
+import { initiatePayment } from '../lib/payments';
+import { saveInvitation } from '../lib/invitations';
+import { useState, useEffect } from 'react';
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.15 } } };
@@ -27,6 +31,68 @@ const FAQ = [
 ];
 
 export function Component() {
+  const { user, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  const [processing, setProcessing] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(PRICING_PLANS.find(p => p.preferred)!);
+
+  useEffect(() => {
+    if (user) {
+      const pendingPlan = sessionStorage.getItem('pendingPlan');
+      if (pendingPlan) {
+        setSelectedPlan(JSON.parse(pendingPlan));
+      }
+    }
+  }, [user]);
+
+  const handleProceed = async () => {
+    if (!user) {
+      sessionStorage.setItem('pendingPlan', JSON.stringify(selectedPlan));
+      await signInWithGoogle();
+      return;
+    }
+
+    setProcessing(true);
+    try {
+      const formDataStr = sessionStorage.getItem('inviteFormData');
+      const templateStr = sessionStorage.getItem('inviteSelectedTemplate');
+      if (!formDataStr) {
+        navigate('/');
+        return;
+      }
+
+      const formData = JSON.parse(formDataStr);
+      const template = templateStr ? JSON.parse(templateStr) : { id: 'midnight' };
+
+      const invitation = await saveInvitation({
+        userId: user.id,
+        formData,
+        templateId: template.id,
+      });
+
+      await initiatePayment({
+        invitationId: invitation.id,
+        planId: selectedPlan.id,
+        amount: selectedPlan.price,
+        planDuration: selectedPlan.duration,
+        userEmail: user.email!,
+        onSuccess: () => {
+          sessionStorage.removeItem('inviteFormData');
+          sessionStorage.removeItem('inviteSelectedTemplate');
+          sessionStorage.removeItem('pendingPlan');
+          navigate('/dashboard');
+        },
+        onFailure: (error) => {
+          alert(`Payment failed: ${error}`);
+          setProcessing(false);
+        },
+      });
+    } catch (err) {
+      alert(`Error: ${(err as Error).message}`);
+      setProcessing(false);
+    }
+  };
+
   return (
     <div style={{ background: '#FFFBF8', minHeight: '100vh' }}>
 
@@ -122,17 +188,26 @@ export function Component() {
               {/* Pricing Tiers */}
               <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', textAlign: 'left' }}>
                 {PRICING_PLANS.map((plan) => (
-                  <li key={plan.id} style={{
-                    padding: '10px 0',
-                    borderBottom: '1px solid #F0E6DC',
-                    fontSize: 14,
-                    fontFamily: "'Nunito Sans', sans-serif",
-                    color: '#1F1A1B',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                  }}>
-                    <Check style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={3} />
+                  <li
+                    key={plan.id}
+                    onClick={() => setSelectedPlan(plan)}
+                    style={{
+                      padding: '10px 12px',
+                      borderBottom: '1px solid #F0E6DC',
+                      fontSize: 14,
+                      fontFamily: "'Nunito Sans', sans-serif",
+                      color: '#1F1A1B',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      cursor: 'pointer',
+                      borderRadius: 8,
+                      background: selectedPlan.id === plan.id ? '#FFF0F4' : 'transparent',
+                      border: selectedPlan.id === plan.id ? '1.5px solid #B8405E' : '1.5px solid transparent',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <Check style={{ width: 16, height: 16, color: selectedPlan.id === plan.id ? '#B8405E' : '#22C55E', flexShrink: 0 }} strokeWidth={3} />
                     <span>
                       <strong style={{ color: '#1F1A1B' }}>₹{plan.price}</strong> per invitation for {plan.label.toLowerCase()}
                     </span>
@@ -166,23 +241,27 @@ export function Component() {
               </ul>
 
               {/* CTA Button */}
-              <Link to="/" style={{ textDecoration: 'none' }}>
-                <button style={{
-                  background: 'linear-gradient(45deg, #9A3350, #B8405E)',
-                  color: '#fff',
+              <button
+                onClick={handleProceed}
+                disabled={processing}
+                style={{
+                  width: '100%',
+                  padding: '14px 0',
+                  borderRadius: 12,
                   border: 'none',
-                  borderRadius: 28,
-                  padding: '14px 32px',
                   fontSize: 15,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   fontFamily: "'Nunito Sans', sans-serif",
-                  cursor: 'pointer',
+                  cursor: processing ? 'not-allowed' : 'pointer',
+                  color: '#fff',
+                  background: 'linear-gradient(135deg, #9A3350, #B8405E)',
+                  boxShadow: '0 6px 28px rgba(184,64,94,0.35)',
+                  opacity: processing ? 0.7 : 1,
                   transition: 'transform 0.2s, box-shadow 0.2s',
-                  boxShadow: '0 4px 14px rgba(184, 64, 94, 0.3)',
-                }}>
-                  Proceed
-                </button>
-              </Link>
+                }}
+              >
+                {processing ? 'Processing...' : 'Proceed to Pay'}
+              </button>
             </div>
           </motion.div>
 
@@ -552,5 +631,4 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-/* React import for useState */
-import { useState } from 'react';
+/* React imports moved to top */
