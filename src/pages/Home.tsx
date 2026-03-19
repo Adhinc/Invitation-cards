@@ -767,7 +767,7 @@ export function Component() {
           padding: '80px 20px',
         }}
       >
-        <div className="flex flex-col md:flex-row items-center justify-center max-w-[1100px] mx-auto" style={{ gap: 100 }}>
+        <div className="flex flex-col md:flex-row items-center justify-center" style={{ gap: 100, maxWidth: 1100, margin: '0 auto' }}>
           {/* Content — left */}
           <motion.div
             initial="hidden"
