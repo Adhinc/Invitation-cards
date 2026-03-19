@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { EVENTS } from '../constants/events';
+import { useAuth } from '../lib/auth';
 
 const NAV_EVENTS = EVENTS.filter(e => e.type !== 'betrothal');
 
@@ -23,6 +24,7 @@ export default function Navbar() {
   const [hoveredMobileCta, setHoveredMobileCta] = useState(false);
   const [hoveredHamburger, setHoveredHamburger] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
   const isActive = (path: string) => location.pathname === path;
 
   useEffect(() => {
@@ -137,6 +139,47 @@ export default function Navbar() {
 
           {/* Desktop right actions — className kept for responsive display only */}
           <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 12 }}>
+            {user && (
+              <Link
+                to="/dashboard"
+                aria-current={isActive('/dashboard') ? 'page' : undefined}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '5px 14px',
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  borderRadius: 50,
+                  transition: 'all 0.2s ease',
+                  background: isActive('/dashboard') ? '#4A4744' : '#4A474414',
+                  color: isActive('/dashboard') ? '#fff' : '#4A4744',
+                  border: `1.5px solid ${isActive('/dashboard') ? '#4A4744' : '#4A474430'}`,
+                  boxShadow: isActive('/dashboard') ? '0 4px 12px #4A474440' : 'none',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive('/dashboard')) {
+                    e.currentTarget.style.background = '#4A4744';
+                    e.currentTarget.style.color = '#fff';
+                    e.currentTarget.style.borderColor = '#4A4744';
+                    e.currentTarget.style.boxShadow = '0 4px 12px #4A474440';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive('/dashboard')) {
+                    e.currentTarget.style.background = '#4A474414';
+                    e.currentTarget.style.color = '#4A4744';
+                    e.currentTarget.style.borderColor = '#4A474430';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.transform = 'none';
+                  }
+                }}
+              >
+                Dashboard
+              </Link>
+            )}
             <Link
               to="/events/wedding"
               style={{
@@ -230,6 +273,28 @@ export default function Navbar() {
                   {event.label}
                 </Link>
               ))}
+              {user && (
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  aria-current={isActive('/dashboard') ? 'page' : undefined}
+                  style={{
+                    display: 'block',
+                    padding: '10px 12px',
+                    fontSize: 14,
+                    fontWeight: 500,
+                    borderRadius: 8,
+                    transition: 'background-color 0.15s, color 0.15s',
+                    textDecoration: 'none',
+                    ...(isActive('/dashboard')
+                      ? { backgroundColor: '#4A47441F', color: '#4A4744' }
+                      : { color: '#4A4744' }
+                    ),
+                  }}
+                >
+                  Dashboard
+                </Link>
+              )}
               <div
                 style={{
                   paddingTop: 12,

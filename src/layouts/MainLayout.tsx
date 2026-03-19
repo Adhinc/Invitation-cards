@@ -4,7 +4,8 @@ import Footer from '../components/Footer';
 
 export default function MainLayout() {
   const location = useLocation();
-  const hideNavFooter = ['/chatbot', '/preview'].includes(location.pathname);
+  const hideNavFooter = ['/chatbot', '/preview', '/dashboard'].includes(location.pathname)
+    || location.pathname.startsWith('/i/');
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text-primary)] font-sans">
