@@ -68,9 +68,9 @@ function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateCli
       className="relative overflow-hidden"
       style={{ background: 'linear-gradient(#FEF6F7, #FFFAF8)', padding: '130px 50px 90px' }}
     >
-      <div className="max-w-6xl mx-auto flex flex-col items-center gap-12 text-center">
+      <div className="flex flex-col items-center gap-12 text-center" style={{ maxWidth: 1100, margin: "0 auto" }}>
         {/* Hero content — centered */}
-        <div className="max-w-[640px]">
+        <div style={{ maxWidth: 640 }}>
           <motion.span
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -208,7 +208,7 @@ function QRPaperDigitalSection({ event }: { event: EventConfig }) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-5xl mx-auto text-center"
+        className="text-center" style={{ maxWidth: 1000, margin: "0 auto" }}
       >
         {/* Badge */}
         <motion.span
@@ -222,7 +222,7 @@ function QRPaperDigitalSection({ event }: { event: EventConfig }) {
           Tradition on Paper. <span className="text-[#B8405E]">Magic on Phone.</span>
         </motion.h2>
 
-        <motion.p variants={fadeUp} className="mt-4 text-[#6B6966] max-w-xl mx-auto text-base leading-relaxed">
+        <motion.p variants={fadeUp} className="mt-4 text-[#6B6966] text-base leading-relaxed" style={{ maxWidth: 560, margin: "0 auto" }}>
           Print a QR code on your traditional paper card. When guests scan it, they see your beautiful digital invitation with music, photos, maps, and RSVP.
         </motion.p>
 
@@ -295,14 +295,14 @@ function WhatsAppSection({ event }: { event: EventConfig }) {
 
   return (
     <section style={{ background: 'linear-gradient(#F0FFF4, #E8F5E9 50%, #F1F8E9)', padding: '80px 40px' }}>
-      <div className="max-w-6xl mx-auto flex flex-col items-center gap-12 text-center">
+      <div className="flex flex-col items-center gap-12 text-center" style={{ maxWidth: 1100, margin: "0 auto" }}>
         {/* Content — centered */}
         <motion.div
           variants={stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="max-w-[580px]"
+          style={{ maxWidth: 580 }}
         >
           <motion.span
             variants={fadeUp}
@@ -385,7 +385,7 @@ function StatsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6"
+        className="grid grid-cols-2 md:grid-cols-4 gap-6" style={{ maxWidth: 1000, margin: '0 auto' }}
       >
         {stats.map((s) => (
           <motion.div key={s.label} variants={fadeUp} className="text-center">
@@ -426,7 +426,7 @@ function WhyChooseSection({ event }: { event: EventConfig }) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-5xl mx-auto text-center"
+        className="text-center" style={{ maxWidth: 1000, margin: "0 auto" }}
       >
         {/* Eyebrow */}
         <motion.span
@@ -481,7 +481,7 @@ function WhyChooseSection({ event }: { event: EventConfig }) {
         </div>
 
         {/* Closing text */}
-        <motion.p variants={fadeUp} className="mt-10 text-[#6B6966] max-w-lg mx-auto text-base italic">
+        <motion.p variants={fadeUp} className="mt-10 text-[#6B6966] text-base italic" style={{ maxWidth: 480, margin: "0 auto" }}>
           Your love marks a new beginning. Let your invitation reflect the same — modern, beautiful, and unforgettable.
         </motion.p>
       </motion.div>
@@ -510,7 +510,7 @@ function BenefitsSection({ event }: { event: EventConfig }) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-5xl mx-auto text-center"
+        className="text-center" style={{ maxWidth: 1000, margin: "0 auto" }}
       >
         <motion.span
           variants={fadeUp}
@@ -563,7 +563,7 @@ function StepsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-5xl mx-auto text-center"
+        className="text-center" style={{ maxWidth: 1000, margin: "0 auto" }}
       >
         <motion.span
           variants={fadeUp}
@@ -635,7 +635,7 @@ function TestimonialsSection({ event }: { event: EventConfig }) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-5xl mx-auto text-center"
+        className="text-center" style={{ maxWidth: 1000, margin: "0 auto" }}
       >
         <motion.span
           variants={fadeUp}
@@ -705,7 +705,7 @@ function UrgencySection({ event }: { event: EventConfig }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="max-w-3xl mx-auto text-center text-white"
+        className="text-center text-white" style={{ maxWidth: 800, margin: "0 auto" }}
       >
         <Clock className="w-10 h-10 mx-auto mb-4 opacity-90" />
 
@@ -713,7 +713,7 @@ function UrgencySection({ event }: { event: EventConfig }) {
           Don&apos;t Wait Until the Last Minute!
         </h2>
 
-        <p className="mt-4 text-base opacity-90 max-w-lg mx-auto leading-relaxed">
+        <p className="mt-4 text-base opacity-90 leading-relaxed" style={{ maxWidth: 480, margin: "0 auto" }}>
           {event.label} season is here! <span className="font-bold">102 {dynamicNoun(event).toLowerCase()}</span> created their website in the last 24 hours.
         </p>
 
@@ -744,12 +744,12 @@ function FinalCTASection({ event, onCreateClick }: { event: EventConfig; onCreat
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="max-w-2xl mx-auto text-center"
+        className="text-center" style={{ maxWidth: 700, margin: "0 auto" }}
       >
         <h2 className="text-2xl md:text-3xl font-bold" style={HEADING_FONT}>
           Ready to Create Your <span className="text-[#B8405E]">{event.label}</span> Website?
         </h2>
-        <p className="mt-4 text-[#6B6966] text-base max-w-lg mx-auto">
+        <p className="mt-4 text-[#6B6966] text-base" style={{ maxWidth: 480, margin: "0 auto" }}>
           Join {event.socialProof} who already made their celebrations unforgettable.
         </p>
 
@@ -935,7 +935,7 @@ function TemplateOverlay({
         className="flex-1 overflow-y-auto px-6 py-6"
         style={{ paddingBottom: 220 }}
       >
-        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-5" style={{ maxWidth: 900, margin: '0 auto' }}>
           {TEMPLATES.map((t) => {
             const isSelected = selectedTemplate?.id === t.id;
             const badge = tierBadgeColor(t.tier);
