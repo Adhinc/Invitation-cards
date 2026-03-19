@@ -3,6 +3,13 @@ import MainLayout from './layouts/MainLayout';
 
 const router = createBrowserRouter([
   {
+    path: '/i/:slug',
+    lazy: async () => {
+      const { default: InvitationPage } = await import('./pages/InvitationPage');
+      return { Component: InvitationPage };
+    },
+  },
+  {
     element: <MainLayout />,
     children: [
       { path: '/', lazy: () => import('./pages/Home') },
@@ -11,7 +18,7 @@ const router = createBrowserRouter([
       { path: '/templates', lazy: () => import('./pages/TemplatePage') },
       { path: '/preview', lazy: () => import('./pages/PreviewPage') },
       { path: '/pricing', lazy: () => import('./pages/PricingPage') },
-      // { path: '/dashboard', lazy: () => import('./pages/DashboardPage') }, // re-enable after auth
+      { path: '/dashboard', lazy: () => import('./pages/DashboardPage') },
     ],
   },
 ]);
