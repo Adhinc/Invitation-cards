@@ -128,8 +128,12 @@ function HeroSection({ event, onCreateClick }: { event: EventConfig; onCreateCli
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}>
             <button
               onClick={onCreateClick}
-              className="mt-8 inline-flex items-center gap-2 text-white font-semibold px-8 py-3.5 text-base cursor-pointer transition-transform hover:scale-[1.03]"
+              className="inline-flex items-center gap-2 text-white cursor-pointer transition-transform hover:scale-[1.03]"
               style={{
+                marginTop: 32,
+                padding: '14px 32px',
+                fontSize: 16,
+                fontWeight: 600,
                 background: CTA_GRADIENT,
                 borderRadius: 28,
                 boxShadow: CTA_SHADOW,
@@ -229,7 +233,7 @@ function QRPaperDigitalSection({ event }: { event: EventConfig }) {
         {/* Mockup row: Paper card → wave connector → Phone */}
         <motion.div variants={fadeUp} className="mt-12 flex flex-col md:flex-row items-center justify-center gap-8">
           {/* Paper card mockup */}
-          <div className="w-56 bg-white rounded-2xl shadow-xl border border-[#F0E6DC] p-6 text-center">
+          <div className="w-56 bg-white rounded-2xl shadow-xl border border-[#F0E6DC] text-center" style={{ padding: 24 }}>
             <p className="text-xs uppercase tracking-widest text-[#8D8A86] mb-2">{event.tagline}</p>
             <h3 className="text-lg font-bold" style={HEADING_FONT}>Your {event.label}</h3>
             <div className="my-4 mx-auto w-20 h-20 rounded-xl flex items-center justify-center bg-[#FEF6F7]">
@@ -444,7 +448,7 @@ function WhyChooseSection({ event }: { event: EventConfig }) {
         {/* Two comparison cards */}
         <div className="mt-12 grid md:grid-cols-2 gap-8 text-center">
           {/* Old way */}
-          <motion.div variants={fadeUp} className="bg-white rounded-2xl border border-[#F0E6DC] p-8 shadow-sm">
+          <motion.div variants={fadeUp} className="bg-white rounded-2xl border border-[#F0E6DC] shadow-sm" style={{ padding: 32 }}>
             <p className="text-xs uppercase tracking-widest text-[#8D8A86] mb-2">The traditional way</p>
             <h3 className="text-xl font-bold mb-1" style={HEADING_FONT}>Paper Invitations</h3>
             <ul className="mt-5 space-y-3">
@@ -460,7 +464,7 @@ function WhyChooseSection({ event }: { event: EventConfig }) {
           {/* New way */}
           <motion.div
             variants={fadeUp}
-            className="relative bg-white rounded-2xl border-2 border-[#B8405E] p-8 shadow-lg"
+            className="relative bg-white rounded-2xl border-2 border-[#B8405E] shadow-lg" style={{ padding: 32 }}
           >
             <span className="absolute -top-3 right-6 bg-[#B8405E] text-white text-xs font-semibold px-3 py-1 rounded-full">
               Recommended
@@ -529,7 +533,7 @@ function BenefitsSection({ event }: { event: EventConfig }) {
             <motion.div
               key={f.title}
               variants={fadeUp}
-              className="bg-white rounded-2xl border border-[#F0E6DC] p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl border border-[#F0E6DC] shadow-sm hover:shadow-md transition-shadow" style={{ padding: 24 }}
             >
               <div className="w-12 h-12 rounded-xl bg-[#FEF6F7] flex items-center justify-center mb-4">
                 <f.icon className="w-6 h-6 text-[#B8405E]" />
@@ -653,7 +657,7 @@ function TestimonialsSection({ event }: { event: EventConfig }) {
             <motion.div
               key={t.name}
               variants={fadeUp}
-              className="bg-[#FAFAFA] rounded-2xl border border-[#F0E6DC] p-6"
+              className="bg-[#FAFAFA] rounded-2xl border border-[#F0E6DC]" style={{ padding: 24 }}
             >
               {/* Stars */}
               <div className="flex gap-1 mb-4">
@@ -755,8 +759,12 @@ function FinalCTASection({ event, onCreateClick }: { event: EventConfig; onCreat
 
         <button
           onClick={onCreateClick}
-          className="mt-8 inline-flex items-center gap-2 text-white font-semibold px-10 py-4 text-base cursor-pointer transition-transform hover:scale-[1.03]"
+          className="inline-flex items-center gap-2 text-white cursor-pointer transition-transform hover:scale-[1.03]"
           style={{
+            marginTop: 32,
+            padding: '16px 40px',
+            fontSize: 16,
+            fontWeight: 600,
             background: CTA_GRADIENT,
             borderRadius: 28,
             boxShadow: CTA_SHADOW,
