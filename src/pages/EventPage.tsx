@@ -929,6 +929,14 @@ function TryItFreeModal({ onClose, onChooseTemplate }: { onClose: () => void; on
 /*  12. Fullscreen Template Overlay                                    */
 /* ------------------------------------------------------------------ */
 
+const TIERS = ['Basic', 'Standard', 'Premium'] as const;
+
+const TIER_STYLES: Record<string, { bg: string; text: string; activeBg: string; activeText: string }> = {
+  Basic:    { bg: '#F1F5F9', text: '#475569', activeBg: '#475569', activeText: '#ffffff' },
+  Standard: { bg: '#DBEAFE', text: '#1E40AF', activeBg: '#1E40AF', activeText: '#ffffff' },
+  Premium:  { bg: '#FEF3C7', text: '#92400E', activeBg: '#92400E', activeText: '#ffffff' },
+};
+
 function TemplateOverlay({
   selectedTemplate,
   setSelectedTemplate,
@@ -941,11 +949,13 @@ function TemplateOverlay({
   onContinue: () => void;
 }) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const [activeTier, setActiveTier] = useState<string>('Basic');
+
+  const filteredTemplates = TEMPLATES.filter((t) => t.tier === activeTier);
 
   const tierBadgeColor = (tier: string) => {
-    if (tier === 'Premium') return { bg: '#FEF3C7', text: '#92400E' };
-    if (tier === 'Standard') return { bg: '#DBEAFE', text: '#1E40AF' };
-    return { bg: '#F1F5F9', text: '#475569' };
+    const s = TIER_STYLES[tier] ?? TIER_STYLES.Basic;
+    return { bg: s.bg, text: s.text };
   };
 
   return (
@@ -954,70 +964,214 @@ function TemplateOverlay({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 flex flex-col"
-      style={{ background: '#f8fafc', fontFamily: "'Nunito Sans', sans-serif" }}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 50,
+        display: 'flex',
+        flexDirection: 'column',
+        background: '#f8fafc',
+        fontFamily: "'Nunito Sans', sans-serif",
+      }}
     >
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shrink-0">
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: '#1e293b' }}>Choose Your Template</h2>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '16px 24px',
+          background: '#ffffff',
+          borderBottom: '1px solid #e2e8f0',
+          flexShrink: 0,
+        }}
+      >
+        <h2 style={{ fontSize: 20, fontWeight: 700, color: '#1e293b', margin: 0 }}>Choose Your Template</h2>
         <button
           onClick={onClose}
-          className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors cursor-pointer"
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: '50%',
+            background: '#f1f5f9',
+            border: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#64748b',
+            cursor: 'pointer',
+          }}
         >
-          <X className="w-5 h-5" />
+          <X style={{ width: 20, height: 20 }} />
         </button>
+      </div>
+
+      {/* Floating tier tabs */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '16px 24px 8px',
+          flexShrink: 0,
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-flex',
+            gap: 8,
+            padding: 4,
+            borderRadius: 16,
+            background: '#ffffff',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+          }}
+        >
+          {TIERS.map((tier) => {
+            const isActive = activeTier === tier;
+            const s = TIER_STYLES[tier];
+            const count = TEMPLATES.filter((t) => t.tier === tier).length;
+            return (
+              <motion.button
+                key={tier}
+                onClick={() => {
+                  setActiveTier(tier);
+                  gridRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  padding: '8px 20px',
+                  borderRadius: 12,
+                  border: 'none',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  background: isActive ? s.activeBg : 'transparent',
+                  color: isActive ? s.activeText : s.text,
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                {tier}
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    padding: '1px 7px',
+                    borderRadius: 8,
+                    background: isActive ? 'rgba(255,255,255,0.25)' : s.bg,
+                    color: isActive ? s.activeText : s.text,
+                  }}
+                >
+                  {count}
+                </span>
+              </motion.button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Scrollable template grid */}
       <div
         ref={gridRef}
-        className="flex-1 overflow-y-auto px-6 py-6"
-        style={{ paddingBottom: 220 }}
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          padding: '16px 24px',
+          paddingBottom: 220,
+        }}
       >
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5" style={{ maxWidth: 900, margin: '0 auto' }}>
-          {TEMPLATES.map((t) => {
-            const isSelected = selectedTemplate?.id === t.id;
-            const badge = tierBadgeColor(t.tier);
-            return (
-              <motion.div
-                key={t.id}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => setSelectedTemplate(t)}
-                className="cursor-pointer rounded-2xl overflow-hidden bg-white shadow-sm transition-all"
-                style={{
-                  border: isSelected ? '3px solid #0EA5E9' : '2px solid #e2e8f0',
-                  boxShadow: isSelected ? '0 0 0 3px rgba(14,165,233,0.2)' : undefined,
-                }}
-              >
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <img
-                    src={t.image}
-                    alt={t.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  {/* Tier badge */}
-                  <span
-                    className="absolute top-2 right-2 rounded-full"
-                    style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', background: badge.bg, color: badge.text }}
-                  >
-                    {t.tier}
-                  </span>
-                  {/* Selected checkmark */}
-                  {isSelected && (
-                    <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-[#0EA5E9] flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 text-white" />
-                    </div>
-                  )}
-                </div>
-                <div className="px-3 py-2.5">
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#1e293b' }}>{t.name}</p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTier}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: 20,
+              maxWidth: 900,
+              margin: '0 auto',
+            }}
+          >
+            {filteredTemplates.map((t) => {
+              const isSelected = selectedTemplate?.id === t.id;
+              const badge = tierBadgeColor(t.tier);
+              return (
+                <motion.div
+                  key={t.id}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setSelectedTemplate(t)}
+                  style={{
+                    cursor: 'pointer',
+                    borderRadius: 16,
+                    overflow: 'hidden',
+                    background: '#ffffff',
+                    border: isSelected ? '3px solid #0EA5E9' : '2px solid #e2e8f0',
+                    boxShadow: isSelected ? '0 0 0 3px rgba(14,165,233,0.2)' : '0 1px 3px rgba(0,0,0,0.06)',
+                    transition: 'border 0.15s, box-shadow 0.15s',
+                  }}
+                >
+                  <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
+                    <img
+                      src={t.image}
+                      alt={t.name}
+                      loading="lazy"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                    {/* Tier badge */}
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        fontSize: 10,
+                        fontWeight: 600,
+                        padding: '2px 8px',
+                        borderRadius: 999,
+                        background: badge.bg,
+                        color: badge.text,
+                      }}
+                    >
+                      {t.tier}
+                    </span>
+                    {/* Selected checkmark */}
+                    {isSelected && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 8,
+                          left: 8,
+                          width: 24,
+                          height: 24,
+                          borderRadius: '50%',
+                          background: '#0EA5E9',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Check style={{ width: 14, height: 14, color: '#ffffff' }} />
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ padding: '10px 12px' }}>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: '#1e293b', margin: 0 }}>{t.name}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
+
+        {filteredTemplates.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '48px 0', color: '#94a3b8' }}>
+            <p style={{ fontSize: 15, fontWeight: 600 }}>No templates in this tier yet</p>
+          </div>
+        )}
       </div>
 
       {/* Bottom sheet */}
@@ -1026,8 +1180,13 @@ function TemplateOverlay({
         animate={{ y: 0 }}
         exit={{ y: 100 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
-        className="fixed bottom-0 left-0 right-0 bg-white z-60"
         style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: '#ffffff',
+          zIndex: 60,
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           boxShadow: '0 -8px 30px rgba(0,0,0,0.12)',
@@ -1035,43 +1194,53 @@ function TemplateOverlay({
         }}
       >
         {/* Handle bar */}
-        <div className="flex justify-center mb-4">
-          <div className="w-10 h-1 rounded-full" style={{ background: '#d1d5db' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+          <div style={{ width: 40, height: 4, borderRadius: 999, background: '#d1d5db' }} />
         </div>
 
         {/* Title row */}
-        <div className="flex items-center gap-2 mb-2">
-          <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b' }}>Website Preview</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b', margin: 0 }}>Website Preview</h3>
           <span
-            className="rounded-full"
-            style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', background: '#DCFCE7', color: '#166534' }}
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              padding: '2px 8px',
+              borderRadius: 999,
+              background: '#DCFCE7',
+              color: '#166534',
+            }}
           >
             FREE
           </span>
         </div>
 
         {/* Info lines */}
-        <div className="space-y-1.5 mb-5">
-          <div className="flex items-center gap-2">
-            <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Star style={{ width: 14, height: 14, color: '#eab308', fill: '#eab308' }} />
             <span style={{ fontSize: 12, color: '#64748b' }}>Completely FREE</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Check className="w-3.5 h-3.5 text-green-500" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Check style={{ width: 14, height: 14, color: '#22c55e' }} />
             <span style={{ fontSize: 12, color: '#64748b' }}>Ready in under 5 minutes</span>
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="flex gap-3">
+        <div style={{ display: 'flex', gap: 12 }}>
           <button
             onClick={() => {
               gridRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex-1 py-3 rounded-xl cursor-pointer transition-colors hover:bg-gray-50"
-            style={{ fontSize: 14, fontWeight: 600 }}
             style={{
-              background: 'white',
+              flex: 1,
+              padding: '12px 0',
+              borderRadius: 12,
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: 'pointer',
+              background: '#ffffff',
               border: '2px solid #e2e8f0',
               color: '#475569',
             }}
@@ -1081,15 +1250,21 @@ function TemplateOverlay({
           <button
             onClick={onContinue}
             disabled={!selectedTemplate}
-            className="flex-1 py-3 text-white rounded-xl cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ fontSize: 14, fontWeight: 600 }}
             style={{
+              flex: 1,
+              padding: '12px 0',
+              borderRadius: 12,
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: selectedTemplate ? 'pointer' : 'not-allowed',
+              color: '#ffffff',
               background: selectedTemplate ? 'linear-gradient(135deg, #0EA5E9, #0284C7)' : '#94a3b8',
               border: 'none',
               boxShadow: selectedTemplate ? '0 4px 14px rgba(14,165,233,0.35)' : 'none',
+              opacity: selectedTemplate ? 1 : 0.5,
             }}
           >
-            Continue to Chatbot <ArrowRight className="w-4 h-4 inline-block ml-1" />
+            Continue to Chatbot <ArrowRight style={{ width: 16, height: 16, display: 'inline-block', marginLeft: 4, verticalAlign: 'middle' }} />
           </button>
         </div>
       </motion.div>
