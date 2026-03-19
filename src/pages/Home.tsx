@@ -127,67 +127,214 @@ function StepConnector() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Phone Mockup (Hero — matches BigDates.ai structure)                */
+/*  Floating Invitation Card (Hero)                                    */
 /* ------------------------------------------------------------------ */
 
-function PhoneMockup() {
+function FloatingInvitationCard() {
   return (
-    <div className="relative" style={{ maxWidth: 400 }}>
-      <div className="phone_mockup">
-        <div className="relative bg-[#1a1a1a] rounded-[44px] p-[10px] shadow-2xl">
-          {/* Phone back with camera module */}
-          <div className="absolute inset-0 rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]" />
+    <div className="relative" style={{ maxWidth: 380, width: '100%' }}>
+      {/* Main floating card */}
+      <div
+        className="animate-[float_6s_ease-in-out_infinite]"
+        style={{
+          background: 'linear-gradient(135deg, #FFFBF8 0%, #FFF0F4 50%, #FFE8F0 100%)',
+          borderRadius: 20,
+          padding: '36px 32px',
+          boxShadow: '0 20px 60px rgba(184,64,94,0.15), 0 8px 24px rgba(0,0,0,0.06)',
+          border: '1px solid rgba(184,64,94,0.12)',
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Gold corner ornaments */}
+        <div style={{ position: 'absolute', top: 12, left: 12, width: 24, height: 24, borderTop: '2px solid #C9A227', borderLeft: '2px solid #C9A227', borderRadius: '4px 0 0 0', opacity: 0.5 }} />
+        <div style={{ position: 'absolute', top: 12, right: 12, width: 24, height: 24, borderTop: '2px solid #C9A227', borderRight: '2px solid #C9A227', borderRadius: '0 4px 0 0', opacity: 0.5 }} />
+        <div style={{ position: 'absolute', bottom: 12, left: 12, width: 24, height: 24, borderBottom: '2px solid #C9A227', borderLeft: '2px solid #C9A227', borderRadius: '0 0 0 4px', opacity: 0.5 }} />
+        <div style={{ position: 'absolute', bottom: 12, right: 12, width: 24, height: 24, borderBottom: '2px solid #C9A227', borderRight: '2px solid #C9A227', borderRadius: '0 0 4px 0', opacity: 0.5 }} />
 
-          {/* Volume buttons */}
-          <div className="absolute left-[-3px] top-[120px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
-          <div className="absolute left-[-3px] top-[160px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
-          {/* Power button */}
-          <div className="absolute right-[-3px] top-[140px] w-[3px] h-[40px] bg-[#333] rounded-r-sm" />
+        {/* Subtle pattern overlay */}
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'radial-gradient(circle at 1px 1px, #B8405E 1px, transparent 0)', backgroundSize: '20px 20px' }} />
 
-          <div className="relative bg-white rounded-[36px] overflow-hidden" style={{ aspectRatio: '9/19.5' }}>
-            {/* Dynamic Island */}
-            <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-10 flex items-center justify-center">
-              <div className="w-[8px] h-[8px] rounded-full bg-[#1a1a2e] ring-1 ring-[#2a2a3e]" />
-            </div>
+        <p style={{ fontSize: 10, letterSpacing: 4, color: '#B8405E', fontWeight: 600, textTransform: 'uppercase', marginBottom: 8 }}>You're Invited</p>
 
-            {/* Screen content — invitation preview */}
-            <div className="w-full h-full bg-gradient-to-b from-[#FFF0F4] to-white p-6 pt-14 text-center">
-              <p className="text-[9px] uppercase tracking-[3px] text-[#B8405E] font-medium mt-4">You're Invited</p>
-              <h3 className="text-lg font-bold text-[#1F1A1B] mt-2" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-                Priya & Arjun
-              </h3>
-              <p className="text-[11px] text-[#8D8A86] mt-1">are getting married</p>
-              <div className="my-4 w-full aspect-[16/10] bg-gradient-to-b from-[#FFF0F4] to-[#FFE8DC] rounded-xl overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?w=300&h=200&fit=crop"
-                  alt="Wedding"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <p className="text-sm font-semibold text-[#1F1A1B]">March 15, 2026</p>
-              <p className="text-[11px] text-[#8D8A86]">Kochi, Kerala</p>
-              <button className="mt-3 px-8 py-2.5 bg-gradient-to-r from-[#B8405E] to-[#D4548F] text-white text-xs font-bold rounded-full shadow-[0_4px_16px_rgba(184,64,94,0.3)]">
-                RSVP Now
-              </button>
-            </div>
+        {/* Decorative divider */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 12 }}>
+          <div style={{ width: 40, height: 1, background: 'linear-gradient(to right, transparent, #C9A227)' }} />
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#C9A227"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
+          <div style={{ width: 40, height: 1, background: 'linear-gradient(to left, transparent, #C9A227)' }} />
+        </div>
+
+        <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 28, fontWeight: 600, color: '#1F1A1B', marginBottom: 4, lineHeight: '34px' }}>
+          Priya <span style={{ color: '#B8405E' }}>&</span> Arjun
+        </h3>
+        <p style={{ fontSize: 12, color: '#8D8A86', marginBottom: 16 }}>are getting married</p>
+
+        {/* Photo */}
+        <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 16, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+          <img
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=220&fit=crop"
+            alt="Wedding"
+            style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 12 }}>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#8D8A86', marginBottom: 2 }}>Date</p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: '#1F1A1B' }}>March 15, 2026</p>
+          </div>
+          <div style={{ width: 1, height: 28, background: '#E8E4E0' }} />
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#8D8A86', marginBottom: 2 }}>Venue</p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: '#1F1A1B' }}>Kochi, Kerala</p>
           </div>
         </div>
+
+        <button style={{ marginTop: 8, padding: '10px 32px', background: 'linear-gradient(135deg, #B8405E 0%, #D4548F 100%)', color: '#fff', fontSize: 12, fontWeight: 700, borderRadius: 50, border: 'none', letterSpacing: 1, boxShadow: '0 4px 16px rgba(184,64,94,0.3)' }}>
+          RSVP Now
+        </button>
       </div>
 
-      {/* Floating elements — matches BigDates */}
-      <div className="absolute -top-4 -right-6 animate-[float_3s_ease-in-out_infinite]">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="#FFD700">
-          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+      {/* Floating decorative elements */}
+      <div className="absolute animate-[float_3s_ease-in-out_infinite]" style={{ top: -16, right: -20 }}>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3C12 3 14 7 18 8C14 9 12 13 12 13C12 13 10 9 6 8C10 7 12 3 12 3Z" fill="#FFD700" opacity="0.7" />
         </svg>
       </div>
-      <div className="absolute -left-8 top-1/3 animate-[float_4s_ease-in-out_infinite_0.5s]">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="#E8A5A5">
+      <div className="absolute animate-[float_4s_ease-in-out_infinite_0.5s]" style={{ top: '35%', left: -28 }}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#E8A5A5" opacity="0.6">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
       </div>
-      <div className="absolute -bottom-2 -right-4 animate-[float_3.5s_ease-in-out_infinite_1s]">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#7DBDCE">
-          <circle cx="12" cy="12" r="10" />
+      <div className="absolute animate-[float_5s_ease-in-out_infinite_1s]" style={{ bottom: -8, right: -12 }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3C12 3 14 7 18 8C14 9 12 13 12 13C12 13 10 9 6 8C10 7 12 3 12 3Z" fill="#C9A227" opacity="0.5" />
+        </svg>
+      </div>
+      <div className="absolute animate-[float_3.5s_ease-in-out_infinite_1.5s]" style={{ bottom: '30%', left: -16 }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="4" fill="#F5C6D0" opacity="0.6" />
+        </svg>
+      </div>
+
+      {/* Second card peeking behind — gives depth */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 12,
+          left: 12,
+          right: -12,
+          bottom: -12,
+          background: 'linear-gradient(135deg, #FFF5EE, #FFE8F0)',
+          borderRadius: 20,
+          border: '1px solid rgba(184,64,94,0.08)',
+          boxShadow: '0 12px 40px rgba(184,64,94,0.08)',
+          zIndex: -1,
+          transform: 'rotate(3deg)',
+        }}
+      />
+      {/* Third card — more depth */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          right: -20,
+          bottom: -20,
+          background: '#FFF8F5',
+          borderRadius: 20,
+          border: '1px solid rgba(184,64,94,0.04)',
+          boxShadow: '0 8px 32px rgba(184,64,94,0.04)',
+          zIndex: -2,
+          transform: 'rotate(6deg)',
+        }}
+      />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  WhatsApp Share Card                                                */
+/* ------------------------------------------------------------------ */
+
+function WhatsAppShareCard() {
+  return (
+    <div className="relative" style={{ maxWidth: 340, width: '100%' }}>
+      {/* WhatsApp chat bubble */}
+      <div
+        className="animate-[float_5s_ease-in-out_infinite]"
+        style={{
+          background: '#fff',
+          borderRadius: 16,
+          boxShadow: '0 16px 48px rgba(37,211,102,0.12), 0 4px 16px rgba(0,0,0,0.06)',
+          overflow: 'hidden',
+          border: '1px solid rgba(37,211,102,0.15)',
+        }}
+      >
+        {/* WhatsApp header bar */}
+        <div style={{ background: '#075E54', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <MessageCircle size={16} color="#fff" />
+          </div>
+          <div>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>Family Group</p>
+            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.7)' }}>Mom, Dad, Sneha, +12 others</p>
+          </div>
+        </div>
+
+        {/* Chat messages */}
+        <div style={{ background: '#ECE5DD', padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {/* Sent message with link preview */}
+          <div style={{ alignSelf: 'flex-end', maxWidth: '85%' }}>
+            <div style={{ background: '#DCF8C6', borderRadius: '12px 4px 12px 12px', overflow: 'hidden' }}>
+              {/* Link preview card */}
+              <div style={{ borderLeft: '3px solid #25D366' }}>
+                <img
+                  src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=140&fit=crop"
+                  alt="Wedding invitation preview"
+                  style={{ width: '100%', height: 100, objectFit: 'cover', display: 'block' }}
+                />
+                <div style={{ padding: '8px 10px' }}>
+                  <p style={{ fontSize: 11, fontWeight: 600, color: '#1F1A1B', marginBottom: 2 }}>Priya & Arjun's Wedding</p>
+                  <p style={{ fontSize: 10, color: '#8D8A86', lineHeight: '14px' }}>You're invited to celebrate our special day — March 15, 2026</p>
+                  <p style={{ fontSize: 9, color: '#25D366', marginTop: 4 }}>invitation.ai/priya-arjun</p>
+                </div>
+              </div>
+              <p style={{ padding: '4px 10px 6px', fontSize: 12, color: '#303030' }}>
+                We're getting married! 💍✨ Open the invitation link 🥰
+              </p>
+              <p style={{ textAlign: 'right', padding: '0 8px 4px', fontSize: 9, color: '#8D8A86' }}>10:32 AM ✓✓</p>
+            </div>
+          </div>
+
+          {/* Reply */}
+          <div style={{ alignSelf: 'flex-start', maxWidth: '70%' }}>
+            <div style={{ background: '#fff', borderRadius: '4px 12px 12px 12px', padding: '8px 10px' }}>
+              <p style={{ fontSize: 12, color: '#303030' }}>Omg this is so beautiful! 😍🎉 We'll be there!</p>
+              <p style={{ textAlign: 'right', fontSize: 9, color: '#8D8A86', marginTop: 2 }}>10:33 AM</p>
+            </div>
+          </div>
+
+          {/* Another reply */}
+          <div style={{ alignSelf: 'flex-start', maxWidth: '60%' }}>
+            <div style={{ background: '#fff', borderRadius: '4px 12px 12px 12px', padding: '8px 10px' }}>
+              <p style={{ fontSize: 12, color: '#303030' }}>Love the invitation! ❤️🙌</p>
+              <p style={{ textAlign: 'right', fontSize: 9, color: '#8D8A86', marginTop: 2 }}>10:34 AM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating notification badges */}
+      <div className="absolute animate-[float_3s_ease-in-out_infinite]" style={{ top: -12, right: -8 }}>
+        <div style={{ background: '#25D366', color: '#fff', fontSize: 11, fontWeight: 700, width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(37,211,102,0.4)' }}>
+          3
+        </div>
+      </div>
+      <div className="absolute animate-[float_4s_ease-in-out_infinite_1s]" style={{ bottom: 20, left: -16 }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" opacity="0.4">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
       </div>
     </div>
@@ -195,82 +342,28 @@ function PhoneMockup() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  WhatsApp Phone Mockup                                              */
-/* ------------------------------------------------------------------ */
-
-function WhatsAppPhoneMockup() {
-  return (
-    <div className="relative" style={{ maxWidth: 280 }}>
-      <div className="relative bg-[#1a1a1a] rounded-[44px] p-[10px] shadow-2xl">
-        <div className="absolute left-[-3px] top-[120px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
-        <div className="absolute left-[-3px] top-[160px] w-[3px] h-[30px] bg-[#333] rounded-l-sm" />
-        <div className="absolute right-[-3px] top-[140px] w-[3px] h-[40px] bg-[#333] rounded-r-sm" />
-
-        <div className="relative bg-white rounded-[36px] overflow-hidden" style={{ aspectRatio: '9/19.5' }}>
-          {/* Dynamic Island */}
-          <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-10" />
-
-          {/* Status bar */}
-          <div className="flex items-center justify-between px-6 pt-[14px] pb-1 text-[10px] text-[#333]">
-            <span className="font-medium">9:41</span>
-            <div className="flex items-center gap-1">
-              <div className="flex gap-[2px]">
-                {[12, 10, 8, 6].map((h, i) => (
-                  <div key={i} className="w-[3px] bg-[#333] rounded-sm" style={{ height: h }} />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Browser loading state */}
-          <div className="mx-3 mt-1">
-            <div className="bg-[#f2f2f2] rounded-lg px-3 py-2">
-              <div className="flex items-center gap-1.5">
-                <div className="flex gap-1">
-                  <span className="w-2 h-2 rounded-full bg-[#FF5F57]" />
-                  <span className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
-                  <span className="w-2 h-2 rounded-full bg-[#28C840]" />
-                </div>
-                <div className="flex items-center gap-1 ml-2 text-[9px] text-[#666]">
-                  <Lock size={8} />
-                  <span>invitation.ai/priya-arjun</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center py-16">
-              <div className="w-8 h-8 border-3 border-[#B8405E]/20 border-t-[#B8405E] rounded-full animate-spin" />
-              <span className="text-[10px] text-[#8D8A86] mt-3">Opening invitation...</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  QR Paper Card + Phone Mockup                                       */
+/*  QR Paper Card + Digital Card                                       */
 /* ------------------------------------------------------------------ */
 
 function QRSection() {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-[900px] mx-auto">
-      {/* Paper Card */}
-      <div className="relative">
-        <div className="w-[240px] bg-white rounded-xl shadow-lg border border-[#F0E6DC] p-6">
-          <div className="border-2 border-[#F0E6DC] rounded-lg p-5 text-center relative">
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, maxWidth: 900, margin: '0 auto', flexWrap: 'wrap' }}>
+      {/* Paper Card with QR */}
+      <div className="relative animate-[float_6s_ease-in-out_infinite]">
+        <div style={{ width: 240, background: '#fff', borderRadius: 16, boxShadow: '0 16px 48px rgba(0,0,0,0.08)', border: '1px solid #F0E6DC', padding: 24 }}>
+          <div style={{ border: '2px solid #F0E6DC', borderRadius: 10, padding: 20, textAlign: 'center', position: 'relative' }}>
             {/* Corner ornaments */}
-            <div className="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 border-[#B8405E]/30 rounded-tl" />
-            <div className="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 border-[#B8405E]/30 rounded-tr" />
-            <div className="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 border-[#B8405E]/30 rounded-bl" />
-            <div className="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 border-[#B8405E]/30 rounded-br" />
+            <div style={{ position: 'absolute', top: 4, left: 4, width: 16, height: 16, borderTop: '2px solid rgba(184,64,94,0.3)', borderLeft: '2px solid rgba(184,64,94,0.3)', borderRadius: '4px 0 0 0' }} />
+            <div style={{ position: 'absolute', top: 4, right: 4, width: 16, height: 16, borderTop: '2px solid rgba(184,64,94,0.3)', borderRight: '2px solid rgba(184,64,94,0.3)', borderRadius: '0 4px 0 0' }} />
+            <div style={{ position: 'absolute', bottom: 4, left: 4, width: 16, height: 16, borderBottom: '2px solid rgba(184,64,94,0.3)', borderLeft: '2px solid rgba(184,64,94,0.3)', borderRadius: '0 0 0 4px' }} />
+            <div style={{ position: 'absolute', bottom: 4, right: 4, width: 16, height: 16, borderBottom: '2px solid rgba(184,64,94,0.3)', borderRight: '2px solid rgba(184,64,94,0.3)', borderRadius: '0 0 4px 0' }} />
 
-            <p className="text-xs text-[#B8405E] tracking-wider uppercase">You're Invited</p>
-            <h3 className="text-xl mt-2 text-[#1F1A1B]" style={{ fontFamily: "'Great Vibes', cursive" }}>
-              Priya <span className="text-[#B8405E]">&</span> Arjun
+            <p style={{ fontSize: 11, color: '#B8405E', letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600 }}>You're Invited</p>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 22, marginTop: 8, color: '#1F1A1B' }}>
+              Priya <span style={{ color: '#B8405E' }}>&</span> Arjun
             </h3>
-            <div className="flex items-center justify-center gap-1.5 mt-3 text-[11px] text-[#8D8A86]">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 10, fontSize: 11, color: '#8D8A86' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="14" height="14">
                 <rect x="3" y="4" width="18" height="18" rx="2" />
                 <line x1="16" y1="2" x2="16" y2="6" />
                 <line x1="8" y1="2" x2="8" y2="6" />
@@ -278,19 +371,19 @@ function QRSection() {
               </svg>
               <span>15 Mar 2026</span>
             </div>
-            <div className="mt-4">
-              <div className="w-20 h-20 mx-auto bg-[#FFF0F4] rounded-lg flex items-center justify-center">
-                <QrCode size={40} className="text-[#B8405E]" />
+            <div style={{ marginTop: 16 }}>
+              <div style={{ width: 80, height: 80, margin: '0 auto', background: '#FFF0F4', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <QrCode size={40} style={{ color: '#B8405E' }} />
               </div>
-              <p className="text-[9px] text-[#8D8A86] uppercase tracking-widest mt-2 font-medium">Scan for E-Invite</p>
+              <p style={{ fontSize: 9, color: '#8D8A86', textTransform: 'uppercase', letterSpacing: 3, marginTop: 8, fontWeight: 600 }}>Scan for E-Invite</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Flow Connector */}
-      <div className="hidden md:flex items-center">
-        <svg viewBox="0 0 120 40" fill="none" className="w-24 h-10">
+      <div className="hidden md:flex" style={{ alignItems: 'center', flexShrink: 0 }}>
+        <svg viewBox="0 0 120 40" fill="none" width="96" height="40">
           <path d="M0 20 Q30 20 40 10 T80 20 T120 20" stroke="url(#wave_grad)" strokeWidth="2" strokeDasharray="6 4" strokeLinecap="round" fill="none" />
           <circle r="5" fill="#B8405E">
             <animateMotion dur="1.5s" repeatCount="indefinite" path="M0 20 Q30 20 40 10 T80 20 T120 20" />
@@ -303,35 +396,40 @@ function QRSection() {
             </linearGradient>
           </defs>
         </svg>
-        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 -ml-2">
+        <svg viewBox="0 0 24 24" fill="none" width="20" height="20" style={{ marginLeft: -8 }}>
           <path d="M4 12h12M12 5l7 7-7 7" stroke="#B8405E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
 
-      {/* Phone showing invitation */}
-      <div className="relative" style={{ maxWidth: 220 }}>
-        <div className="relative bg-[#1a1a1a] rounded-[36px] p-[8px] shadow-2xl">
-          <div className="absolute left-[-2px] top-[80px] w-[2px] h-[24px] bg-[#333] rounded-l-sm" />
-          <div className="absolute left-[-2px] top-[110px] w-[2px] h-[24px] bg-[#333] rounded-l-sm" />
-          <div className="absolute right-[-2px] top-[100px] w-[2px] h-[32px] bg-[#333] rounded-r-sm" />
-          <div className="relative bg-white rounded-[30px] overflow-hidden" style={{ aspectRatio: '9/19.5' }}>
-            <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-[70px] h-[22px] bg-black rounded-full z-10" />
-            <div className="w-full h-full bg-gradient-to-b from-[#FFF0F4] to-white p-4 pt-12 text-center">
-              <p className="text-[8px] uppercase tracking-[2px] text-[#B8405E] font-medium">You're Invited</p>
-              <h4 className="text-sm font-bold text-[#1F1A1B] mt-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-                Priya & Arjun
-              </h4>
-              <p className="text-[8px] text-[#8D8A86]">March 15, 2026</p>
-              <div className="w-full aspect-[16/10] bg-gradient-to-b from-[#FFF0F4] to-[#FFE8DC] rounded-lg mt-2 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=120&fit=crop"
-                  alt="Wedding"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+      {/* Digital invitation card */}
+      <div className="relative animate-[float_6s_ease-in-out_infinite_0.5s]">
+        <div style={{
+          width: 240,
+          background: 'linear-gradient(135deg, #FFFBF8 0%, #FFF0F4 100%)',
+          borderRadius: 16,
+          boxShadow: '0 16px 48px rgba(184,64,94,0.12), 0 4px 16px rgba(0,0,0,0.04)',
+          border: '1px solid rgba(184,64,94,0.1)',
+          overflow: 'hidden',
+        }}>
+          <img
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=300&h=140&fit=crop"
+            alt="Wedding"
+            style={{ width: '100%', height: 120, objectFit: 'cover', display: 'block' }}
+          />
+          <div style={{ padding: '16px 20px', textAlign: 'center' }}>
+            <p style={{ fontSize: 9, letterSpacing: 3, color: '#B8405E', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>You're Invited</p>
+            <h4 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 20, fontWeight: 600, color: '#1F1A1B', marginBottom: 4 }}>
+              Priya & Arjun
+            </h4>
+            <p style={{ fontSize: 11, color: '#8D8A86', marginBottom: 4 }}>March 15, 2026</p>
+            <p style={{ fontSize: 10, color: '#8D8A86' }}>Kochi, Kerala</p>
+            <div style={{ marginTop: 12, padding: '8px 20px', background: 'linear-gradient(135deg, #B8405E, #D4548F)', borderRadius: 50, display: 'inline-block' }}>
+              <span style={{ color: '#fff', fontSize: 11, fontWeight: 700, letterSpacing: 0.5 }}>View Invitation</span>
             </div>
           </div>
         </div>
+        {/* Glow effect */}
+        <div style={{ position: 'absolute', inset: -4, borderRadius: 20, background: 'radial-gradient(ellipse at center, rgba(184,64,94,0.08) 0%, transparent 70%)', zIndex: -1 }} />
       </div>
     </div>
   );
@@ -425,7 +523,7 @@ export function Component() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex justify-center flex-shrink-0"
           >
-            <PhoneMockup />
+            <FloatingInvitationCard />
           </motion.div>
         </div>
       </section>
@@ -720,7 +818,7 @@ export function Component() {
             transition={{ duration: 0.6 }}
             className="flex-shrink-0"
           >
-            <WhatsAppPhoneMockup />
+            <WhatsAppShareCard />
           </motion.div>
         </div>
 
