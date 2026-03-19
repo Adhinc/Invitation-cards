@@ -20,7 +20,6 @@ const NAV_ACCENTS: Record<string, string> = {
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hoveredMobileLogin, setHoveredMobileLogin] = useState(false);
   const [hoveredMobileCta, setHoveredMobileCta] = useState(false);
   const [hoveredHamburger, setHoveredHamburger] = useState(false);
   const location = useLocation();
@@ -139,20 +138,6 @@ export default function Navbar() {
           {/* Desktop right actions — className kept for responsive display only */}
           <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 12 }}>
             <Link
-              to="/dashboard"
-              style={{
-                fontSize: 13,
-                fontWeight: 500,
-                color: '#4A4744',
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#B8405E'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = '#4A4744'; }}
-            >
-              Login
-            </Link>
-            <Link
               to="/events/wedding"
               style={{
                 padding: '10px 22px',
@@ -255,25 +240,6 @@ export default function Navbar() {
                   gap: 8,
                 }}
               >
-                <Link
-                  to="/dashboard"
-                  onClick={() => setMobileOpen(false)}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    padding: '10px 0',
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: hoveredMobileLogin ? '#B8405E' : '#4A4744',
-                    textAlign: 'center',
-                    textDecoration: 'none',
-                    transition: 'color 0.2s',
-                  }}
-                  onMouseEnter={() => setHoveredMobileLogin(true)}
-                  onMouseLeave={() => setHoveredMobileLogin(false)}
-                >
-                  Login
-                </Link>
                 <Link
                   to="/events/wedding"
                   onClick={() => setMobileOpen(false)}

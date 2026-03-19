@@ -11,7 +11,7 @@ const router = createBrowserRouter([
       { path: '/templates', lazy: () => import('./pages/TemplatePage') },
       { path: '/preview', lazy: () => import('./pages/PreviewPage') },
       { path: '/pricing', lazy: () => import('./pages/PricingPage') },
-      { path: '/dashboard', lazy: () => import('./pages/DashboardPage') },
+      // { path: '/dashboard', lazy: () => import('./pages/DashboardPage') }, // re-enable after auth
     ],
   },
 ]);
