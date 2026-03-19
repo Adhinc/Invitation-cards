@@ -20,6 +20,9 @@ const NAV_ACCENTS: Record<string, string> = {
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hoveredMobileLogin, setHoveredMobileLogin] = useState(false);
+  const [hoveredMobileCta, setHoveredMobileCta] = useState(false);
+  const [hoveredHamburger, setHoveredHamburger] = useState(false);
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
 
@@ -41,18 +44,50 @@ export default function Navbar() {
   return (
     <nav
       aria-label="Main navigation"
-      className={`fixed top-0 inset-x-0 z-50 bg-[#FFFBF8]/95 backdrop-blur-md transition-shadow duration-200 ${scrolled ? 'shadow-[0_1px_3px_rgba(45,42,38,0.06)]' : ''} border-b border-[#F0E6DC]`}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        backgroundColor: 'rgba(255, 251, 248, 0.95)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        transition: 'box-shadow 0.2s',
+        boxShadow: scrolled ? '0 1px 3px rgba(45,42,38,0.06)' : 'none',
+        borderBottom: '1px solid #F0E6DC',
+      }}
     >
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
-        <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 bg-[#B8405E] rounded-lg flex items-center justify-center">
-              <span className="text-white text-sm font-bold">I</span>
+        <div style={{ display: 'flex', height: 64, alignItems: 'center', justifyContent: 'space-between' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, textDecoration: 'none' }}>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                backgroundColor: '#B8405E',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <span style={{ color: '#fff', fontSize: 14, fontWeight: 700 }}>I</span>
             </div>
-            <span className="text-lg font-bold text-[#1F1A1B]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Invitation.AI</span>
+            <span
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: '#1F1A1B',
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+              }}
+            >
+              Invitation.AI
+            </span>
           </Link>
 
-          <div className="hidden lg:flex items-center" style={{ gap: 6 }}>
+          {/* Desktop nav pills — className kept for responsive display only */}
+          <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 6 }}>
             {NAV_EVENTS.map(event => {
               const accent = NAV_ACCENTS[event.slug] || '#4A4744';
               const active = isActive(event.urlPath);
@@ -69,18 +104,21 @@ export default function Navbar() {
                     fontWeight: 600,
                     borderRadius: 50,
                     transition: 'all 0.2s ease',
-                    background: `${accent}14`,
-                    color: accent,
-                    border: `1.5px solid ${accent}30`,
+                    background: active ? accent : `${accent}14`,
+                    color: active ? '#fff' : accent,
+                    border: `1.5px solid ${active ? accent : `${accent}30`}`,
+                    boxShadow: active ? `0 4px 12px ${accent}40` : 'none',
                     textDecoration: 'none',
                     whiteSpace: 'nowrap',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = accent;
-                    e.currentTarget.style.color = '#fff';
-                    e.currentTarget.style.borderColor = accent;
-                    e.currentTarget.style.boxShadow = `0 4px 12px ${accent}40`;
-                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    if (!active) {
+                      e.currentTarget.style.background = accent;
+                      e.currentTarget.style.color = '#fff';
+                      e.currentTarget.style.borderColor = accent;
+                      e.currentTarget.style.boxShadow = `0 4px 12px ${accent}40`;
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                    }
                   }}
                   onMouseLeave={(e) => {
                     if (!active) {
@@ -98,8 +136,17 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="hidden lg:flex items-center" style={{ gap: 12 }}>
-            <Link to="/dashboard" style={{ fontSize: 13, fontWeight: 500, color: '#4A4744', textDecoration: 'none', transition: 'color 0.2s' }}
+          {/* Desktop right actions — className kept for responsive display only */}
+          <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 12 }}>
+            <Link
+              to="/dashboard"
+              style={{
+                fontSize: 13,
+                fontWeight: 500,
+                color: '#4A4744',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+              }}
               onMouseEnter={(e) => { e.currentTarget.style.color = '#B8405E'; }}
               onMouseLeave={(e) => { e.currentTarget.style.color = '#4A4744'; }}
             >
@@ -131,12 +178,30 @@ export default function Navbar() {
             </Link>
           </div>
 
+          {/* Hamburger — className kept for lg:hidden responsive display only */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 -mr-2 text-[#4A4744] hover:text-[#B8405E]"
+            className="lg:hidden"
             aria-label="Toggle menu"
+            style={{
+              padding: 8,
+              marginRight: -8,
+              color: hoveredHamburger ? '#B8405E' : '#4A4744',
+              transition: 'color 0.2s',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onMouseEnter={() => setHoveredHamburger(true)}
+            onMouseLeave={() => setHoveredHamburger(false)}
           >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileOpen
+              ? <X style={{ width: 24, height: 24 }} />
+              : <Menu style={{ width: 24, height: 24 }} />
+            }
           </button>
         </div>
       </div>
@@ -148,32 +213,87 @@ export default function Navbar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden overflow-hidden bg-[#FFFBF8] border-b border-[#F0E6DC]"
+            /* className kept for lg:hidden responsive display only */
+            className="lg:hidden"
+            style={{
+              overflow: 'hidden',
+              backgroundColor: '#FFFBF8',
+              borderBottom: '1px solid #F0E6DC',
+            }}
           >
-            <div className="px-4 py-3 space-y-1">
+            <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {EVENTS.map(event => (
                 <Link
                   key={event.slug}
                   to={event.urlPath}
                   onClick={() => setMobileOpen(false)}
                   aria-current={isActive(event.urlPath) ? 'page' : undefined}
-                  className="block px-3 py-2.5 text-sm font-medium rounded-lg transition-colors"
-                  style={
-                    isActive(event.urlPath)
+                  style={{
+                    display: 'block',
+                    padding: '10px 12px',
+                    fontSize: 14,
+                    fontWeight: 500,
+                    borderRadius: 8,
+                    transition: 'background-color 0.15s, color 0.15s',
+                    textDecoration: 'none',
+                    ...(isActive(event.urlPath)
                       ? { backgroundColor: `${event.accentColor}1F`, color: event.accentColor }
                       : { color: '#4A4744' }
-                  }
+                    ),
+                  }}
                 >
                   {event.label}
                 </Link>
               ))}
-              <div className="pt-3 mt-2 border-t border-[#F0E6DC] space-y-2">
-                <Link to="/dashboard" onClick={() => setMobileOpen(false)}
-                  className="block w-full py-2.5 text-sm font-medium text-[#4A4744] text-center hover:text-[#B8405E]">
+              <div
+                style={{
+                  paddingTop: 12,
+                  marginTop: 8,
+                  borderTop: '1px solid #F0E6DC',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
+                }}
+              >
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '10px 0',
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: hoveredMobileLogin ? '#B8405E' : '#4A4744',
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                    transition: 'color 0.2s',
+                  }}
+                  onMouseEnter={() => setHoveredMobileLogin(true)}
+                  onMouseLeave={() => setHoveredMobileLogin(false)}
+                >
                   Login
                 </Link>
-                <Link to="/events/wedding" onClick={() => setMobileOpen(false)}
-                  className="block w-full py-2.5 text-sm font-bold text-white bg-[#B8405E] rounded-full text-center hover:bg-[#A03650] shadow-[0_6px_28px_rgba(184,64,94,0.4)]">
+                <Link
+                  to="/events/wedding"
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '10px 0',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: '#fff',
+                    backgroundColor: hoveredMobileCta ? '#A03650' : '#B8405E',
+                    borderRadius: 50,
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                    boxShadow: '0 6px 28px rgba(184,64,94,0.4)',
+                    transition: 'background-color 0.2s',
+                  }}
+                  onMouseEnter={() => setHoveredMobileCta(true)}
+                  onMouseLeave={() => setHoveredMobileCta(false)}
+                >
                   Create Website
                 </Link>
               </div>

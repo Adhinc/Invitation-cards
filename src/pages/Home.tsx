@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,7 +18,6 @@ import {
 import { EVENTS, PRICING_PLANS } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
 import { Button, Badge, Card } from '../components/ui';
-import { cn } from '../utils/cn';
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -92,19 +92,15 @@ const benefits = [
   { title: 'Easy for Everyone', desc: 'No app downloads needed. Works on any phone. Even grandparents can open it.' },
   { title: 'Feels Personal, Not Generic', desc: 'Beautiful designs crafted for Indian celebrations. Feels like you, not a template.' },
   { title: 'Always With Your Guests', desc: 'Lives on their phone — no more "where was the venue again?" messages.' },
-  { title: 'Trusted by Thousands', desc: '10,000+ families across India trust us for their most important moments.' },
+  { title: 'Ready in Minutes', desc: 'Our AI helps you create a stunning invitation website faster than you can write a WhatsApp message.' },
 ];
 
-const testimonials = [
-  { initials: 'SM', name: 'Sneha M.', event: 'Family Celebration', quote: 'The website was perfect! All our guests loved the digital invite.' },
-  { initials: 'RK', name: 'Rajesh K.', event: 'Special Occasion', quote: 'Created a beautiful theme in just 2 minutes. So easy!' },
-  { initials: 'PS', name: 'Priya S.', event: 'Milestone Event', quote: 'Made our event extra special with a gorgeous website.' },
-];
+const testimonials: any[] = [];
 
 const stats = [
-  { value: '10,000+', label: 'Happy families' },
-  { value: '50,000+', label: 'Websites created' },
-  { value: '4.9/5', label: 'User rating' },
+  { value: '8+', label: 'Event types' },
+  { value: '15+', label: 'Templates' },
+  { value: '5 min', label: 'Setup time' },
 ];
 
 /** Show only 1M, 3M, 1Y plans */
@@ -132,7 +128,7 @@ function StepConnector() {
 
 function FloatingInvitationCard() {
   return (
-    <div className="relative" style={{ maxWidth: 380, width: '100%' }}>
+    <div style={{ position: 'relative', maxWidth: 380, width: '100%' }}>
       {/* Main floating card */}
       <div
         className="animate-[float_6s_ease-in-out_infinite]"
@@ -197,22 +193,22 @@ function FloatingInvitationCard() {
       </div>
 
       {/* Floating decorative elements */}
-      <div className="absolute animate-[float_3s_ease-in-out_infinite]" style={{ top: -16, right: -20 }}>
+      <div className="animate-[float_3s_ease-in-out_infinite]" style={{ position: 'absolute', top: -16, right: -20 }}>
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
           <path d="M12 3C12 3 14 7 18 8C14 9 12 13 12 13C12 13 10 9 6 8C10 7 12 3 12 3Z" fill="#FFD700" opacity="0.7" />
         </svg>
       </div>
-      <div className="absolute animate-[float_4s_ease-in-out_infinite_0.5s]" style={{ top: '35%', left: -28 }}>
+      <div className="animate-[float_4s_ease-in-out_infinite_0.5s]" style={{ position: 'absolute', top: '35%', left: -28 }}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="#E8A5A5" opacity="0.6">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
       </div>
-      <div className="absolute animate-[float_5s_ease-in-out_infinite_1s]" style={{ bottom: -8, right: -12 }}>
+      <div className="animate-[float_5s_ease-in-out_infinite_1s]" style={{ position: 'absolute', bottom: -8, right: -12 }}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path d="M12 3C12 3 14 7 18 8C14 9 12 13 12 13C12 13 10 9 6 8C10 7 12 3 12 3Z" fill="#C9A227" opacity="0.5" />
         </svg>
       </div>
-      <div className="absolute animate-[float_3.5s_ease-in-out_infinite_1.5s]" style={{ bottom: '30%', left: -16 }}>
+      <div className="animate-[float_3.5s_ease-in-out_infinite_1.5s]" style={{ position: 'absolute', bottom: '30%', left: -16 }}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="12" r="4" fill="#F5C6D0" opacity="0.6" />
         </svg>
@@ -260,7 +256,7 @@ function FloatingInvitationCard() {
 
 function WhatsAppShareCard() {
   return (
-    <div className="relative" style={{ maxWidth: 340, width: '100%' }}>
+    <div style={{ position: 'relative', maxWidth: 340, width: '100%' }}>
       {/* WhatsApp chat bubble */}
       <div
         className="animate-[float_5s_ease-in-out_infinite]"
@@ -302,16 +298,16 @@ function WhatsAppShareCard() {
                 </div>
               </div>
               <p style={{ padding: '4px 10px 6px', fontSize: 12, color: '#303030' }}>
-                We're getting married! 💍✨ Open the invitation link 🥰
+                We're getting married! {'\uD83D\uDC8D\u2728'} Open the invitation link {'\uD83E\uDD70'}
               </p>
-              <p style={{ textAlign: 'right', padding: '0 8px 4px', fontSize: 9, color: '#8D8A86' }}>10:32 AM ✓✓</p>
+              <p style={{ textAlign: 'right', padding: '0 8px 4px', fontSize: 9, color: '#8D8A86' }}>10:32 AM {'\u2713\u2713'}</p>
             </div>
           </div>
 
           {/* Reply */}
           <div style={{ alignSelf: 'flex-start', maxWidth: '70%' }}>
             <div style={{ background: '#fff', borderRadius: '4px 12px 12px 12px', padding: '8px 10px' }}>
-              <p style={{ fontSize: 12, color: '#303030' }}>Omg this is so beautiful! 😍🎉 We'll be there!</p>
+              <p style={{ fontSize: 12, color: '#303030' }}>Omg this is so beautiful! {'\uD83D\uDE0D\uD83C\uDF89'} We'll be there!</p>
               <p style={{ textAlign: 'right', fontSize: 9, color: '#8D8A86', marginTop: 2 }}>10:33 AM</p>
             </div>
           </div>
@@ -319,7 +315,7 @@ function WhatsAppShareCard() {
           {/* Another reply */}
           <div style={{ alignSelf: 'flex-start', maxWidth: '60%' }}>
             <div style={{ background: '#fff', borderRadius: '4px 12px 12px 12px', padding: '8px 10px' }}>
-              <p style={{ fontSize: 12, color: '#303030' }}>Love the invitation! ❤️🙌</p>
+              <p style={{ fontSize: 12, color: '#303030' }}>Love the invitation! {'\u2764\uFE0F\uD83D\uDE4C'}</p>
               <p style={{ textAlign: 'right', fontSize: 9, color: '#8D8A86', marginTop: 2 }}>10:34 AM</p>
             </div>
           </div>
@@ -327,12 +323,12 @@ function WhatsAppShareCard() {
       </div>
 
       {/* Floating notification badges */}
-      <div className="absolute animate-[float_3s_ease-in-out_infinite]" style={{ top: -12, right: -8 }}>
+      <div className="animate-[float_3s_ease-in-out_infinite]" style={{ position: 'absolute', top: -12, right: -8 }}>
         <div style={{ background: '#25D366', color: '#fff', fontSize: 11, fontWeight: 700, width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(37,211,102,0.4)' }}>
           3
         </div>
       </div>
-      <div className="absolute animate-[float_4s_ease-in-out_infinite_1s]" style={{ bottom: 20, left: -16 }}>
+      <div className="animate-[float_4s_ease-in-out_infinite_1s]" style={{ position: 'absolute', bottom: 20, left: -16 }}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" opacity="0.4">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
@@ -349,7 +345,7 @@ function QRSection() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, maxWidth: 900, margin: '0 auto', flexWrap: 'wrap' }}>
       {/* Paper Card with QR */}
-      <div className="relative animate-[float_6s_ease-in-out_infinite]">
+      <div className="animate-[float_6s_ease-in-out_infinite]" style={{ position: 'relative' }}>
         <div style={{ width: 240, background: '#fff', borderRadius: 16, boxShadow: '0 16px 48px rgba(0,0,0,0.08)', border: '1px solid #F0E6DC', padding: 24 }}>
           <div style={{ border: '2px solid #F0E6DC', borderRadius: 10, padding: 20, textAlign: 'center', position: 'relative' }}>
             {/* Corner ornaments */}
@@ -402,7 +398,7 @@ function QRSection() {
       </div>
 
       {/* Digital invitation card */}
-      <div className="relative animate-[float_6s_ease-in-out_infinite_0.5s]">
+      <div className="animate-[float_6s_ease-in-out_infinite_0.5s]" style={{ position: 'relative' }}>
         <div style={{
           width: 240,
           background: 'linear-gradient(135deg, #FFFBF8 0%, #FFF0F4 100%)',
@@ -440,35 +436,40 @@ function QRSection() {
 /* ------------------------------------------------------------------ */
 
 export function Component() {
+  const [hoveredCategoryIdx, setHoveredCategoryIdx] = useState<number | null>(null);
+  const [heroBtnHover, setHeroBtnHover] = useState(false);
+  const [ctaBtnHover, setCtaBtnHover] = useState(false);
+  const [hoveredBenefitIdx, setHoveredBenefitIdx] = useState<number | null>(null);
+  const [hoveredPlanIdx, setHoveredPlanIdx] = useState<number | null>(null);
+
   return (
     <div>
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           1. HERO — gradient bg, two-column, star badge
-          bg: linear-gradient(#FFFBF8, #FFF5EE)
-          padding: 126px 72px 40px
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
-        className="relative overflow-hidden"
         style={{
+          position: 'relative',
+          overflow: 'hidden',
           background: 'linear-gradient(rgb(255, 251, 248) 0%, rgb(255, 245, 238) 100%)',
-          padding: '126px 20px 40px',
+          padding: '128px 24px 80px',
         }}
       >
-        <div className="flex flex-col md:flex-row items-center justify-center" style={{ gap: 48, maxWidth: 1100, margin: '0 auto' }}>
+        <div className="flex-col md:flex-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 48, maxWidth: 1100, margin: '0 auto' }}>
           {/* Text — left */}
-          <div className="text-center md:text-left flex-1" style={{ maxWidth: 540 }}>
+          <div className="text-center md:text-left" style={{ flex: 1, maxWidth: 540 }}>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-              {/* Hero badge — star icon + text like BigDates */}
-              <span className="inline-flex items-center gap-2 bg-white/80 border border-[#F0E6DC] rounded-full text-[#4A4044]" style={{ padding: '6px 12px', fontSize: '12.8px', marginBottom: 16, borderRadius: 50 }}>
+              {/* Hero badge */}
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.8)', border: '1px solid #F0E6DC', borderRadius: 50, color: '#4A4044', padding: '6px 12px', fontSize: 13, marginBottom: 16 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                 </svg>
-                <span>Loved by 10,000+ families</span>
+                <span>AI-Powered Invitations</span>
               </span>
             </motion.div>
 
@@ -476,19 +477,17 @@ export function Component() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="tracking-tight text-[#1F1A1B]"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 44, lineHeight: '55px', marginBottom: 16 }}
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 48, lineHeight: 1.2, marginBottom: 16, letterSpacing: '-0.025em', color: '#1F1A1B' }}
             >
               Create beautiful invitations for your{' '}
-              <span className="text-[#B8405E]">special moments</span>
+              <span style={{ color: '#B8405E' }}>special moments</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-[#4A4044]"
-              style={{ fontFamily: "'Nunito Sans', -apple-system, sans-serif", fontSize: 16, lineHeight: '25.6px', marginBottom: 24 }}
+              style={{ fontFamily: "'Nunito Sans', -apple-system, sans-serif", fontSize: 16, lineHeight: 1.6, marginBottom: 24, color: '#4A4044' }}
             >
               Weddings, birthdays, and celebrations deserve to be remembered.
               Create your invitation website in minutes — no design skills needed.
@@ -499,20 +498,35 @@ export function Component() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              {/* CTA button — gradient like BigDates: linear-gradient(135deg, #B8405E, #D4548F) */}
               <Link to={EVENTS[0].urlPath}>
                 <button
-                  className="inline-flex items-center gap-2 text-white shadow-[0_6px_28px_rgba(184,64,94,0.4)] transition-all hover:shadow-[0_8px_36px_rgba(184,64,94,0.5)] hover:-translate-y-0.5"
-                  style={{ background: 'linear-gradient(135deg, #9A3350, #B8405E)', padding: '14px 28px', borderRadius: 28, fontSize: 15, fontWeight: 700 }}
+                  onMouseEnter={() => setHeroBtnHover(true)}
+                  onMouseLeave={() => setHeroBtnHover(false)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    color: '#fff',
+                    background: 'linear-gradient(135deg, #9A3350, #B8405E)',
+                    padding: '14px 32px',
+                    borderRadius: 28,
+                    fontSize: 15,
+                    fontWeight: 600,
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: heroBtnHover ? '0 8px 36px rgba(184,64,94,0.5)' : '0 6px 28px rgba(184,64,94,0.4)',
+                    transform: heroBtnHover ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'all 0.2s ease',
+                  }}
                 >
                   <span>Create Website</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 20, height: 20 }}>
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
                   </svg>
                 </button>
               </Link>
-              <p className="text-[#8D8A86]" style={{ fontSize: 13.6, marginTop: 12 }}>No credit card required &bull; Ready in minutes</p>
+              <p style={{ fontSize: 14, marginTop: 12, color: '#8D8A86' }}>No credit card required &bull; Ready in minutes</p>
             </motion.div>
           </div>
 
@@ -521,47 +535,44 @@ export function Component() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex justify-center flex-shrink-0"
+            style={{ display: 'flex', justifyContent: 'center', flexShrink: 0 }}
           >
             <FloatingInvitationCard />
           </motion.div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
-          2. SHOWCASE (Trusted Worldwide) — scrolling card carousel
-          bg: linear-gradient(#FFF5EE, #FFFBF8)
-          padding: 60px 0 80px
-      ══════════════════════════════════════════════════════════════ */}
+      {/* ==============================================================
+          2. SHOWCASE — scrolling card carousel
+      ============================================================== */}
       <section
-        className="relative overflow-hidden"
         style={{
+          position: 'relative',
+          overflow: 'hidden',
           background: 'linear-gradient(rgb(255, 245, 238) 0%, rgb(255, 251, 248) 100%)',
-          padding: '60px 0 80px',
+          padding: '80px 0',
         }}
       >
         {/* Header */}
-        <div className="text-center" style={{ maxWidth: 600, margin: '0 auto', marginBottom: 48, padding: '0 20px' }}>
+        <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto', marginBottom: 32, padding: '0 24px' }}>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2"
-            style={{ marginBottom: 20, padding: '10px 20px', borderRadius: 50 }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 16, padding: '6px 16px', borderRadius: 50 }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B8405E" strokeWidth="2">
               <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
             </svg>
-            <span style={{ fontSize: 16, fontWeight: 700 }} className="text-[#B8405E]">49,799</span>
+            <span style={{ fontSize: 13, fontWeight: 500, color: '#B8405E' }}>Beautiful Templates</span>
           </motion.div>
           <h2
-            className="text-[#1F1A1B]"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 40, lineHeight: '44px', marginBottom: 12 }}
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#1F1A1B' }}
           >
-            Trusted Worldwide
+            Beautiful Templates
           </h2>
-          <p style={{ color: '#8D8A86', fontSize: 16.8, lineHeight: '25.2px', maxWidth: 480, margin: '0 auto' }}>
-            Join thousands who created beautiful digital invitations for their special occasions
+          <p style={{ color: '#8D8A86', fontSize: 14, lineHeight: 1.5, maxWidth: 480, margin: '0 auto' }}>
+            Stunning designs crafted for Indian celebrations — weddings, birthdays, and more
           </p>
         </div>
 
@@ -578,66 +589,61 @@ export function Component() {
             1024: { slidesPerView: 5, spaceBetween: 16 },
             1280: { slidesPerView: 6, spaceBetween: 16 },
           }}
-          className="px-4"
+          style={{ padding: '0 16px' }}
         >
           {showcaseCards.map((card, i) => (
             <SwiperSlide key={i}>
-              <div className="rounded-xl overflow-hidden relative group cursor-pointer">
-                <div className="aspect-[9/16] bg-[#f5f5f5]">
+              <div style={{ borderRadius: 12, overflow: 'hidden', position: 'relative', cursor: 'pointer' }}>
+                <div style={{ aspectRatio: '9/16', background: '#f5f5f5' }}>
                   <img
                     src={card.image}
                     alt={`${card.label} invitation`}
-                    className="w-full h-full object-cover"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     loading="lazy"
                   />
                 </div>
                 <div
-                  className="absolute bottom-3 left-3 px-3 py-1 rounded-full text-white text-xs font-medium"
-                  style={{ background: card.accent }}
+                  style={{ position: 'absolute', bottom: 12, left: 12, padding: '4px 12px', borderRadius: 50, color: '#fff', fontSize: 12, fontWeight: 500, background: card.accent }}
                 >
                   {card.label}
                 </div>
                 {/* Card reflection effect */}
-                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/10 to-transparent" />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 64, background: 'linear-gradient(to top, rgba(0,0,0,0.1), transparent)' }} />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           3. CATEGORIES — "What Are You Celebrating?"
-          bg: linear-gradient(#FFFBF8, #FFF5EE 50%, #FFFBF8)
-          padding: 60px 72px 50px
-          4-column grid of compact row cards
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
         style={{
           background: 'linear-gradient(rgb(255, 251, 248) 0%, rgb(255, 245, 238) 50%, rgb(255, 251, 248) 100%)',
-          padding: '60px 20px 50px',
+          padding: '80px 24px',
         }}
       >
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* Section header */}
-        <div className="text-center" style={{ maxWidth: 600, margin: '0 auto', marginBottom: 24 }}>
+        <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto', marginBottom: 32 }}>
           <h2
-            className="text-[#1F1A1B]"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 32, lineHeight: '38.4px', marginBottom: 8 }}
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#1F1A1B' }}
           >
-            What Are You <span className="text-[#B8405E]">Celebrating?</span>
+            What Are You <span style={{ color: '#B8405E' }}>Celebrating?</span>
           </h2>
-          <p style={{ color: '#4A4044', fontSize: 14.4, lineHeight: '20.16px' }}>
+          <p style={{ color: '#8D8A86', fontSize: 14, lineHeight: 1.5 }}>
             Every moment deserves its own beautiful invitation website.
           </p>
         </div>
 
-        {/* Compact grid — 4 columns on desktop like BigDates */}
+        {/* Compact grid — 4 columns on desktop */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: 16 }}
+          className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ display: 'grid', gap: 16 }}
         >
           {CATEGORY_CARDS.map((cat, i) => {
             const isComingSoon = cat.slug === null;
@@ -646,46 +652,58 @@ export function Component() {
             const wrapperProps = isComingSoon
               ? {}
               : { to: eventConfig?.urlPath || '/' };
+            const isHovered = hoveredCategoryIdx === i;
 
             return (
               <motion.div key={cat.label} variants={fadeUp}>
                 <Wrapper
                   {...(wrapperProps as any)}
-                  className={cn(
-                    'flex items-center gap-3 border transition-all duration-200',
-                    !isComingSoon && 'hover:shadow-md hover:-translate-y-px cursor-pointer',
-                    isComingSoon && 'opacity-80',
-                  )}
+                  onMouseEnter={() => !isComingSoon && setHoveredCategoryIdx(i)}
+                  onMouseLeave={() => setHoveredCategoryIdx(null)}
                   style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    border: `1px solid ${cat.accent}40`,
                     background: cat.bg,
-                    borderColor: `${cat.accent}40`,
                     animationDelay: `${i * 0.05}s`,
                     padding: '14px 16px',
                     borderRadius: 12,
+                    transition: 'all 0.2s ease',
+                    textDecoration: 'none',
+                    cursor: isComingSoon ? 'default' : 'pointer',
+                    opacity: isComingSoon ? 0.8 : 1,
+                    boxShadow: isHovered && !isComingSoon ? '0 4px 12px rgba(0,0,0,0.1)' : 'none',
+                    transform: isHovered && !isComingSoon ? 'translateY(-1px)' : 'translateY(0)',
                   }}
                 >
                   {/* Thumbnail */}
                   <div
-                    className="w-12 h-12 rounded-lg bg-cover bg-center flex-shrink-0"
                     style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 8,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      flexShrink: 0,
                       backgroundColor: `${cat.accent}20`,
                       backgroundImage: cat.thumb ? `url(${cat.thumb})` : undefined,
                     }}
                   />
 
                   {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[#1F1A1B]" style={{ fontWeight: 600, fontSize: 14 }}>{cat.label}</h3>
-                    <p className="truncate" style={{ fontSize: 12, color: '#6B6863', lineHeight: '15px' }}>{cat.tagline}</p>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <h3 style={{ fontWeight: 600, fontSize: 14, color: '#1F1A1B' }}>{cat.label}</h3>
+                    <p style={{ fontSize: 12, color: '#8D8A86', lineHeight: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{cat.tagline}</p>
                   </div>
 
                   {/* Arrow or Coming Soon badge */}
                   {isComingSoon ? (
-                    <span className="text-[9px] font-semibold uppercase tracking-wider text-[#0D9488] bg-[#0D9488]/10 px-2 py-1 rounded-full whitespace-nowrap">
+                    <span style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#0D9488', background: 'rgba(13,148,136,0.1)', padding: '4px 8px', borderRadius: 50, whiteSpace: 'nowrap' }}>
                       Coming Soon
                     </span>
                   ) : (
-                    <span className="flex-shrink-0" style={{ color: cat.accent }}>
+                    <span style={{ flexShrink: 0, color: cat.accent }}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                         <path d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
@@ -699,27 +717,24 @@ export function Component() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           4. HOW IT WORKS — step number + icon + h3 + p, SVG connectors
-          bg: #FFFBF8
-          padding: 50px 72px
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
         style={{
           background: 'rgb(255, 251, 248)',
-          padding: '50px 20px',
+          padding: '80px 24px',
         }}
       >
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         {/* Section header */}
-        <div className="text-center" style={{ maxWidth: 600, margin: '0 auto', marginBottom: 24 }}>
+        <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto', marginBottom: 32 }}>
           <h2
-            className="text-[#1F1A1B]"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 32, lineHeight: '38.4px', marginBottom: 8 }}
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#1F1A1B' }}
           >
             From Idea to Invitation in Minutes
           </h2>
-          <p style={{ color: '#8D8A86', fontSize: 14.4, lineHeight: '20.16px' }}>
+          <p style={{ color: '#8D8A86', fontSize: 14, lineHeight: 1.5 }}>
             No stress. No learning. Just simple steps.
           </p>
         </div>
@@ -730,11 +745,11 @@ export function Component() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
-          style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: 0 }}
           className="flex-col md:flex-row"
+          style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: 0 }}
         >
           {steps.map((s, i) => (
-            <div key={s.num} className="contents">
+            <div key={s.num} style={{ display: 'contents' }}>
               <motion.div variants={fadeUp} style={{ textAlign: 'center', flex: 1, maxWidth: 280, padding: '0 16px' }}>
                 {/* Step number + icon combined */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 16 }}>
@@ -745,8 +760,8 @@ export function Component() {
                     {s.icon}
                   </div>
                 </div>
-                <h3 style={{ fontWeight: 600, fontSize: 16, color: '#1F1A1B', marginBottom: 6 }}>{s.title}</h3>
-                <p style={{ fontSize: 14, color: '#8D8A86', lineHeight: '21px' }}>{s.desc}</p>
+                <h3 style={{ fontWeight: 600, fontSize: 20, lineHeight: 1.3, color: '#1F1A1B', marginBottom: 6 }}>{s.title}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.5, color: '#8D8A86' }}>{s.desc}</p>
               </motion.div>
               {i < steps.length - 1 && <StepConnector />}
             </div>
@@ -755,33 +770,31 @@ export function Component() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           5. WHATSAPP — GREEN gradient background, two-column
-          bg: linear-gradient(#F0FFF4, #E8F5E9 50%, #F1F8E9)
-          padding: 80px 40px
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
-        className="overflow-hidden"
         style={{
+          overflow: 'hidden',
           background: 'linear-gradient(rgb(240, 255, 244) 0%, rgb(232, 245, 233) 50%, rgb(241, 248, 233) 100%)',
-          padding: '80px 20px',
+          padding: '80px 24px',
         }}
       >
-        <div className="flex flex-col md:flex-row items-center justify-center" style={{ gap: 100, maxWidth: 1100, margin: '0 auto' }}>
+        <div className="flex-col md:flex-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 100, maxWidth: 1100, margin: '0 auto' }}>
           {/* Content — left */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
-            className="text-center md:text-left flex-1" style={{ maxWidth: 480 }}
+            className="text-center md:text-left" style={{ flex: 1, maxWidth: 480 }}
           >
             {/* WhatsApp badge */}
             <motion.span
               variants={fadeUp}
-              className="inline-flex items-center gap-2 bg-[#25D366]/10 text-[#128C7E] rounded-full px-4 py-1.5 text-sm font-medium mb-4"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(37,211,102,0.1)', color: '#128C7E', borderRadius: 50, padding: '6px 16px', fontSize: 13, fontWeight: 500, marginBottom: 16 }}
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+              <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 16, height: 16 }}>
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>
               Share via WhatsApp
@@ -789,22 +802,21 @@ export function Component() {
 
             <motion.h2
               variants={fadeUp}
-              className="text-[#1F1A1B]"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 700, fontSize: 44, lineHeight: '55px', marginBottom: 14 }}
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#1F1A1B' }}
             >
-              Invite Guests <span className="text-[#25D366]">Instantly</span>
+              Invite Guests <span style={{ color: '#25D366' }}>Instantly</span>
             </motion.h2>
 
-            <motion.p variants={fadeUp} style={{ color: '#4A4044', fontSize: 16, lineHeight: '25.6px', marginBottom: 24 }}>
+            <motion.p variants={fadeUp} style={{ color: '#4A4044', fontSize: 16, lineHeight: 1.6, marginBottom: 24 }}>
               Just send a link. Guests open your invitation website instantly.
             </motion.p>
 
             {/* Benefits */}
-            <motion.div variants={fadeUp} className="flex flex-wrap justify-center md:justify-start gap-4">
+            <motion.div variants={fadeUp} className="flex-wrap justify-center md:justify-start" style={{ display: 'flex', gap: 16 }}>
               {['One-Tap Access', 'Share to Groups', 'No App Needed'].map((benefit) => (
-                <div key={benefit} className="flex items-center gap-2">
-                  <Check size={18} className="text-[#25D366] flex-shrink-0" />
-                  <span className="text-sm text-[#1F1A1B] font-medium">{benefit}</span>
+                <div key={benefit} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Check size={18} style={{ color: '#25D366', flexShrink: 0 }} />
+                  <span style={{ fontSize: 14, color: '#1F1A1B', fontWeight: 500 }}>{benefit}</span>
                 </div>
               ))}
             </motion.div>
@@ -816,40 +828,38 @@ export function Component() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex-shrink-0"
+            style={{ flexShrink: 0 }}
           >
             <WhatsAppShareCard />
           </motion.div>
         </div>
 
         {/* Mobile benefits row */}
-        <div className="flex md:hidden justify-center mt-8" style={{ gap: 16, maxWidth: 1100, margin: '32px auto 0' }}>
+        <div className="flex md:hidden" style={{ justifyContent: 'center', marginTop: 32, gap: 16, maxWidth: 1100, margin: '32px auto 0' }}>
           {['One-Tap Access', 'Share to Groups', 'No App Needed'].map((b) => (
-            <div key={b} className="flex items-center" style={{ gap: 6 }}>
-              <Check size={14} className="text-[#25D366]" />
+            <div key={b} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Check size={14} style={{ color: '#25D366' }} />
               <span style={{ fontSize: 12, color: '#1F1A1B' }}>{b}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           6. QR BRIDGE — "Tradition on Paper. Magic on Phone."
-          bg: linear-gradient(#FFFCF9, #FFF8F5 50%, #FFF4F0)
-          padding: 70px 20px
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
-        className="overflow-hidden"
         style={{
+          overflow: 'hidden',
           background: 'linear-gradient(rgb(255, 252, 249) 0%, rgb(255, 248, 245) 50%, rgb(255, 244, 240) 100%)',
-          padding: '70px 20px',
+          padding: '80px 24px',
         }}
       >
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           {/* Section header */}
-          <div className="text-center" style={{ marginBottom: 48 }}>
-            <span className="inline-flex items-center gap-2 bg-[#B8405E]/10 text-[#B8405E] rounded-full font-medium" style={{ padding: '10px 20px', fontSize: 14, marginBottom: 20, borderRadius: 50 }}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(184,64,94,0.1)', color: '#B8405E', borderRadius: 50, fontWeight: 500, padding: '6px 16px', fontSize: 13, marginBottom: 16 }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 16, height: 16 }}>
                 <rect x="3" y="3" width="7" height="7" />
                 <rect x="14" y="3" width="7" height="7" />
                 <rect x="14" y="14" width="7" height="7" />
@@ -858,12 +868,11 @@ export function Component() {
               Paper + Digital
             </span>
             <h2
-              className="text-[#1F1A1B]"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 700, fontSize: 40, lineHeight: '50px', marginBottom: 14 }}
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#1F1A1B' }}
             >
-              Tradition on Paper. <span className="text-[#B8405E]">Magic on Phone.</span>
+              Tradition on Paper. <span style={{ color: '#B8405E' }}>Magic on Phone.</span>
             </h2>
-            <p style={{ color: '#8D8A86', fontSize: 16, lineHeight: '25.6px', maxWidth: 520, margin: '0 auto' }}>
+            <p style={{ color: '#8D8A86', fontSize: 14, lineHeight: 1.5, maxWidth: 520, margin: '0 auto' }}>
               Print a QR code on your card. Guests scan to see your beautiful digital e-invite instantly!
             </p>
           </div>
@@ -872,14 +881,13 @@ export function Component() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           7. WHY CHOOSE — warm brown/mauve gradient with glass cards
-          bg: linear-gradient(145deg, #D4B8B8, #C9A8A8 20%, #BFA0A0 40%, #B89898 60%, #C4A8A8 80%, #D0B8B8)
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
         style={{
           background: 'linear-gradient(145deg, rgb(212, 184, 184) 0%, rgb(201, 168, 168) 20%, rgb(191, 160, 160) 40%, rgb(184, 152, 152) 60%, rgb(196, 168, 168) 80%, rgb(208, 184, 184) 100%)',
-          padding: '80px 20px',
+          padding: '80px 24px',
         }}
       >
         <motion.div
@@ -889,32 +897,35 @@ export function Component() {
           variants={stagger}
           style={{ maxWidth: 1100, margin: '0 auto' }}
         >
-          <div className="text-center" style={{ marginBottom: 40 }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <h2
-              className="text-white"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400, fontSize: 44, lineHeight: '52.8px', marginBottom: 16 }}
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#fff' }}
             >
               Why Choose Invitation.AI?
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: '25.6px', maxWidth: 480, margin: '0 auto' }}>
+            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.5, maxWidth: 480, margin: '0 auto' }}>
               Everything a paper invitation does, but better.
             </p>
           </div>
 
-          <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 16 }}>
-            {benefits.map((b) => (
+          <motion.div variants={stagger} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ display: 'grid', gap: 16 }}>
+            {benefits.map((b, i) => (
               <motion.div key={b.title} variants={fadeUp}>
-                <div className="h-full transition-all hover:bg-white/20"
+                <div
+                  onMouseEnter={() => setHoveredBenefitIdx(i)}
+                  onMouseLeave={() => setHoveredBenefitIdx(null)}
                   style={{
-                    background: 'rgba(255, 255, 255, 0.15)',
+                    height: '100%',
+                    background: hoveredBenefitIdx === i ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.15)',
                     backdropFilter: 'blur(10px)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: 12,
                     padding: 24,
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <h3 style={{ fontWeight: 600, fontSize: 14, color: '#fff', marginBottom: 6 }}>{b.title}</h3>
-                  <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: '21px' }}>{b.desc}</p>
+                  <h3 style={{ fontWeight: 600, fontSize: 20, lineHeight: 1.3, color: '#fff', marginBottom: 6 }}>{b.title}</h3>
+                  <p style={{ fontSize: 14, lineHeight: 1.5, color: 'rgba(255,255,255,0.6)' }}>{b.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -923,16 +934,14 @@ export function Component() {
       </section>
 
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           9. FINAL CTA — "Your celebration deserves to be special"
-          bg: #FFFBF8
-          padding: 60px 72px
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
-        className="text-center"
         style={{
+          textAlign: 'center',
           background: 'rgb(255, 251, 248)',
-          padding: '60px 20px',
+          padding: '80px 24px',
         }}
       >
         <motion.div
@@ -944,21 +953,36 @@ export function Component() {
         >
           <motion.h2
             variants={fadeUp}
-            className="text-[#1F1A1B]"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 35.2, lineHeight: '45.76px', marginBottom: 12 }}
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#1F1A1B' }}
           >
             Your celebration deserves to be special
           </motion.h2>
 
-          <motion.p variants={fadeUp} style={{ color: '#4A4044', fontSize: 16, lineHeight: '25.6px', marginBottom: 32 }}>
+          <motion.p variants={fadeUp} style={{ color: '#8D8A86', fontSize: 14, lineHeight: 1.5, marginBottom: 32 }}>
             Start creating your beautiful invitation website right now.
           </motion.p>
 
           <motion.div variants={fadeUp}>
             <Link to={EVENTS[0].urlPath}>
               <button
-                className="inline-flex items-center gap-2 text-white shadow-[0_6px_28px_rgba(184,64,94,0.4)] transition-all hover:shadow-[0_8px_36px_rgba(184,64,94,0.5)] hover:-translate-y-0.5"
-                style={{ background: 'linear-gradient(135deg, #9A3350, #B8405E)', padding: '14px 32px', borderRadius: 8, fontSize: 15, fontWeight: 600 }}
+                onMouseEnter={() => setCtaBtnHover(true)}
+                onMouseLeave={() => setCtaBtnHover(false)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  color: '#fff',
+                  background: 'linear-gradient(135deg, #9A3350, #B8405E)',
+                  padding: '14px 32px',
+                  borderRadius: 28,
+                  fontSize: 15,
+                  fontWeight: 600,
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: ctaBtnHover ? '0 8px 36px rgba(184,64,94,0.5)' : '0 6px 28px rgba(184,64,94,0.4)',
+                  transform: ctaBtnHover ? 'translateY(-2px)' : 'translateY(0)',
+                  transition: 'all 0.2s ease',
+                }}
               >
                 Create Your Invitation
               </button>
@@ -966,12 +990,12 @@ export function Component() {
           </motion.div>
 
           {/* Trust badges */}
-          <motion.div variants={fadeUp} className="flex items-center justify-center" style={{ gap: 24, marginTop: 24 }}>
-            <div className="flex items-center" style={{ gap: 6, fontSize: 14, color: '#8D8A86' }}>
+          <motion.div variants={fadeUp} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, marginTop: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, color: '#8D8A86' }}>
               <Lock size={14} />
               <span>Safe & secure</span>
             </div>
-            <div className="flex items-center" style={{ gap: 6, fontSize: 14, color: '#8D8A86' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, color: '#8D8A86' }}>
               <Zap size={14} />
               <span>Fast & easy</span>
             </div>
@@ -979,24 +1003,23 @@ export function Component() {
         </motion.div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════
+      {/* ==============================================================
           10. PRICING — kept from original, styled to match
-      ══════════════════════════════════════════════════════════════ */}
+      ============================================================== */}
       <section
         style={{
           background: 'linear-gradient(rgb(255, 251, 248) 0%, rgb(255, 245, 238) 100%)',
-          padding: '60px 20px',
+          padding: '80px 24px',
         }}
       >
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div className="text-center" style={{ marginBottom: 32 }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <h2
-              className="text-[#1F1A1B]"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 32, lineHeight: '38.4px', marginBottom: 8 }}
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 600, fontSize: 36, lineHeight: 1.2, marginBottom: 16, color: '#1F1A1B' }}
             >
               Simple Pricing
             </h2>
-            <p style={{ color: '#8D8A86', fontSize: 14.4, lineHeight: '20.16px' }}>
+            <p style={{ color: '#8D8A86', fontSize: 14, lineHeight: 1.5 }}>
               Preview free. Pay only to activate your shareable link.
             </p>
             <p style={{ color: '#8D8A86', fontSize: 12, marginTop: 8 }}>
@@ -1009,19 +1032,25 @@ export function Component() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4"
+            className="grid-cols-1 md:grid-cols-3" style={{ display: 'grid', gap: 16 }}
           >
-            {visiblePlans.map((plan) => (
+            {visiblePlans.map((plan, i) => (
               <motion.div key={plan.id} variants={fadeUp}>
                 <div
-                  className="text-center relative transition-shadow hover:shadow-md"
+                  onMouseEnter={() => setHoveredPlanIdx(i)}
+                  onMouseLeave={() => setHoveredPlanIdx(null)}
                   style={{
+                    textAlign: 'center',
+                    position: 'relative',
                     background: '#fff',
                     borderRadius: 16,
                     padding: '32px 28px',
                     border: plan.preferred ? '2px solid #B8405E' : '1px solid #F0E6DC',
-                    boxShadow: plan.preferred ? '0 8px 24px rgba(184,64,94,0.15)' : '0 2px 8px rgba(0,0,0,0.04)',
+                    boxShadow: hoveredPlanIdx === i
+                      ? '0 4px 12px rgba(0,0,0,0.1)'
+                      : plan.preferred ? '0 8px 24px rgba(184,64,94,0.15)' : '0 2px 8px rgba(0,0,0,0.04)',
                     transform: plan.preferred ? 'scale(1.03)' : undefined,
+                    transition: 'box-shadow 0.2s ease',
                   }}
                 >
                   {plan.preferred && (
@@ -1050,7 +1079,6 @@ export function Component() {
                   <p style={{ fontSize: 13, color: '#8D8A86', marginBottom: 24 }}>{plan.duration} days</p>
                   <Link to={EVENTS[0].urlPath}>
                     <button
-                      className="transition-all"
                       style={{
                         width: '100%',
                         padding: '12px 0',
@@ -1062,6 +1090,7 @@ export function Component() {
                         background: plan.preferred ? 'linear-gradient(135deg, #9A3350, #B8405E)' : 'transparent',
                         color: plan.preferred ? '#fff' : '#B8405E',
                         boxShadow: plan.preferred ? '0 4px 16px rgba(184,64,94,0.3)' : 'none',
+                        transition: 'all 0.2s ease',
                       }}
                     >
                       Get Started

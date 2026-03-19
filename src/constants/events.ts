@@ -12,7 +12,7 @@ export interface EventConfig {
   tagline: string;
   subtitle: string;
   heroTitle: string;
-  socialProof: string;
+  heroSubtitle: string;
   countdownLabel: string;
   footerText: string;
 }
@@ -26,7 +26,7 @@ export const EVENTS: EventConfig[] = [
     tagline: 'Together with their families',
     subtitle: 'request the pleasure of your company',
     heroTitle: 'Create Your Dream Wedding Website',
-    socialProof: '12,847+ happy couples',
+    heroSubtitle: 'Your dream wedding, one beautiful link',
     countdownLabel: 'Countdown to Forever',
     footerText: "Can't wait to see you there!",
   },
@@ -38,7 +38,7 @@ export const EVENTS: EventConfig[] = [
     tagline: 'With joy in our hearts',
     subtitle: 'we invite you to celebrate our engagement',
     heroTitle: 'Create Your Betrothal Website',
-    socialProof: '3,200+ happy couples',
+    heroSubtitle: 'Celebrate your engagement beautifully',
     countdownLabel: 'Countdown to Our Day',
     footerText: "Can't wait to celebrate with you!",
   },
@@ -50,7 +50,7 @@ export const EVENTS: EventConfig[] = [
     tagline: "You're invited to celebrate",
     subtitle: 'a very special birthday',
     heroTitle: 'Create Your Birthday Website',
-    socialProof: '8,542+ parents & party planners',
+    heroSubtitle: 'Make their birthday unforgettable',
     countdownLabel: 'Countdown to the Party',
     footerText: 'Come celebrate with us!',
   },
@@ -62,7 +62,7 @@ export const EVENTS: EventConfig[] = [
     tagline: 'With gratitude and joy',
     subtitle: 'we invite you to witness the baptism of',
     heroTitle: 'Create Your Baptism Website',
-    socialProof: '4,100+ blessed families',
+    heroSubtitle: 'A sacred moment shared beautifully',
     countdownLabel: 'Countdown to the Ceremony',
     footerText: 'Your presence is a blessing!',
   },
@@ -74,7 +74,7 @@ export const EVENTS: EventConfig[] = [
     tagline: 'With hearts full of faith',
     subtitle: 'we invite you to the Holy Communion of',
     heroTitle: 'Create Your Holy Communion Website',
-    socialProof: '2,800+ families of faith',
+    heroSubtitle: 'A milestone of faith and grace',
     countdownLabel: 'Countdown to the Ceremony',
     footerText: 'Join us in this sacred celebration!',
   },
@@ -86,7 +86,7 @@ export const EVENTS: EventConfig[] = [
     tagline: 'With love and happiness',
     subtitle: 'we invite you to the naming ceremony of',
     heroTitle: 'Create Your Naming Ceremony Website',
-    socialProof: '1,900+ joyful families',
+    heroSubtitle: 'Welcome your little one with love',
     countdownLabel: 'Countdown to the Celebration',
     footerText: 'Come bless our little one!',
   },
@@ -98,7 +98,7 @@ export const EVENTS: EventConfig[] = [
     tagline: 'A little one is on the way!',
     subtitle: 'join us to shower love and blessings on',
     heroTitle: 'Create Your Baby Shower Website',
-    socialProof: '2,300+ expecting families',
+    heroSubtitle: 'Shower love on the little one',
     countdownLabel: 'Countdown to the Shower',
     footerText: "We can't wait to celebrate!",
   },
@@ -110,7 +110,7 @@ export const EVENTS: EventConfig[] = [
     tagline: 'New home, new beginnings',
     subtitle: 'you are cordially invited to the housewarming of',
     heroTitle: 'Create Your Housewarming Website',
-    socialProof: '1,500+ new homeowners',
+    heroSubtitle: 'New home, new beginnings to share',
     countdownLabel: 'Countdown to the Celebration',
     footerText: 'Come bless our new home!',
   },

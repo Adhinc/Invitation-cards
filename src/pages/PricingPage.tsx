@@ -38,18 +38,19 @@ export function Component() {
         >
           <motion.h1 variants={fadeUp} style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: 44,
+            fontSize: 48,
             fontWeight: 600,
             color: '#1F1A1B',
-            marginBottom: 12,
-            lineHeight: 1.15,
+            marginBottom: 16,
+            lineHeight: 1.2,
           }}>
             Pricing <span style={{ color: '#B8405E' }}>Plan</span>
           </motion.h1>
           <motion.p variants={fadeUp} style={{
             fontFamily: "'Nunito Sans', sans-serif",
-            fontSize: 18,
+            fontSize: 16,
             color: '#4A4044',
+            lineHeight: 1.6,
             maxWidth: 480,
             margin: '0 auto',
           }}>
@@ -94,9 +95,10 @@ export function Component() {
               </div>
               <h3 style={{
                 fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: 28,
+                fontSize: 20,
                 fontWeight: 600,
                 color: '#1F1A1B',
+                lineHeight: 1.3,
                 marginBottom: 0,
               }}>Individual</h3>
             </div>
@@ -123,7 +125,7 @@ export function Component() {
                   <li key={plan.id} style={{
                     padding: '10px 0',
                     borderBottom: '1px solid #F0E6DC',
-                    fontSize: 15,
+                    fontSize: 14,
                     fontFamily: "'Nunito Sans', sans-serif",
                     color: '#1F1A1B',
                     display: 'flex',
@@ -139,7 +141,7 @@ export function Component() {
                 <li style={{
                   padding: '10px 0',
                   borderBottom: '1px solid #F0E6DC',
-                  fontSize: 15,
+                  fontSize: 14,
                   fontFamily: "'Nunito Sans', sans-serif",
                   color: '#1F1A1B',
                   display: 'flex',
@@ -151,7 +153,7 @@ export function Component() {
                 </li>
                 <li style={{
                   padding: '10px 0',
-                  fontSize: 15,
+                  fontSize: 14,
                   fontFamily: "'Nunito Sans', sans-serif",
                   color: '#1F1A1B',
                   display: 'flex',
@@ -169,8 +171,8 @@ export function Component() {
                   background: 'linear-gradient(45deg, #9A3350, #B8405E)',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: 8,
-                  padding: '14px 48px',
+                  borderRadius: 28,
+                  padding: '14px 32px',
                   fontSize: 15,
                   fontWeight: 600,
                   fontFamily: "'Nunito Sans', sans-serif",
@@ -213,9 +215,10 @@ export function Component() {
               </div>
               <h3 style={{
                 fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: 28,
+                fontSize: 20,
                 fontWeight: 600,
                 color: '#fff',
+                lineHeight: 1.3,
                 marginBottom: 8,
               }}>Business</h3>
               <div style={{
@@ -250,7 +253,7 @@ export function Component() {
                 <li style={{
                   padding: '10px 0',
                   borderBottom: '1px solid #F0E6DC',
-                  fontSize: 15,
+                  fontSize: 14,
                   fontFamily: "'Nunito Sans', sans-serif",
                   color: '#1F1A1B',
                   display: 'flex',
@@ -264,7 +267,7 @@ export function Component() {
                   <li key={i} style={{
                     padding: '10px 0',
                     borderBottom: i < BUSINESS_PLAN.features.length - 1 ? '1px solid #F0E6DC' : 'none',
-                    fontSize: 15,
+                    fontSize: 14,
                     fontFamily: "'Nunito Sans', sans-serif",
                     color: '#1F1A1B',
                     display: 'flex',
@@ -283,8 +286,8 @@ export function Component() {
                   background: 'linear-gradient(45deg, #9A3350, #B8405E)',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: 8,
-                  padding: '14px 48px',
+                  borderRadius: 28,
+                  padding: '14px 32px',
                   fontSize: 15,
                   fontWeight: 600,
                   fontFamily: "'Nunito Sans', sans-serif",
@@ -312,7 +315,7 @@ export function Component() {
             fontWeight: 600,
             color: '#1F1A1B',
             textAlign: 'center',
-            marginBottom: 48,
+            marginBottom: 32,
           }}>
             All Plans <span style={{ color: '#B8405E' }}>Include</span>
           </h2>
@@ -349,9 +352,10 @@ export function Component() {
                   <Check style={{ width: 16, height: 16 }} strokeWidth={3} />
                 </span>
                 <span style={{
-                  fontSize: 15,
+                  fontSize: 14,
                   fontFamily: "'Nunito Sans', sans-serif",
                   color: '#1F1A1B',
+                  lineHeight: 1.5,
                 }}>{f.label}</span>
               </motion.div>
             ))}
@@ -362,7 +366,7 @@ export function Component() {
       {/* ─── Trust / Social Proof ─── */}
       <section style={{
         background: 'linear-gradient(180deg, #FFFBF8 0%, #FFF5EE 100%)',
-        padding: '60px 24px',
+        padding: '80px 24px',
       }}>
         <motion.div
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
@@ -400,9 +404,10 @@ export function Component() {
           <p style={{
             fontFamily: "'Nunito Sans', sans-serif",
             fontSize: 16,
+            lineHeight: 1.6,
             color: '#4A4044',
           }}>
-            Trusted by <strong style={{ color: '#1F1A1B' }}>4,500+</strong> happy customers
+            Secure payment &middot; Instant activation &middot; Cancel anytime
           </p>
         </motion.div>
       </section>
@@ -419,7 +424,7 @@ export function Component() {
             fontWeight: 600,
             color: '#1F1A1B',
             textAlign: 'center',
-            marginBottom: 48,
+            marginBottom: 32,
           }}>
             Frequently Asked <span style={{ color: '#B8405E' }}>Questions</span>
           </h2>
@@ -473,7 +478,7 @@ export function Component() {
           <div style={{ flex: '1 1 300px' }}>
             <h4 style={{
               fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: 600,
               color: '#fff',
               marginBottom: 16,
@@ -481,8 +486,8 @@ export function Component() {
             <p style={{
               fontFamily: "'Nunito Sans', sans-serif",
               fontSize: 14,
-              color: 'rgba(255,255,255,0.5)',
-              lineHeight: 1.8,
+              color: 'rgba(255,255,255,0.4)',
+              lineHeight: 1.5,
             }}>
               Invitation.AI<br />
               info@invitation.ai<br />
@@ -535,10 +540,10 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       {open && (
         <p style={{
           fontFamily: "'Nunito Sans', sans-serif",
-          fontSize: 15,
-          color: '#4A4044',
+          fontSize: 14,
+          color: '#8D8A86',
           marginTop: 12,
-          lineHeight: 1.6,
+          lineHeight: 1.5,
         }}>
           {answer}
         </p>
