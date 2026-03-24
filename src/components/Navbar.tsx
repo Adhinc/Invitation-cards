@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { EVENTS } from '../constants/events';
 import { useAuth } from '../lib/auth';
 
@@ -19,12 +17,9 @@ const NAV_ACCENTS: Record<string, string> = {
 };
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hoveredMobileCta, setHoveredMobileCta] = useState(false);
-  const [hoveredHamburger, setHoveredHamburger] = useState(false);
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, signInWithGoogle, signOut, loading } = useAuth();
   const isActive = (path: string) => location.pathname === path;
 
   useEffect(() => {
@@ -32,15 +27,6 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMobileOpen(false);
-    };
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [mobileOpen]);
 
   return (
     <nav
@@ -137,8 +123,8 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Desktop right actions — className kept for responsive display only */}
-          <div className="hidden lg:flex" style={{ alignItems: 'center', gap: 12 }}>
+          {/* Right actions — always visible */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
             {user && (
               <Link
                 to="/dashboard"
@@ -180,158 +166,73 @@ export default function Navbar() {
                 Dashboard
               </Link>
             )}
-            <Link
-              to="/events/wedding"
-              style={{
-                padding: '10px 22px',
-                fontSize: 13,
-                fontWeight: 700,
-                color: '#fff',
-                background: '#B8405E',
-                borderRadius: 50,
-                textDecoration: 'none',
-                transition: 'all 0.2s',
-                boxShadow: '0 6px 28px rgba(184,64,94,0.4)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#A03650';
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(184,64,94,0.5)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#B8405E';
-                e.currentTarget.style.boxShadow = '0 6px 28px rgba(184,64,94,0.4)';
-              }}
-            >
-              Create Website
-            </Link>
-          </div>
-
-          {/* Hamburger — className kept for lg:hidden responsive display only */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden"
-            aria-label="Toggle menu"
-            style={{
-              padding: 8,
-              marginRight: -8,
-              color: hoveredHamburger ? '#B8405E' : '#4A4744',
-              transition: 'color 0.2s',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onMouseEnter={() => setHoveredHamburger(true)}
-            onMouseLeave={() => setHoveredHamburger(false)}
-          >
-            {mobileOpen
-              ? <X style={{ width: 24, height: 24 }} />
-              : <Menu style={{ width: 24, height: 24 }} />
-            }
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            /* className kept for lg:hidden responsive display only */
-            className="lg:hidden"
-            style={{
-              overflow: 'hidden',
-              backgroundColor: '#FFFBF8',
-              borderBottom: '1px solid #F0E6DC',
-            }}
-          >
-            <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {EVENTS.map(event => (
-                <Link
-                  key={event.slug}
-                  to={event.urlPath}
-                  onClick={() => setMobileOpen(false)}
-                  aria-current={isActive(event.urlPath) ? 'page' : undefined}
-                  style={{
-                    display: 'block',
-                    padding: '10px 12px',
-                    fontSize: 14,
-                    fontWeight: 500,
-                    borderRadius: 8,
-                    transition: 'background-color 0.15s, color 0.15s',
-                    textDecoration: 'none',
-                    ...(isActive(event.urlPath)
-                      ? { backgroundColor: `${event.accentColor}1F`, color: event.accentColor }
-                      : { color: '#4A4744' }
-                    ),
-                  }}
-                >
-                  {event.label}
-                </Link>
-              ))}
-              {user && (
-                <Link
-                  to="/dashboard"
-                  onClick={() => setMobileOpen(false)}
-                  aria-current={isActive('/dashboard') ? 'page' : undefined}
-                  style={{
-                    display: 'block',
-                    padding: '10px 12px',
-                    fontSize: 14,
-                    fontWeight: 500,
-                    borderRadius: 8,
-                    transition: 'background-color 0.15s, color 0.15s',
-                    textDecoration: 'none',
-                    ...(isActive('/dashboard')
-                      ? { backgroundColor: '#4A47441F', color: '#4A4744' }
-                      : { color: '#4A4744' }
-                    ),
-                  }}
-                >
-                  Dashboard
-                </Link>
-              )}
-              <div
+            {!loading && !user && (
+              <button
+                onClick={() => signInWithGoogle()}
                 style={{
-                  paddingTop: 12,
-                  marginTop: 8,
-                  borderTop: '1px solid #F0E6DC',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 8,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '7px 16px',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  borderRadius: 50,
+                  border: '1.5px solid #4A474430',
+                  background: 'transparent',
+                  color: '#4A4744',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#4A4744';
+                  e.currentTarget.style.color = '#fff';
+                  e.currentTarget.style.borderColor = '#4A4744';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#4A4744';
+                  e.currentTarget.style.borderColor = '#4A474430';
                 }}
               >
-                <Link
-                  to="/events/wedding"
-                  onClick={() => setMobileOpen(false)}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    padding: '10px 0',
-                    fontSize: 14,
-                    fontWeight: 700,
-                    color: '#fff',
-                    backgroundColor: hoveredMobileCta ? '#A03650' : '#B8405E',
-                    borderRadius: 50,
-                    textAlign: 'center',
-                    textDecoration: 'none',
-                    boxShadow: '0 6px 28px rgba(184,64,94,0.4)',
-                    transition: 'background-color 0.2s',
-                  }}
-                  onMouseEnter={() => setHoveredMobileCta(true)}
-                  onMouseLeave={() => setHoveredMobileCta(false)}
-                >
-                  Create Website
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                Sign In
+              </button>
+            )}
+            {user && (
+              <button
+                onClick={() => signOut()}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '5px 12px',
+                  fontSize: 12,
+                  fontWeight: 500,
+                  borderRadius: 50,
+                  border: '1px solid #E0D6CC',
+                  background: 'transparent',
+                  color: '#7A7470',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#FEF2F2';
+                  e.currentTarget.style.color = '#DC2626';
+                  e.currentTarget.style.borderColor = '#FECACA';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#7A7470';
+                  e.currentTarget.style.borderColor = '#E0D6CC';
+                }}
+              >
+                Sign Out
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
     </nav>
   );
 }

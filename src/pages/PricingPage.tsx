@@ -48,7 +48,7 @@ export function Component() {
   const handleProceed = async () => {
     if (!user) {
       sessionStorage.setItem('pendingPlan', JSON.stringify(selectedPlan));
-      await signInWithGoogle();
+      await signInWithGoogle(window.location.origin + '/pricing');
       return;
     }
 
