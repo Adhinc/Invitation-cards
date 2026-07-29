@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, Star, Crown, Users, ImageIcon, Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones, Ban, Building2, User, ChevronDown } from 'lucide-react';
+import { Check, Star, Crown, ImageIcon, Timer, MousePointerClick, Share2, MapPin, Music, LinkIcon, Headphones, Ban, Building2, User, ChevronDown } from 'lucide-react';
 import { PRICING_PLANS, BUSINESS_PLAN } from '../constants/events';
 import { useAuth } from '../lib/auth';
 import { initiatePayment } from '../lib/payments';
@@ -40,6 +40,7 @@ export function Component() {
     if (user) {
       const pendingPlan = sessionStorage.getItem('pendingPlan');
       if (pendingPlan) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedPlan(JSON.parse(pendingPlan));
       }
     }

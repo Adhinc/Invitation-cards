@@ -10,6 +10,7 @@ interface Invitation {
   slug: string | null;
   event_type: string;
   status: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form_data: any;
   published_at: string | null;
   expires_at: string | null;
@@ -46,7 +47,7 @@ export default function DashboardPage() {
         setLoading(false);
       });
     }
-  }, [user, authLoading]);
+  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (selectedInvitation?.id) {

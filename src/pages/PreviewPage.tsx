@@ -111,27 +111,36 @@ function generateICS(formData: FormData, eventLabel: string): string {
 }
 
 // ── Floating Hearts Decoration ─────────────────────────────
+const INITIAL_HEARTS = [...Array(6)].map((_, i) => ({
+  x: `${15 + i * 15}%`,
+  rotateInit: Math.random() * 30 - 15,
+  scale: 0.6 + Math.random() * 0.8,
+  rotateAnim: Math.random() * 60 - 30,
+  duration: 12 + Math.random() * 8,
+  delay: i * 2.5,
+}));
+
 function FloatingHearts() {
   return (
     <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
-      {[...Array(6)].map((_, i) => (
+      {INITIAL_HEARTS.map((h, i) => (
         <motion.div
           key={i}
           className="absolute text-[#2D2A26]/10"
           initial={{
-            x: `${15 + i * 15}%`,
+            x: h.x,
             y: '110%',
-            rotate: Math.random() * 30 - 15,
-            scale: 0.6 + Math.random() * 0.8,
+            rotate: h.rotateInit,
+            scale: h.scale,
           }}
           animate={{
             y: '-10%',
-            rotate: Math.random() * 60 - 30,
+            rotate: h.rotateAnim,
           }}
           transition={{
-            duration: 12 + Math.random() * 8,
+            duration: h.duration,
             repeat: Infinity,
-            delay: i * 2.5,
+            delay: h.delay,
             ease: 'linear',
           }}
         >
@@ -143,7 +152,7 @@ function FloatingHearts() {
 }
 
 // ── Section wrapper with whileInView ───────────────────────
-function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function Section({ children, className = '', bg }: { children: React.ReactNode; className?: string; bg?: string }) {
   return (
     <motion.section
       initial={{ opacity: 0, y: 30 }}
@@ -151,6 +160,7 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={className}
+      style={bg ? { background: bg } : undefined}
     >
       {children}
     </motion.section>
@@ -161,7 +171,7 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
 export function Component() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { formData, eventType, selectedTemplate: _selectedTemplate } = (location.state as LocationState) || {};
+  const { formData, eventType } = (location.state as LocationState) || {};
 
   const stored = !formData ? JSON.parse(sessionStorage.getItem('inviteFormData') || 'null') : null;
   const actualFormData = formData || stored;

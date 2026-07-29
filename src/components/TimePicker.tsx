@@ -6,6 +6,15 @@ interface TimePickerProps {
   onSelect: (timeStr: string) => void;
 }
 
+const SpinButton = ({ direction, onClick }: { direction: 'up' | 'down'; onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="p-1 rounded-lg hover:bg-rose-50 text-slate-300 hover:text-[#C85C6C] transition-colors"
+  >
+    {direction === 'up' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+  </button>
+);
+
 const TimePicker: React.FC<TimePickerProps> = ({ onSelect }) => {
   const [hour, setHour] = useState(10);
   const [minute, setMinute] = useState(0);
@@ -22,14 +31,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onSelect }) => {
     onSelect(`${hh}:${mm} ${period}`);
   };
 
-  const SpinButton = ({ direction, onClick }: { direction: 'up' | 'down'; onClick: () => void }) => (
-    <button
-      onClick={onClick}
-      className="p-1 rounded-lg hover:bg-rose-50 text-slate-300 hover:text-[#C85C6C] transition-colors"
-    >
-      {direction === 'up' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-    </button>
-  );
+
 
   return (
     <motion.div

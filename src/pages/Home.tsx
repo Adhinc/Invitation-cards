@@ -5,19 +5,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import {
-  Star,
-  ArrowRight,
   Check,
   Lock,
   Zap,
   MessageCircle,
-  Image,
-  Share2,
   QrCode,
 } from 'lucide-react';
 import { EVENTS, PRICING_PLANS } from '../constants/events';
 import { fadeUp, stagger } from '../utils/animations';
-import { Button, Badge, Card } from '../components/ui';
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -95,13 +90,13 @@ const benefits = [
   { title: 'Ready in Minutes', desc: 'Our AI helps you create a stunning invitation website faster than you can write a WhatsApp message.' },
 ];
 
-const testimonials: any[] = [];
+// const testimonials: any[] = [];
 
-const stats = [
-  { value: '8+', label: 'Event types' },
-  { value: '15+', label: 'Templates' },
-  { value: '5 min', label: 'Setup time' },
-];
+// const stats = [
+//   { value: '8+', label: 'Event types' },
+//   { value: '15+', label: 'Templates' },
+//   { value: '5 min', label: 'Setup time' },
+// ];
 
 /** Show only 1M, 3M, 1Y plans */
 const visiblePlans = PRICING_PLANS.filter(
@@ -657,6 +652,7 @@ export function Component() {
             return (
               <motion.div key={cat.label} variants={fadeUp}>
                 <Wrapper
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   {...(wrapperProps as any)}
                   onMouseEnter={() => !isComingSoon && setHoveredCategoryIdx(i)}
                   onMouseLeave={() => setHoveredCategoryIdx(null)}

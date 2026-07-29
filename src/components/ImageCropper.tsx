@@ -15,13 +15,14 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ image, onCropComplete, onCa
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<{ x: number; y: number; width: number; height: number; } | null>(null);
 
-  const onCropChange = (crop: any) => setCrop(crop);
-  const onZoomChange = (zoom: any) => setZoom(zoom);
+  const onCropChange = (crop: { x: number; y: number }) => setCrop(crop);
+  const onZoomChange = (zoom: number) => setZoom(zoom);
 
   const handleCrop = async () => {
     try {
+      if (!croppedAreaPixels) return;
       const croppedImage = await getCroppedImg(image, croppedAreaPixels, rotation);
       onCropComplete(croppedImage);
     } catch (e) {

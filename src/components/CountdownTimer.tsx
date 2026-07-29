@@ -12,6 +12,17 @@ interface CountdownTimerProps {
   targetDate: string;
 }
 
+const Item = ({ value, label }: { value: number; label: string }) => (
+  <motion.div
+    initial={{ scale: 0.9, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    className="flex flex-col items-center justify-center p-4 bg-white border border-[#F0E6DC] rounded-2xl min-w-[80px]"
+  >
+    <span className="text-3xl font-extrabold text-[#2D2A26]">{value}</span>
+    <span className="text-xs uppercase tracking-widest text-[#4A4744] mt-1">{label}</span>
+  </motion.div>
+);
+
 const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
   const calculateTimeLeft = (): TimeLeft => {
     const difference = +new Date(targetDate) - +new Date();
@@ -36,18 +47,11 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
     }, 1000);
 
     return () => clearInterval(timer);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetDate]);
 
-  const Item = ({ value, label }: { value: number; label: string }) => (
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      className="flex flex-col items-center justify-center p-4 bg-white border border-[#F0E6DC] rounded-2xl min-w-[80px]"
-    >
-      <span className="text-3xl font-extrabold text-[#2D2A26]">{value}</span>
-      <span className="text-xs uppercase tracking-widest text-[#4A4744] mt-1">{label}</span>
-    </motion.div>
-  );
+
 
   return (
     <div className="flex gap-4 justify-center items-center py-10">

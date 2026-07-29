@@ -1,5 +1,5 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient, SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createHmac } from 'https://deno.land/std@0.168.0/node/crypto.ts';
 
 const corsHeaders = {
@@ -51,7 +51,7 @@ serve(async (req) => {
       .eq('id', payment.invitation_id)
       .single();
 
-    const formData = invitation!.form_data as any;
+    const formData = invitation!.form_data as Record<string, unknown>;
     const baseSlug = generateSlug(formData);
     const slug = await getUniqueSlug(supabase, baseSlug);
 
@@ -81,8 +81,10 @@ serve(async (req) => {
   }
 });
 
-function generateSlug(formData: any): string {
-  const { eventType, person1Name, person2Name } = formData;
+function generateSlug(formData: Record<string, unknown>): string {
+  const eventType = formData.eventType as string;
+  const person1Name = formData.person1Name as string;
+  const person2Name = formData.person2Name as string | undefined;
   const clean = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   if (['wedding', 'betrothal'].includes(eventType) && person2Name) {
@@ -96,7 +98,7 @@ function generateSlug(formData: any): string {
   return `${clean(person1Name)}-${labels[eventType] ?? eventType}`;
 }
 
-async function getUniqueSlug(supabase: any, baseSlug: string): Promise<string> {
+async function getUniqueSlug(supabase: SupabaseClient, baseSlug: string): Promise<string> {
   let slug = baseSlug;
   let counter = 1;
   while (true) {

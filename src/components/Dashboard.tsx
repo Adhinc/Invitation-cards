@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
@@ -32,19 +32,17 @@ const EVENT_FILTERS: EventFilter[] = ['All', 'Wedding', 'Birthday', 'Baptism', '
 
 const Dashboard: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<EventFilter>('All');
-  const [subscription, setSubscription] = useState<{
+  const [subscription] = useState<{
     plan: string; // '1month', '3months', '1year'
     expiresAt: number;
     active: boolean;
-  } | null>(null);
-
-  useEffect(() => {
+  } | null>(() => {
     const raw = localStorage.getItem('subscription');
-    if (!raw) return;
+    if (!raw) return null;
     const sub = JSON.parse(raw);
     sub.active = sub.expiresAt > Date.now();
-    setSubscription(sub);
-  }, []);
+    return sub;
+  });
 
   const filteredInvitations = activeFilter === 'All'
     ? SAMPLE_INVITATIONS
@@ -247,6 +245,7 @@ const Dashboard: React.FC = () => {
                     s.color === 'emerald' ? 'bg-emerald-50 text-emerald-500' :
                     s.color === 'amber' ? 'bg-amber-50 text-amber-500' : 'bg-slate-50 text-slate-500'
                   }`}>
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {React.cloneElement(s.icon as any, { size: 24, className: "stroke-[2.5]" })}
                   </div>
                   <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-lg text-[10px] font-black">

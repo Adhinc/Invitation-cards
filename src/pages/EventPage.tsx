@@ -657,7 +657,7 @@ function getTestimonials(event: EventConfig) {
   ];
 }
 
-function TestimonialsSection({ event }: { event: EventConfig }) {
+export function TestimonialsSection({ event }: { event: EventConfig }) {
   const items = getTestimonials(event);
 
   return (
@@ -719,7 +719,7 @@ function TestimonialsSection({ event }: { event: EventConfig }) {
 /*  9. Urgency Section                                                 */
 /* ------------------------------------------------------------------ */
 
-function UrgencySection({ event }: { event: EventConfig }) {
+export function UrgencySection({ event }: { event: EventConfig }) {
   const badges = [
     'Be the first in your family',
     'Impress your relatives',
@@ -904,13 +904,7 @@ function TryItFreeModal({ onClose, onChooseTemplate }: { onClose: () => void; on
         <button
           onClick={onChooseTemplate}
           className="w-full py-3.5 text-white cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          style={{ fontSize: 15, fontWeight: 600 }}
-          style={{
-            background: '#10B981',
-            borderRadius: 9999,
-            border: 'none',
-            boxShadow: '0 4px 14px rgba(16,185,129,0.35)',
-          }}
+          style={{ fontSize: 15, fontWeight: 600, background: '#10B981', borderRadius: 9999, border: 'none', boxShadow: '0 4px 14px rgba(16,185,129,0.35)' }}
         >
           Choose a Template <ArrowRight className="w-4 h-4 inline-block ml-1" />
         </button>

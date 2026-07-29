@@ -2,6 +2,7 @@ import { supabase } from './supabase';
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Razorpay: any;
   }
 }
@@ -44,6 +45,7 @@ export async function initiatePayment({
       order_id: data.order_id,
       prefill: { email: userEmail },
       theme: { color: '#B8405E' },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       handler: async (response: any) => {
         const { data: verifyData, error: verifyError } = await supabase.functions.invoke('verify-payment', {
           body: {
@@ -63,6 +65,7 @@ export async function initiatePayment({
     };
 
     const rzp = new window.Razorpay(options);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rzp.on('payment.failed', (response: any) => {
       onFailure(response.error.description);
     });

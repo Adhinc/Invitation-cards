@@ -7,7 +7,7 @@ export function Component() {
   const navigate = useNavigate();
   const eventType = params.get('event') as EventType | null;
 
-  const handleComplete = (data: any) => {
+  const handleComplete = (data: Record<string, unknown>) => {
     sessionStorage.setItem('inviteFormData', JSON.stringify(data));
     const savedTemplate = sessionStorage.getItem('inviteSelectedTemplate');
     const selectedTemplate = savedTemplate ? JSON.parse(savedTemplate) : null;

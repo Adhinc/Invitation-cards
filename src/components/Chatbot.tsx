@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Sparkles, Camera, MapPin } from 'lucide-react';
+import { Send, Sparkles, Camera, MapPin, X } from 'lucide-react';
 import ImageCropper from './ImageCropper';
 import MapPicker from './MapPicker';
 import DatePicker from './DatePicker';
@@ -32,6 +33,7 @@ interface Message {
 
 interface ChatbotProps {
   eventType?: EventType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onComplete?: (data: any) => void;
 }
 
@@ -50,6 +52,7 @@ const EVENT_CONFIG: Record<EventType, { label: string; person1: string; person2?
 
 const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete }) => {
   const [step, setStep] = useState(() => eventTypeProp ? 1 : 0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [formData, setFormData] = useState<any>(() => eventTypeProp ? { eventType: eventTypeProp } : {});
   const [messages, setMessages] = useState<Message[]>(() => {
     if (eventTypeProp) {
@@ -69,6 +72,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
   const [showCropper, setShowCropper] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [cropAspect, setCropAspect] = useState(1);
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -102,8 +106,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
   const getConfig = () => EVENT_CONFIG[formData.eventType as EventType] || EVENT_CONFIG.wedding;
 
   const processNextStep = (userInput: string) => {
-    let nextStep = step + 1;
-    let newFormData = { ...formData };
+    const nextStep = step + 1;
+    const newFormData = { ...formData };
 
     switch (step) {
       case STEPS.EVENT_TYPE: { // Event Type
@@ -238,19 +242,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
 
   const ChoiceChip = ({ label, icon, onClick }: { label: string, icon?: string, onClick: () => void }) => (
     <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="bg-white border border-[#F0E6DC] p-3 md:p-4 rounded-2xl flex flex-col items-center gap-2 min-w-0 shadow-sm hover:border-[#B8405E]/30 hover:bg-[#FFF5EE] group transition-all"
+      className="bg-white border border-rose-100 p-3 md:p-4 rounded-2xl flex flex-col items-center gap-3 min-w-0 shadow-sm hover:border-[#B8405E]/50 hover:shadow-md group transition-all"
     >
       {icon ? (
         <img src={icon} alt={label} className="w-12 h-12 object-contain" />
       ) : (
-        <div className="w-12 h-12 rounded-full bg-[#FFF0F4] flex items-center justify-center text-[#B8405E]">
-           <Sparkles size={24} />
+        <div className="w-12 h-12 rounded-full bg-[#FFF0F4] flex items-center justify-center text-[#B8405E] group-hover:scale-110 transition-transform">
+           <Sparkles size={20} />
         </div>
       )}
-      <span className="font-bold text-sm text-[#2D2A26] group-hover:text-[#B8405E]">{label}</span>
+      <span className="font-semibold text-sm text-[#2D2A26] group-hover:text-[#B8405E]">{label}</span>
     </motion.button>
   );
 
@@ -282,6 +286,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
 
   const handleMapConfirm = (location: string, address: string, coords?: { lat: number; lng: number }) => {
     setShowMapPicker(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setFormData((prev: any) => ({ ...prev, location, address, coords }));
     setMessages(prev => [...prev, { role: 'user', content: `Venue: ${location}` }]);
     setIsProcessing(true);
@@ -394,41 +399,48 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="fixed inset-0 w-full h-full bg-white z-50 flex flex-col overflow-hidden"
+        className="fixed inset-0 w-full h-full bg-[#FFFBF8] z-50 flex flex-col overflow-hidden font-['Nunito_Sans']"
       >
+            {/* Background Effects */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-rose-100/50 blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-orange-100/50 blur-[100px] pointer-events-none" />
+
             {/* Header */}
-            <div className="p-5 border-b border-[#F0E6DC] flex justify-center items-center bg-[#B8405E]">
-              <div className="flex items-center gap-2 text-white font-black text-sm uppercase tracking-widest">
+            <div className="p-4 flex justify-between items-center bg-white/70 backdrop-blur-lg border-b border-rose-100/50 relative z-10">
+              <div className="flex items-center gap-2 text-[#B8405E] font-black text-sm uppercase tracking-widest">
                 <Sparkles size={16} /> Invitation.AI
               </div>
+              <button onClick={() => navigate('/')} className="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-rose-50 text-gray-500 hover:text-[#B8405E] hover:bg-rose-50 transition-colors">
+                <X size={16} />
+              </button>
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-5 scrollbar-hide bg-gradient-to-b from-[#FFFBF8] to-[#FFF5EE]">
-              <div className="space-y-8 pb-10" aria-live="polite">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 scrollbar-hide relative z-10">
+              <div className="space-y-6 pb-32" aria-live="polite">
                 <AnimatePresence initial={false}>
                   {messages.map((m, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                      initial={{ opacity: 0, y: 15, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ type: "spring", damping: 25, stiffness: 120 }}
-                      className={`flex items-start gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+                      transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                      className={`flex items-end gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                     >
                       {m.role === 'assistant' && (
-                        <div className="w-10 h-10 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center p-2 flex-shrink-0">
+                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white shadow-sm border border-rose-100 flex items-center justify-center p-1.5 flex-shrink-0">
                           <img src={BOT_AVATAR} className="w-full h-full object-contain" alt="Bot" />
                         </div>
                       )}
                       
                       <div className={`max-w-[85%] flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
-                        <div className={`p-5 rounded-[28px] text-[15px] leading-relaxed shadow-sm transition-all duration-300 ${
+                        <div className={`px-5 py-3.5 rounded-2xl text-[15px] leading-relaxed transition-all duration-300 ${
                           m.role === 'user'
-                            ? 'bg-[#B8405E] text-white rounded-tr-none font-bold'
-                            : 'bg-[#FFF5EE] border border-[#F0E6DC] text-[#2D2A26] rounded-tl-none font-bold'
+                            ? 'bg-gradient-to-br from-[#B8405E] to-[#9A3350] text-white rounded-br-sm shadow-md font-medium'
+                            : 'bg-white border border-rose-50 text-[#2D2A26] rounded-bl-sm shadow-sm font-medium'
                         }`}>
                           {m.role === 'assistant' && (
-                            <div className="flex items-center gap-2 mb-2 text-gray-400 text-[9px] uppercase tracking-widest font-black">
+                            <div className="flex items-center gap-1.5 mb-1.5 text-gray-400 text-[10px] uppercase tracking-widest font-black">
                                <Sparkles size={10} className="fill-current" /> AI Assistant
                             </div>
                           )}
@@ -496,8 +508,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
             </div>
 
             {/* Input Area */}
-            <div className="p-3 md:p-6 bg-white border-t border-slate-50 flex items-center gap-3 md:gap-4">
-              <div className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-4 md:px-6 py-3 md:py-4 flex items-center focus-within:bg-white focus-within:border-[#B8405E] transition-all">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-32px)] max-w-2xl bg-white/80 backdrop-blur-xl border border-rose-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded-full p-2 flex items-center gap-2 z-20 transition-all">
+              <div className="flex-1 bg-transparent px-4 py-2 flex items-center">
                 <label htmlFor="chat-input" className="sr-only">Type your message</label>
                 <input
                   id="chat-input"
@@ -506,15 +518,15 @@ const Chatbot: React.FC<ChatbotProps> = ({ eventType: eventTypeProp, onComplete 
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Type your message..."
-                  className="flex-1 bg-transparent border-none outline-none text-base text-slate-700 placeholder:text-slate-400 font-medium"
+                  className="w-full bg-transparent border-none outline-none text-[15px] text-slate-800 placeholder:text-slate-400 font-medium"
                 />
               </div>
               <button 
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isProcessing}
-                className="w-12 h-12 md:w-14 md:h-14 bg-[#B8405E] text-white rounded-2xl flex items-center justify-center shadow-[0_6px_28px_rgba(184,64,94,0.3)] hover:bg-[#A03650] active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none shrink-0"
+                className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#B8405E] to-[#9A3350] text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100 shrink-0"
               >
-                <Send size={20} />
+                <Send size={18} className="ml-1" />
               </button>
             </div>
       </motion.div>

@@ -12,7 +12,6 @@ import {
   MapPin,
   Share2,
   CheckCircle2,
-  Loader2,
 } from 'lucide-react';
 import { getEventByType, type EventType } from '../constants/events';
 import { getInvitationBySlug, submitRsvp } from '../lib/invitations';
@@ -34,6 +33,8 @@ interface FormData {
   coords?: { lat: number; lng: number };
   parents?: Record<string, string | null> | null;
   images?: string[];
+  person1Image?: string;
+  person2Image?: string;
   [key: string]: unknown;
 }
 
@@ -107,27 +108,36 @@ function generateICS(formData: FormData, eventLabel: string): string {
 }
 
 // ── Floating Hearts Decoration ─────────────────────────────
+const INITIAL_HEARTS = [...Array(6)].map((_, i) => ({
+  x: `${15 + i * 15}%`,
+  rotateInit: Math.random() * 30 - 15,
+  scale: 0.6 + Math.random() * 0.8,
+  rotateAnim: Math.random() * 60 - 30,
+  duration: 12 + Math.random() * 8,
+  delay: i * 2.5,
+}));
+
 function FloatingHearts() {
   return (
     <div style={{ pointerEvents: 'none', position: 'fixed', inset: 0, overflow: 'hidden', zIndex: 0 }}>
-      {[...Array(6)].map((_, i) => (
+      {INITIAL_HEARTS.map((h, i) => (
         <motion.div
           key={i}
           style={{ position: 'absolute', color: 'rgba(45, 42, 38, 0.1)' }}
           initial={{
-            x: `${15 + i * 15}%`,
+            x: h.x,
             y: '110%',
-            rotate: Math.random() * 30 - 15,
-            scale: 0.6 + Math.random() * 0.8,
+            rotate: h.rotateInit,
+            scale: h.scale,
           }}
           animate={{
             y: '-10%',
-            rotate: Math.random() * 60 - 30,
+            rotate: h.rotateAnim,
           }}
           transition={{
-            duration: 12 + Math.random() * 8,
+            duration: h.duration,
             repeat: Infinity,
-            delay: i * 2.5,
+            delay: h.delay,
             ease: 'linear',
           }}
         >
@@ -539,23 +549,82 @@ export default function InvitationPage() {
 
         {/* ── Hero ──────────────────────────────────────── */}
         <Section style={{ textAlign: 'center', paddingTop: '32px', paddingBottom: '24px' }}>
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            style={{
-              width: '80px',
-              height: '80px',
-              margin: '0 auto 24px',
-              borderRadius: '50%',
-              background: 'rgba(184, 64, 94, 0.1)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <IconComponent size={36} style={{ color: '#B8405E' }} />
-          </motion.div>
+          {formData.person1Image && formData.person2Image ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}
+            >
+              <div style={{ position: 'relative', width: '160px', height: '100px' }}>
+                <img
+                  src={formData.person1Image}
+                  alt={formData.person1Name}
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    width: '100px',
+                    height: '100px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '4px solid #FFFBF8',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                    zIndex: 2,
+                  }}
+                />
+                <img
+                  src={formData.person2Image}
+                  alt={formData.person2Name || ''}
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    width: '100px',
+                    height: '100px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '4px solid #FFFBF8',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                    zIndex: 1,
+                  }}
+                />
+              </div>
+            </motion.div>
+          ) : formData.person1Image ? (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              style={{
+                width: '100px',
+                height: '100px',
+                margin: '0 auto 24px',
+                borderRadius: '50%',
+                border: '4px solid #FFFBF8',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                overflow: 'hidden',
+              }}
+            >
+              <img src={formData.person1Image} alt={formData.person1Name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              style={{
+                width: '80px',
+                height: '80px',
+                margin: '0 auto 24px',
+                borderRadius: '50%',
+                background: 'rgba(184, 64, 94, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <IconComponent size={36} style={{ color: '#B8405E' }} />
+            </motion.div>
+          )}
 
           <p
             style={{
