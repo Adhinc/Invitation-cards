@@ -110,7 +110,7 @@ export default function MinimalistTemplate({ formData, eventType, onRsvpClick, r
     };
 
     const handleShareWhatsApp = () => {
-        const text = `Join us for the ${eventLabel.toLowerCase()} on ${formatDate(formData.date)}.`;
+        const text = `Join us for the ${eventLabel.toLowerCase()} on ${formatDate(formData.date)}.\n\nView Invitation & RSVP here:\n${window.location.href}`;
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     };
 

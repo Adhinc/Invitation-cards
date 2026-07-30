@@ -211,7 +211,7 @@ export default function DefaultTemplate({ formData: actualFormData, eventType, o
   };
 
   const handleShareWhatsApp = () => {
-    const text = `You're invited! ${names} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(actualFormData.date)}${actualFormData.time ? ' at ' + formatTime(actualFormData.time) : ''}. ${actualFormData.location ? 'Venue: ' + actualFormData.location : ''}`;
+    const text = `You're invited! ${names} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(actualFormData.date)}${actualFormData.time ? ' at ' + formatTime(actualFormData.time) : ''}. ${actualFormData.location ? 'Venue: ' + actualFormData.location : ''}\n\nView Invitation & RSVP here:\n${window.location.href}`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
