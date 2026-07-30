@@ -27,7 +27,7 @@ interface FormData {
   address?: string;
   location?: string;
   coords?: { lat: number; lng: number };
-  parents?: string;
+  parents?: Record<string, string | null> | null;
   images?: string[];
   [key: string]: unknown;
 }
@@ -35,6 +35,8 @@ interface FormData {
 export interface TemplateProps {
   formData: FormData;
   eventType: EventType;
+  onRsvpClick?: () => void;
+  rsvpDone?: 'attending' | 'declined' | null;
 }
 
 // ── Helpers ────────────────────────────────────────────────
@@ -162,7 +164,7 @@ function Section({ children, className = '', bg }: { children: React.ReactNode; 
 }
 
 // ── Main Component ─────────────────────────────────────────
-export default function DefaultTemplate({ formData: actualFormData, eventType }: TemplateProps) {
+export default function DefaultTemplate({ formData: actualFormData, eventType, onRsvpClick, rsvpDone }: TemplateProps) {
   const [rsvpStatus, setRsvpStatus] = useState<'none' | 'attending'>('none');
 
   // Redirect if no formData
@@ -210,10 +212,6 @@ export default function DefaultTemplate({ formData: actualFormData, eventType }:
     const text = `You're invited! ${names} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(actualFormData.date)}${actualFormData.time ? ' at ' + formatTime(actualFormData.time) : ''}. ${actualFormData.location ? 'Venue: ' + actualFormData.location : ''}`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
-  };
-
-  const handleRsvp = () => {
-    setRsvpStatus((prev) => (prev === 'attending' ? 'none' : 'attending'));
   };
 
   // ── Render ─────────────────────────────────────────────
@@ -301,15 +299,21 @@ export default function DefaultTemplate({ formData: actualFormData, eventType }:
           {/* RSVP */}
           <motion.button
             whileTap={{ scale: 0.95 }}
-            onClick={handleRsvp}
-            aria-label={rsvpStatus === 'attending' ? 'Cancel RSVP' : 'RSVP to event'}
-            className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm transition-all border ${rsvpStatus === 'attending'
+            onClick={() => {
+              if (rsvpDone) return;
+              if (onRsvpClick) onRsvpClick();
+              else setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending');
+            }}
+            aria-label={rsvpStatus === 'attending' || rsvpDone === 'attending' ? 'Cancel RSVP' : 'RSVP to event'}
+            className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm transition-all border ${(rsvpDone === 'attending' || rsvpStatus === 'attending')
               ? 'bg-[#B8405E] text-white border-[#B8405E] shadow-lg shadow-[rgba(184,64,94,0.3)]'
-              : 'bg-white text-[#2D2A26] border-[#F0E6DC] hover:border-[#B8405E]'
+              : rsvpDone === 'declined'
+                ? 'bg-[#ef4444] text-white border-[#ef4444]'
+                : 'bg-white text-[#2D2A26] border-[#F0E6DC] hover:border-[#B8405E]'
               }`}
           >
             <CheckCircle2 size={18} />
-            {rsvpStatus === 'attending' ? 'Attending!' : 'RSVP'}
+            {rsvpDone === 'attending' || rsvpStatus === 'attending' ? 'Attending!' : rsvpDone === 'declined' ? 'Declined' : 'RSVP'}
           </motion.button>
 
           {/* Add to Calendar */}

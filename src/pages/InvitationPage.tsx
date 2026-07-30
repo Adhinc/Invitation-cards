@@ -1,25 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Heart,
-  Cake,
-  Church,
-  Baby,
-  Home,
-  X,
-  CalendarPlus,
-  MapPin,
-  Share2,
-  CheckCircle2,
-} from 'lucide-react';
-import { getEventByType, type EventType } from '../constants/events';
+import { Heart, X, CheckCircle2 } from 'lucide-react';
+import type { EventType } from '../constants/events';
 import { getInvitationBySlug, submitRsvp } from '../lib/invitations';
 import { getImageUrl } from '../lib/storage';
-import CountdownTimer from '../components/CountdownTimer';
-import CinematicGallery from '../components/CinematicGallery';
-import VenueMap from '../components/VenueMap';
-import Shagun from '../components/Shagun';
+import { DefaultTemplate, RoyalGoldTemplate, MinimalistTemplate } from '../templates';
 
 // ── Types ──────────────────────────────────────────────────
 interface FormData {
@@ -45,122 +31,8 @@ interface InvitationRecord {
   form_data: FormData;
   status: string;
   expires_at: string | null;
+  template_id?: string;
   invitation_images?: { storage_path: string; type: string; display_order: number }[];
-}
-
-// ── Helpers ────────────────────────────────────────────────
-const EVENT_ICONS: Record<string, typeof Heart> = {
-  wedding: Heart,
-  betrothal: Heart,
-  birthday: Cake,
-  baptism: Church,
-  holy_communion: Church,
-  naming_ceremony: Baby,
-  baby_shower: Baby,
-  housewarming: Home,
-};
-
-function formatDate(dateStr: string): string {
-  try {
-    const d = new Date(dateStr + 'T00:00:00');
-    return d.toLocaleDateString('en-IN', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  } catch {
-    return dateStr;
-  }
-}
-
-function formatTime(timeStr?: string): string {
-  if (!timeStr) return '';
-  try {
-    const [h, m] = timeStr.split(':').map(Number);
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    const hour12 = h % 12 || 12;
-    return `${hour12}:${String(m).padStart(2, '0')} ${ampm}`;
-  } catch {
-    return timeStr;
-  }
-}
-
-function generateICS(formData: FormData, eventLabel: string): string {
-  const dtStart = formData.date.replace(/-/g, '');
-  const time = formData.time ? formData.time.replace(/:/g, '') + '00' : '120000';
-  const names = formData.person2Name
-    ? `${formData.person1Name} & ${formData.person2Name}`
-    : formData.person1Name;
-  return [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//BigDate//Invitation//EN',
-    'BEGIN:VEVENT',
-    `DTSTART:${dtStart}T${time}`,
-    `DTEND:${dtStart}T${time}`,
-    `SUMMARY:${eventLabel} - ${names}`,
-    `LOCATION:${formData.address || formData.location || ''}`,
-    `DESCRIPTION:You are invited to the ${eventLabel.toLowerCase()} of ${names}.`,
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].join('\r\n');
-}
-
-// ── Floating Hearts Decoration ─────────────────────────────
-const INITIAL_HEARTS = [...Array(6)].map((_, i) => ({
-  x: `${15 + i * 15}%`,
-  rotateInit: Math.random() * 30 - 15,
-  scale: 0.6 + Math.random() * 0.8,
-  rotateAnim: Math.random() * 60 - 30,
-  duration: 12 + Math.random() * 8,
-  delay: i * 2.5,
-}));
-
-function FloatingHearts() {
-  return (
-    <div style={{ pointerEvents: 'none', position: 'fixed', inset: 0, overflow: 'hidden', zIndex: 0 }}>
-      {INITIAL_HEARTS.map((h, i) => (
-        <motion.div
-          key={i}
-          style={{ position: 'absolute', color: 'rgba(45, 42, 38, 0.1)' }}
-          initial={{
-            x: h.x,
-            y: '110%',
-            rotate: h.rotateInit,
-            scale: h.scale,
-          }}
-          animate={{
-            y: '-10%',
-            rotate: h.rotateAnim,
-          }}
-          transition={{
-            duration: h.duration,
-            repeat: Infinity,
-            delay: h.delay,
-            ease: 'linear',
-          }}
-        >
-          <Heart size={28 + i * 6} fill="currentColor" />
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-// ── Section wrapper with whileInView ───────────────────────
-function Section({ children, style = {} }: { children: React.ReactNode; style?: React.CSSProperties }) {
-  return (
-    <motion.section
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      style={style}
-    >
-      {children}
-    </motion.section>
-  );
 }
 
 // ── RSVP Modal ────────────────────────────────────────────
@@ -184,7 +56,7 @@ function RsvpModal({
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 100,
+        zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -448,22 +320,8 @@ export default function InvitationPage() {
   }
 
   // ── Resolve Data ───────────────────────────────────────
-  const formData = invitation.form_data;
+  const formData = { ...invitation.form_data };
   const eventType = (invitation.event_type || formData.eventType) as EventType;
-  const event = getEventByType(eventType);
-  const tagline = event?.tagline || 'You are cordially invited';
-  const subtitle = event?.subtitle || 'to celebrate with us';
-  const countdownLabel = event?.countdownLabel || 'Countdown';
-  const footerText = event?.footerText || "Can't wait to see you there!";
-  const eventLabel = event?.label || 'Event';
-  const isCoupleEvent = event?.isCoupleEvent ?? false;
-
-  const IconComponent = EVENT_ICONS[eventType] || Heart;
-
-  const names =
-    isCoupleEvent && formData.person2Name
-      ? `${formData.person1Name} & ${formData.person2Name}`
-      : formData.person1Name;
 
   // Build gallery images from Supabase storage or fallback to form_data images
   const galleryImages: string[] = (() => {
@@ -478,34 +336,9 @@ export default function InvitationPage() {
     return [];
   })();
 
+  formData.images = galleryImages;
+
   // ── Handlers ───────────────────────────────────────────
-  const handleAddToCalendar = () => {
-    const icsContent = generateICS(formData, eventLabel);
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${eventLabel.toLowerCase().replace(/\s+/g, '-')}-invitation.ics`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const handleGetDirections = () => {
-    const url = formData.coords
-      ? `https://www.google.com/maps/dir/?api=1&destination=${formData.coords.lat},${formData.coords.lng}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formData.address || formData.location || '')}`;
-    window.open(url, '_blank');
-  };
-
-  const handleShareWhatsApp = () => {
-    const shareUrl = window.location.href;
-    const text = `You're invited! ${names} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(formData.date)}${formData.time ? ' at ' + formatTime(formData.time) : ''}. ${formData.location ? 'Venue: ' + formData.location + '. ' : ''}View invitation: ${shareUrl}`;
-    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
-  };
-
   const handleRsvpSubmit = async (guestName: string, phone: string, status: 'attending' | 'declined') => {
     setRsvpSubmitting(true);
     try {
@@ -519,11 +352,23 @@ export default function InvitationPage() {
     }
   };
 
+  const renderTemplate = () => {
+    const templateId = invitation.template_id || 'default';
+
+    switch (templateId) {
+      case 'royal_gold':
+        return <RoyalGoldTemplate formData={formData} eventType={eventType} onRsvpClick={() => setRsvpModal(true)} rsvpDone={rsvpDone} />;
+      case 'minimalist':
+        return <MinimalistTemplate formData={formData} eventType={eventType} onRsvpClick={() => setRsvpModal(true)} rsvpDone={rsvpDone} />;
+      case 'default':
+      default:
+        return <DefaultTemplate formData={formData} eventType={eventType} onRsvpClick={() => setRsvpModal(true)} rsvpDone={rsvpDone} />;
+    }
+  };
+
   // ── Render ─────────────────────────────────────────────
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFBF8', position: 'relative', fontFamily: "'Nunito Sans', sans-serif" }}>
-      <FloatingHearts />
-
+    <div style={{ minHeight: '100vh', position: 'relative' }}>
       {/* ── RSVP Modal ─────────────────────────────────── */}
       <AnimatePresence>
         {rsvpModal && (
@@ -535,364 +380,8 @@ export default function InvitationPage() {
         )}
       </AnimatePresence>
 
-      {/* ── Main Content ───────────────────────────────── */}
-      <div
-        style={{
-          maxWidth: '512px',
-          margin: '0 auto',
-          padding: '16px',
-          paddingBottom: '32px',
-          position: 'relative',
-          zIndex: 10,
-        }}
-      >
-
-        {/* ── Hero ──────────────────────────────────────── */}
-        <Section style={{ textAlign: 'center', paddingTop: '32px', paddingBottom: '24px' }}>
-          {formData.person1Image && formData.person2Image ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}
-            >
-              <div style={{ position: 'relative', width: '160px', height: '100px' }}>
-                <img
-                  src={formData.person1Image}
-                  alt={formData.person1Name}
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    width: '100px',
-                    height: '100px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    border: '4px solid #FFFBF8',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-                    zIndex: 2,
-                  }}
-                />
-                <img
-                  src={formData.person2Image}
-                  alt={formData.person2Name || ''}
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    width: '100px',
-                    height: '100px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    border: '4px solid #FFFBF8',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-                    zIndex: 1,
-                  }}
-                />
-              </div>
-            </motion.div>
-          ) : formData.person1Image ? (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-              style={{
-                width: '100px',
-                height: '100px',
-                margin: '0 auto 24px',
-                borderRadius: '50%',
-                border: '4px solid #FFFBF8',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-                overflow: 'hidden',
-              }}
-            >
-              <img src={formData.person1Image} alt={formData.person1Name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-              style={{
-                width: '80px',
-                height: '80px',
-                margin: '0 auto 24px',
-                borderRadius: '50%',
-                background: 'rgba(184, 64, 94, 0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <IconComponent size={36} style={{ color: '#B8405E' }} />
-            </motion.div>
-          )}
-
-          <p
-            style={{
-              fontSize: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.25em',
-              color: 'rgba(45, 42, 38, 0.6)',
-              fontWeight: 700,
-              marginBottom: '8px',
-            }}
-          >
-            {tagline}
-          </p>
-          <p style={{ fontSize: '14px', color: '#94a3b8', fontWeight: 500, marginBottom: '24px' }}>
-            {subtitle}
-          </p>
-
-          <h1
-            style={{
-              fontSize: 'clamp(1.875rem, 5vw, 3rem)',
-              color: '#2D2A26',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              marginBottom: '16px',
-              wordBreak: 'break-word',
-              fontFamily: "'Great Vibes', cursive",
-            }}
-          >
-            {names}
-          </h1>
-
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', marginTop: '16px' }}>
-            <p style={{ fontSize: '18px', fontWeight: 600, color: '#334155' }}>
-              {formatDate(formData.date)}
-            </p>
-            {formData.time && (
-              <p style={{ fontSize: '14px', color: '#94a3b8', fontWeight: 500 }}>
-                {formatTime(formData.time)}
-              </p>
-            )}
-          </div>
-
-          {formData.parents && typeof formData.parents === 'object' && (
-            <p style={{ fontSize: '12px', color: '#94a3b8', marginTop: '16px', fontStyle: 'italic' }}>
-              With the blessings of{' '}
-              {Object.values(formData.parents).filter(Boolean).join(' & ')}
-            </p>
-          )}
-        </Section>
-
-        {/* ── Divider ──────────────────────────────────── */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', margin: '24px 0' }}>
-          <div style={{ height: '1px', width: '64px', background: 'rgba(45, 42, 38, 0.2)' }} />
-          <Heart size={12} style={{ color: 'rgba(184, 64, 94, 0.3)' }} fill="currentColor" />
-          <div style={{ height: '1px', width: '64px', background: 'rgba(45, 42, 38, 0.2)' }} />
-        </div>
-
-        {/* ── Photo Gallery ─────────────────────────────── */}
-        {galleryImages.length > 0 && (
-          <Section
-            style={{
-              borderRadius: '16px',
-              border: '1px solid #F0E6DC',
-              marginTop: '24px',
-              padding: '16px',
-              background: '#fff',
-            }}
-          >
-            <CinematicGallery images={galleryImages} maxPhotos={50} tier="Premium" />
-          </Section>
-        )}
-
-        {/* ── Countdown ─────────────────────────────────── */}
-        <Section style={{ marginTop: '32px', borderRadius: '16px', padding: '24px' }}>
-          <h2
-            style={{
-              fontSize: '24px',
-              textAlign: 'center',
-              color: '#2D2A26',
-              marginBottom: '8px',
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-            }}
-          >
-            {countdownLabel}
-          </h2>
-          <CountdownTimer targetDate={formData.date + 'T12:00:00'} />
-        </Section>
-
-        {/* ── Venue Map ─────────────────────────────────── */}
-        {(formData.location || formData.address) && (
-          <Section
-            style={{
-              marginTop: '32px',
-              borderRadius: '16px',
-              border: '1px solid #F0E6DC',
-              padding: '16px',
-              background: '#fff',
-            }}
-          >
-            <VenueMap
-              locationName={formData.location || 'Venue'}
-              address={formData.address || formData.location || ''}
-              coords={formData.coords}
-            />
-          </Section>
-        )}
-
-        {/* ── Shagun ────────────────────────────────────── */}
-        <Section style={{ marginTop: '32px', borderRadius: '16px', padding: '16px' }}>
-          <Shagun upiId="wedding.invitation@okaxis" recipientName={names} />
-        </Section>
-
-        {/* ── Action Buttons ────────────────────────────── */}
-        <Section
-          style={{
-            marginTop: '32px',
-            borderRadius: '16px',
-            border: '1px solid #F0E6DC',
-            padding: '16px',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '12px',
-            background: '#fff',
-          }}
-        >
-          {/* RSVP */}
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              if (rsvpDone) return;
-              setRsvpModal(true);
-            }}
-            aria-label="RSVP to event"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '16px 0',
-              borderRadius: '16px',
-              fontWeight: 700,
-              fontSize: '14px',
-              cursor: rsvpDone ? 'default' : 'pointer',
-              border: rsvpDone
-                ? rsvpDone === 'attending'
-                  ? '1px solid #22c55e'
-                  : '1px solid #ef4444'
-                : '1px solid #F0E6DC',
-              background: rsvpDone
-                ? rsvpDone === 'attending'
-                  ? '#22c55e'
-                  : '#ef4444'
-                : '#fff',
-              color: rsvpDone ? '#fff' : '#2D2A26',
-              fontFamily: "'Nunito Sans', sans-serif",
-              transition: 'all 0.2s',
-            }}
-          >
-            <CheckCircle2 size={18} />
-            {rsvpDone === 'attending'
-              ? 'Attending!'
-              : rsvpDone === 'declined'
-                ? 'Declined'
-                : 'RSVP'}
-          </motion.button>
-
-          {/* Add to Calendar */}
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={handleAddToCalendar}
-            aria-label="Add event to calendar"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '16px 0',
-              borderRadius: '16px',
-              fontWeight: 700,
-              fontSize: '14px',
-              cursor: 'pointer',
-              border: '1px solid #F0E6DC',
-              background: '#fff',
-              color: '#334155',
-              fontFamily: "'Nunito Sans', sans-serif",
-              transition: 'all 0.2s',
-            }}
-          >
-            <CalendarPlus size={18} style={{ color: '#B8405E' }} />
-            Add to Calendar
-          </motion.button>
-
-          {/* Get Directions */}
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={handleGetDirections}
-            aria-label="Get directions to venue"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '16px 0',
-              borderRadius: '16px',
-              fontWeight: 700,
-              fontSize: '14px',
-              cursor: 'pointer',
-              border: '1px solid #F0E6DC',
-              background: '#fff',
-              color: '#334155',
-              fontFamily: "'Nunito Sans', sans-serif",
-              transition: 'all 0.2s',
-            }}
-          >
-            <MapPin size={18} style={{ color: '#B8405E' }} />
-            Get Directions
-          </motion.button>
-
-          {/* Share on WhatsApp */}
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={handleShareWhatsApp}
-            aria-label="Share on WhatsApp"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '16px 0',
-              borderRadius: '16px',
-              fontWeight: 700,
-              fontSize: '14px',
-              cursor: 'pointer',
-              border: '1px solid #25D366',
-              background: '#25D366',
-              color: '#fff',
-              fontFamily: "'Nunito Sans', sans-serif",
-              transition: 'all 0.2s',
-            }}
-          >
-            <Share2 size={18} />
-            WhatsApp
-          </motion.button>
-        </Section>
-
-        {/* ── Footer ────────────────────────────────────── */}
-        <Section style={{ textAlign: 'center', marginTop: '64px', marginBottom: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
-            <div style={{ height: '1px', width: '48px', background: 'rgba(45, 42, 38, 0.2)' }} />
-            <Heart size={10} style={{ color: 'rgba(184, 64, 94, 0.3)' }} fill="currentColor" />
-            <div style={{ height: '1px', width: '48px', background: 'rgba(45, 42, 38, 0.2)' }} />
-          </div>
-          <p style={{ fontSize: '18px', color: '#64748b', fontStyle: 'italic', marginBottom: '8px' }}>
-            {footerText}
-          </p>
-          <p
-            style={{
-              fontSize: '10px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.3em',
-              color: '#cbd5e1',
-              fontWeight: 900,
-            }}
-          >
-            Crafted with Love by Invitation.AI
-          </p>
-        </Section>
-      </div>
+      {/* ── Main Template Container ───────────────────────────────── */}
+      {renderTemplate()}
     </div>
   );
 }

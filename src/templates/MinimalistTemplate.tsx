@@ -16,6 +16,8 @@ export interface TemplateProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formData: any;
     eventType: EventType;
+    onRsvpClick?: () => void;
+    rsvpDone?: 'attending' | 'declined' | null;
 }
 
 // ── Helpers ────────────────────────────────────────────────
@@ -74,7 +76,7 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
 }
 
 // ── Main Component ─────────────────────────────────────────
-export default function MinimalistTemplate({ formData, eventType }: TemplateProps) {
+export default function MinimalistTemplate({ formData, eventType, onRsvpClick, rsvpDone }: TemplateProps) {
     const [rsvpStatus, setRsvpStatus] = useState<'none' | 'attending'>('none');
 
     if (!formData) return null;
@@ -182,14 +184,20 @@ export default function MinimalistTemplate({ formData, eventType }: TemplateProp
                 {/* ── Action Buttons ────────────────────────── */}
                 <Section className="mt-20">
                     <button
-                        onClick={() => setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending')}
-                        className={`w-full flex items-center justify-center gap-3 py-5 rounded-full font-bold text-sm transition-all duration-300 ${rsvpStatus === 'attending'
+                        onClick={() => {
+                            if (rsvpDone) return;
+                            if (onRsvpClick) onRsvpClick();
+                            else setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending');
+                        }}
+                        className={`w-full flex items-center justify-center gap-3 py-5 rounded-full font-bold text-sm transition-all duration-300 ${(rsvpDone === 'attending' || rsvpStatus === 'attending')
                             ? 'bg-black text-white shadow-xl scale-[0.98]'
-                            : 'bg-black text-white shadow-lg hover:shadow-xl hover:scale-[1.02]'
+                            : rsvpDone === 'declined'
+                                ? 'bg-[#EAEAEA] text-[#666] shadow-sm'
+                                : 'bg-black text-white shadow-lg hover:shadow-xl hover:scale-[1.02]'
                             }`}
                     >
-                        {rsvpStatus === 'attending' && <Check size={18} />}
-                        {rsvpStatus === 'attending' ? 'RSVP Confirmed' : 'Confirm Attendance'}
+                        {(rsvpDone === 'attending' || rsvpStatus === 'attending') && <Check size={18} />}
+                        {rsvpDone === 'attending' || rsvpStatus === 'attending' ? 'RSVP Confirmed' : rsvpDone === 'declined' ? 'Declined' : 'Confirm Attendance'}
                     </button>
 
                     <div className="grid grid-cols-3 gap-3 mt-4">

@@ -18,6 +18,8 @@ export interface TemplateProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formData: any;
     eventType: EventType;
+    onRsvpClick?: () => void;
+    rsvpDone?: 'attending' | 'declined' | null;
 }
 
 // ── Helpers ────────────────────────────────────────────────
@@ -119,7 +121,7 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
 }
 
 // ── Main Component ─────────────────────────────────────────
-export default function RoyalGoldTemplate({ formData, eventType }: TemplateProps) {
+export default function RoyalGoldTemplate({ formData, eventType, onRsvpClick, rsvpDone }: TemplateProps) {
     const [rsvpStatus, setRsvpStatus] = useState<'none' | 'attending'>('none');
 
     if (!formData) return null;
@@ -240,14 +242,20 @@ export default function RoyalGoldTemplate({ formData, eventType }: TemplateProps
                 {/* ── Action Buttons ────────────────────────── */}
                 <Section className="mt-12 grid grid-cols-2 gap-4">
                     <button
-                        onClick={() => setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending')}
-                        className={`flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm transition-all border ${rsvpStatus === 'attending'
+                        onClick={() => {
+                            if (rsvpDone) return;
+                            if (onRsvpClick) onRsvpClick();
+                            else setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending');
+                        }}
+                        className={`flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm transition-all border ${(rsvpDone === 'attending' || rsvpStatus === 'attending')
                             ? 'bg-[#D4AF37] text-black border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.3)]'
-                            : 'bg-transparent text-[#D4AF37] border-[#D4AF37]/50 hover:bg-[#D4AF37]/10'
+                            : rsvpDone === 'declined'
+                                ? 'bg-[transparent] text-red-500 border-red-500'
+                                : 'bg-transparent text-[#D4AF37] border-[#D4AF37]/50 hover:bg-[#D4AF37]/10'
                             }`}
                     >
                         <CheckCircle2 size={18} />
-                        {rsvpStatus === 'attending' ? 'Accepted' : 'Accept Invite'}
+                        {rsvpDone === 'attending' || rsvpStatus === 'attending' ? 'Accepted' : rsvpDone === 'declined' ? 'Declined' : 'Accept Invite'}
                     </button>
 
                     <button
