@@ -14,25 +14,9 @@ interface Template {
 }
 
 const TEMPLATES: Template[] = [
-  // Basic
-  { id: 'midnight', name: 'Midnight Constellation', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400', category: 'basic' },
-  { id: 'blossom', name: 'Simple Blossom', image: 'https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=400', category: 'basic' },
-  { id: 'ivory', name: 'Ivory Classic', image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400', category: 'basic' },
-  { id: 'pastel', name: 'Pastel Dreams', image: 'https://images.unsplash.com/photo-1478146059778-26028b07395a?w=400', category: 'basic' },
-
-  // Standard
-  { id: 'lavender', name: 'Lavender Fields', image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400', category: 'standard' },
-  { id: 'minimal', name: 'Modern Minimal', image: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=400', category: 'standard' },
-  { id: 'rustic', name: 'Rustic Charm', image: 'https://images.unsplash.com/photo-1510076857177-7470076d4098?w=400', category: 'standard' },
-  { id: 'botanical', name: 'Botanical Garden', image: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=400', category: 'standard' },
-  { id: 'ocean', name: 'Ocean Breeze', image: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=400', category: 'standard' },
-
-  // Premium
-  { id: 'golden', name: 'Golden Hour', image: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400', category: 'premium' },
-  { id: 'royal', name: 'Royal Elegance', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400', category: 'premium' },
-  { id: 'velvet', name: 'Velvet Rose', image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400', category: 'premium' },
-  { id: 'dynasty', name: 'Dynasty Gold', image: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=400', category: 'premium' },
-  { id: 'enchanted', name: 'Enchanted Night', image: 'https://images.unsplash.com/photo-1470290378698-263fa7ca60ab?w=400', category: 'premium' },
+  { id: 'default', name: 'Classic Romance', image: 'https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=400', category: 'basic' },
+  { id: 'minimalist', name: 'Minimalist Elegance', image: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=400', category: 'standard' },
+  { id: 'royal_gold', name: 'Royal Gold Luxury', image: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400', category: 'premium' },
 ];
 
 const CATEGORIES: { key: Category; label: string; icon: typeof Star; description: string; color: string; bg: string; border: string }[] = [

@@ -1,0 +1,13 @@
+src/components/CinematicGallery.tsx(8,8): error TS2307: Cannot find module 'swiper/css' or its corresponding type declarations.
+src/components/CinematicGallery.tsx(9,8): error TS2307: Cannot find module 'swiper/css/navigation' or its corresponding type declarations.
+src/components/CinematicGallery.tsx(10,8): error TS2307: Cannot find module 'swiper/css/pagination' or its corresponding type declarations.
+src/components/CinematicGallery.tsx(11,8): error TS2307: Cannot find module 'swiper/css/effect-fade' or its corresponding type declarations.
+src/components/Dashboard.tsx(99,62): error TS2304: Cannot find name 'cn'.
+src/components/Dashboard.tsx(101,17): error TS2367: This comparison appears to be unintentional because the types '"My Invitations"' and '"Overview"' have no overlap.
+src/components/Dashboard.tsx(258,35): error TS2304: Cannot find name 'cn'.
+src/pages/EventPage.tsx(6,38): error TS6133: 'Star' is declared but its value is never read.
+src/pages/EventPage.tsx(6,44): error TS6133: 'Smartphone' is declared but its value is never read.
+src/pages/EventPage.tsx(10,10): error TS6133: 'Card' is declared but its value is never read.
+src/pages/EventPage.tsx(219,26): error TS6133: 'event' is declared but its value is never read.
+src/pages/EventPage.tsx(251,32): error TS6133: 'event' is declared but its value is never read.
+src/pages/EventPage.tsx(319,28): error TS6133: 'event' is declared but its value is never read.

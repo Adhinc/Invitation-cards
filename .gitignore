@@ -53,3 +53,5 @@ skills/
 skills-lock.json
 
 .env.local
+
+.env
