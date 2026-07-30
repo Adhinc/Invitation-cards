@@ -51,3 +51,5 @@ dist-ssr
 .zencoder/
 skills/
 skills-lock.json
+
+.env.local

@@ -1,0 +1,26 @@
+commit 5cc7ac26bea67069da6cea947a6702f6eb44f0f7
+Author: Adhin C <adhin@example.com>
+Date:   Wed Jul 29 17:41:59 2026 +0530
+
+    Update Chatbot UI and fix invitation photos integration
+
+commit b6a5f22de569778434ef8fbe61e2d0f6429d77b4
+Author: admin <admin@cureo.city>
+Date:   Tue Mar 24 16:26:39 2026 +0530
+
+    feat: add Sign In/Sign Out to navbar, remove hamburger menu and Create Website button
+    
+    - Navbar now shows Sign In button (logged out) or Dashboard + Sign Out (logged in)
+    - Removed mobile hamburger menu and dropdown
+    - Auth redirect returns to current page; pricing flow still redirects to /pricing
+    - Sign In/Sign Out visible on all screen sizes
+    
+    Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+
+commit c40453e7cbb34dc15bde87b81f0578caf39797db
+Author: admin <admin@cureo.city>
+Date:   Thu Mar 19 17:04:20 2026 +0530
+
+    feat: add host dashboard with QR code, RSVP list, and share
+    
+    Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>

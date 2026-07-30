@@ -9,10 +9,8 @@ export function Component() {
 
   const handleComplete = (data: Record<string, unknown>) => {
     sessionStorage.setItem('inviteFormData', JSON.stringify(data));
-    const savedTemplate = sessionStorage.getItem('inviteSelectedTemplate');
-    const selectedTemplate = savedTemplate ? JSON.parse(savedTemplate) : null;
-    navigate('/preview', {
-      state: { formData: data, eventType: data.eventType, selectedTemplate },
+    navigate('/templates', {
+      state: { formData: data, eventType: data.eventType },
     });
   };
 

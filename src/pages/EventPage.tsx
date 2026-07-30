@@ -926,9 +926,9 @@ function TryItFreeModal({ onClose, onChooseTemplate }: { onClose: () => void; on
 const TIERS = ['Basic', 'Standard', 'Premium'] as const;
 
 const TIER_STYLES: Record<string, { bg: string; text: string; activeBg: string; activeText: string }> = {
-  Basic:    { bg: '#F1F5F9', text: '#475569', activeBg: '#475569', activeText: '#ffffff' },
+  Basic: { bg: '#F1F5F9', text: '#475569', activeBg: '#475569', activeText: '#ffffff' },
   Standard: { bg: '#DBEAFE', text: '#1E40AF', activeBg: '#1E40AF', activeText: '#ffffff' },
-  Premium:  { bg: '#FEF3C7', text: '#92400E', activeBg: '#92400E', activeText: '#ffffff' },
+  Premium: { bg: '#FEF3C7', text: '#92400E', activeBg: '#92400E', activeText: '#ffffff' },
 };
 
 function TemplateOverlay({
@@ -1282,7 +1282,7 @@ export function Component() {
   if (!event) return <Navigate to="/" replace />;
 
   const handleCreateClick = () => {
-    setShowModal(true);
+    navigate(`/chatbot?event=${event.type}`);
   };
 
   const handleChooseTemplate = () => {
