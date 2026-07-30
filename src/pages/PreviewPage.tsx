@@ -29,7 +29,11 @@ export function Component() {
     const templateId = selectedTemplate?.id || 'default';
 
     switch (templateId) {
-      // Add other templates here later (e.g. RoyalGold, Minimalist)
+      case 'royal_gold':
+        return <RoyalGoldTemplate formData={actualFormData} eventType={eventType || actualFormData.eventType} />;
+      case 'minimalist':
+        return <MinimalistTemplate formData={actualFormData} eventType={eventType || actualFormData.eventType} />;
+      case 'default':
       default:
         return <DefaultTemplate formData={actualFormData} eventType={eventType || actualFormData.eventType} />;
     }

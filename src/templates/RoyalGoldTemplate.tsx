@@ -73,7 +73,7 @@ function generateICS(formData: any, eventLabel: string): string {
 }
 
 // ── Floating Gold Dust ─────────────────────────────
-const INITIAL_DUST = [...Array(15)].map((_, i) => ({
+const INITIAL_DUST = [...Array(15)].map(() => ({
     x: `${Math.random() * 100}%`,
     y: `${Math.random() * 100}%`,
     scale: Math.random() * 0.5 + 0.2,
@@ -242,8 +242,8 @@ export default function RoyalGoldTemplate({ formData, eventType }: TemplateProps
                     <button
                         onClick={() => setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending')}
                         className={`flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm transition-all border ${rsvpStatus === 'attending'
-                                ? 'bg-[#D4AF37] text-black border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.3)]'
-                                : 'bg-transparent text-[#D4AF37] border-[#D4AF37]/50 hover:bg-[#D4AF37]/10'
+                            ? 'bg-[#D4AF37] text-black border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.3)]'
+                            : 'bg-transparent text-[#D4AF37] border-[#D4AF37]/50 hover:bg-[#D4AF37]/10'
                             }`}
                     >
                         <CheckCircle2 size={18} />

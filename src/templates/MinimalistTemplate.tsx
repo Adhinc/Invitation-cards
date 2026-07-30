@@ -11,7 +11,6 @@ import { getEventByType } from '../constants/events';
 import CountdownTimer from '../components/CountdownTimer';
 import CinematicGallery from '../components/CinematicGallery';
 import VenueMap from '../components/VenueMap';
-import Shagun from '../components/Shagun';
 
 export interface TemplateProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -185,8 +184,8 @@ export default function MinimalistTemplate({ formData, eventType }: TemplateProp
                     <button
                         onClick={() => setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending')}
                         className={`w-full flex items-center justify-center gap-3 py-5 rounded-full font-bold text-sm transition-all duration-300 ${rsvpStatus === 'attending'
-                                ? 'bg-black text-white shadow-xl scale-[0.98]'
-                                : 'bg-black text-white shadow-lg hover:shadow-xl hover:scale-[1.02]'
+                            ? 'bg-black text-white shadow-xl scale-[0.98]'
+                            : 'bg-black text-white shadow-lg hover:shadow-xl hover:scale-[1.02]'
                             }`}
                     >
                         {rsvpStatus === 'attending' && <Check size={18} />}

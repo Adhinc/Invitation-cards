@@ -1,19 +1,15 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Heart,
   Cake,
   Church,
   Baby,
   Home,
-  X,
-  Sparkles,
   CalendarPlus,
   MapPin,
   Share2,
   CheckCircle2,
-  Palette,
-  Crown,
 } from 'lucide-react';
 import { getEventByType, type EventType } from '../constants/events';
 import CountdownTimer from '../components/CountdownTimer';
@@ -308,8 +304,8 @@ export default function DefaultTemplate({ formData: actualFormData, eventType }:
             onClick={handleRsvp}
             aria-label={rsvpStatus === 'attending' ? 'Cancel RSVP' : 'RSVP to event'}
             className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm transition-all border ${rsvpStatus === 'attending'
-                ? 'bg-[#B8405E] text-white border-[#B8405E] shadow-lg shadow-[rgba(184,64,94,0.3)]'
-                : 'bg-white text-[#2D2A26] border-[#F0E6DC] hover:border-[#B8405E]'
+              ? 'bg-[#B8405E] text-white border-[#B8405E] shadow-lg shadow-[rgba(184,64,94,0.3)]'
+              : 'bg-white text-[#2D2A26] border-[#F0E6DC] hover:border-[#B8405E]'
               }`}
           >
             <CheckCircle2 size={18} />
