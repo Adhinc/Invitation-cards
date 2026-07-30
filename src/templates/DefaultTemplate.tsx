@@ -77,8 +77,12 @@ function formatDate(dateStr: string): string {
 
 function formatTime(timeStr?: string): string {
   if (!timeStr) return '';
+  if (!timeStr.includes(':')) return timeStr;
   try {
-    const [h, m] = timeStr.split(':').map(Number);
+    const [hStr, mStr] = timeStr.split(':');
+    const h = parseInt(hStr, 10);
+    const m = parseInt(mStr, 10);
+    if (isNaN(h) || isNaN(m)) return timeStr;
     const ampm = h >= 12 ? 'PM' : 'AM';
     const hour12 = h % 12 || 12;
     return `${hour12}:${String(m).padStart(2, '0')} ${ampm}`;
