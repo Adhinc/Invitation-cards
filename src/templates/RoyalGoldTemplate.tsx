@@ -165,14 +165,45 @@ export default function RoyalGoldTemplate({ formData, eventType, onRsvpClick, rs
 
                 {/* ── Hero ──────────────────────────────────── */}
                 <Section className="text-center pt-12 pb-8">
-                    <motion.div
-                        initial={{ scale: 0, rotate: -45 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-                        className="w-16 h-16 mx-auto mb-8 rounded-full border border-[#D4AF37]/50 flex items-center justify-center bg-[#D4AF37]/5"
-                    >
-                        <Sparkles size={28} className="text-[#D4AF37]" />
-                    </motion.div>
+                    {formData.person1Image && formData.person2Image ? (
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                            className="flex justify-center mb-8"
+                        >
+                            <div className="relative w-40 h-24">
+                                <img
+                                    src={formData.person1Image}
+                                    alt={formData.person1Name}
+                                    className="absolute left-0 w-24 h-24 rounded-full object-cover border-[3px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.4)] z-10"
+                                />
+                                <img
+                                    src={formData.person2Image}
+                                    alt={formData.person2Name || ''}
+                                    className="absolute right-0 w-24 h-24 rounded-full object-cover border-[3px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.4)] z-0"
+                                />
+                            </div>
+                        </motion.div>
+                    ) : formData.person1Image ? (
+                        <motion.div
+                            initial={{ scale: 0, rotate: -15 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                            className="w-24 h-24 mx-auto mb-8 rounded-full border-[3px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.4)] overflow-hidden"
+                        >
+                            <img src={formData.person1Image} alt={formData.person1Name} className="w-full h-full object-cover" />
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            initial={{ scale: 0, rotate: -45 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                            className="w-16 h-16 mx-auto mb-8 rounded-full border border-[#D4AF37]/50 flex items-center justify-center bg-[#D4AF37]/5"
+                        >
+                            <Sparkles size={28} className="text-[#D4AF37]" />
+                        </motion.div>
+                    )}
 
                     <p className="text-xs uppercase tracking-[0.4em] text-[#D4AF37] font-semibold mb-4">
                         {event?.tagline || 'You are graciously invited'}

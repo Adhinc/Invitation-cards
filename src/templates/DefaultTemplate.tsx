@@ -29,6 +29,8 @@ interface FormData {
   coords?: { lat: number; lng: number };
   parents?: Record<string, string | null> | null;
   images?: string[];
+  person1Image?: string;
+  person2Image?: string;
   [key: string]: unknown;
 }
 
@@ -224,14 +226,45 @@ export default function DefaultTemplate({ formData: actualFormData, eventType, o
 
         {/* ── 2. Hero ──────────────────────────────────── */}
         <Section className="text-center pt-8 pb-6">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#B8405E]/10 flex items-center justify-center"
-          >
-            <IconComponent size={36} className="text-[#B8405E]" />
-          </motion.div>
+          {actualFormData.person1Image && actualFormData.person2Image ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, type: 'spring', bounce: 0.4 }}
+              className="flex justify-center mb-6"
+            >
+              <div className="relative w-40 h-24">
+                <img
+                  src={actualFormData.person1Image}
+                  alt={actualFormData.person1Name}
+                  className="absolute left-0 w-24 h-24 rounded-full object-cover border-4 border-[#FFFBF8] shadow-[0_8px_24px_rgba(0,0,0,0.12)] z-10"
+                />
+                <img
+                  src={actualFormData.person2Image}
+                  alt={actualFormData.person2Name || ''}
+                  className="absolute right-0 w-24 h-24 rounded-full object-cover border-4 border-[#FFFBF8] shadow-[0_8px_24px_rgba(0,0,0,0.12)] z-0"
+                />
+              </div>
+            </motion.div>
+          ) : actualFormData.person1Image ? (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              className="w-24 h-24 mx-auto mb-6 rounded-full border-4 border-[#FFFBF8] shadow-[0_8px_24px_rgba(0,0,0,0.12)] overflow-hidden"
+            >
+              <img src={actualFormData.person1Image} alt={actualFormData.person1Name} className="w-full h-full object-cover" />
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#B8405E]/10 flex items-center justify-center"
+            >
+              <IconComponent size={36} className="text-[#B8405E]" />
+            </motion.div>
+          )}
 
           <p className="text-sm uppercase tracking-[0.25em] text-[#2D2A26]/60 font-bold mb-2">
             {tagline}

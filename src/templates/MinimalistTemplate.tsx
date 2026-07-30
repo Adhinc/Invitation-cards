@@ -129,6 +129,25 @@ export default function MinimalistTemplate({ formData, eventType, onRsvpClick, r
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: 0.2 }}
                     >
+                        {formData.person1Image && formData.person2Image ? (
+                            <div className="flex justify-center mb-8 relative w-48 h-28 mx-auto -mt-6">
+                                <img
+                                    src={formData.person1Image}
+                                    alt={formData.person1Name}
+                                    className="absolute left-0 w-28 h-28 rounded-full object-cover border-[6px] border-white shadow-xl z-10 grayscale hover:grayscale-0 transition-all duration-700"
+                                />
+                                <img
+                                    src={formData.person2Image}
+                                    alt={formData.person2Name || ''}
+                                    className="absolute right-0 w-28 h-28 rounded-full object-cover border-[6px] border-white shadow-xl z-0 grayscale hover:grayscale-0 transition-all duration-700"
+                                />
+                            </div>
+                        ) : formData.person1Image ? (
+                            <div className="w-32 h-32 mx-auto mb-8 rounded-full border-[6px] border-white shadow-xl overflow-hidden -mt-6 grayscale hover:grayscale-0 transition-all duration-700">
+                                <img src={formData.person1Image} alt={formData.person1Name} className="w-full h-full object-cover" />
+                            </div>
+                        ) : null}
+
                         <p className="text-[10px] uppercase tracking-[0.2em] text-[#888] font-semibold mb-6">
                             {event?.tagline || 'You are invited'}
                         </p>
