@@ -73,11 +73,15 @@ export function Component() {
       </AnimatePresence>
 
       {/* ── Main Template Container ──────────────── */}
-      <div className={`w-full flex-1 ${bannerVisible ? 'pt-14 md:pt-16' : ''} pb-28 relative z-10`}>
-        {renderTemplate()}
+      <div className={`w-full flex-1 flex justify-center items-start min-h-screen bg-[#FFFBF8] lg:bg-[#F2ECE7] ${bannerVisible ? 'pt-14 md:pt-20' : ''} lg:p-12 relative z-10`}>
+        <div className="w-full max-w-md lg:shadow-2xl lg:border-[12px] lg:border-black lg:rounded-[3rem] lg:overflow-hidden relative bg-white min-h-[100vh] lg:min-h-[850px] lg:max-h-[850px] overflow-y-auto custom-scrollbar">
+          {/* Mockup Notch (Desktop only) */}
+          <div className="hidden lg:block absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-40 mx-auto z-[999]"></div>
+          {renderTemplate()}
+        </div>
       </div>
 
-      {/* ── Floating Bottom Bar ─────────────────────── */}
+      {/* ── Floating Bottom Bar (Stays pinned to viewport) ─────────────────────── */}
       <motion.div
         initial={{ y: 80 }}
         animate={{ y: 0 }}

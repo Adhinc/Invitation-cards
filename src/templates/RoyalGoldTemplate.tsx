@@ -1,18 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import {
-    Sparkles,
-    CalendarPlus,
-    MapPin,
-    Share2,
-    CheckCircle2,
-} from 'lucide-react';
+import { MapPin, Share2, Sparkles, CheckCircle2, Heart } from 'lucide-react';
 import type { EventType } from '../constants/events';
 import { getEventByType } from '../constants/events';
-import CountdownTimer from '../components/CountdownTimer';
 import CinematicGallery from '../components/CinematicGallery';
 import VenueMap from '../components/VenueMap';
-import Shagun from '../components/Shagun';
 
 export interface TemplateProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,13 +18,14 @@ export interface TemplateProps {
 const SAMPLE_IMAGES = [
     'https://images.unsplash.com/photo-1519741497674-611481863552?w=800',
     'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800',
+    'https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=800',
     'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800',
 ];
 
 function formatDate(dateStr: string): string {
     try {
         const d = new Date(dateStr + 'T00:00:00');
-        return d.toLocaleDateString('en-IN', {
+        return d.toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -59,64 +52,64 @@ function formatTime(timeStr?: string): string {
     }
 }
 
-function generateICS(formData: any, eventLabel: string): string {
-    const dtStart = formData.date.replace(/-/g, '');
-    const time = formData.time ? formData.time.replace(/:/g, '') + '00' : '120000';
-    const names = formData.person2Name
-        ? `${formData.person1Name} & ${formData.person2Name}`
-        : formData.person1Name;
-    return [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'BEGIN:VEVENT',
-        `DTSTART:${dtStart}T${time}`,
-        `DTEND:${dtStart}T${time}`,
-        `SUMMARY:${eventLabel} - ${names}`,
-        `LOCATION:${formData.address || formData.location || ''}`,
-        'END:VEVENT',
-        'END:VCALENDAR',
-    ].join('\r\n');
-}
+// ── Custom Midnight Countdown Component ──────────────────────
+function MidnightCountdown({ targetDate }: { targetDate: string }) {
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
 
-// ── Floating Gold Dust ─────────────────────────────
-const INITIAL_DUST = [...Array(15)].map(() => ({
-    x: `${Math.random() * 100}%`,
-    y: `${Math.random() * 100}%`,
-    scale: Math.random() * 0.5 + 0.2,
-    duration: 4 + Math.random() * 6,
-    delay: Math.random() * 5,
-}));
+    useEffect(() => {
+        const calculateTimeLeft = () => {
+            const difference = +new Date(targetDate) - +new Date();
+            let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+            if (difference > 0) {
+                timeLeft = {
+                    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                    minutes: Math.floor((difference / 1000 / 60) % 60),
+                    seconds: Math.floor((difference / 1000) % 60),
+                };
+            }
+            return timeLeft;
+        };
+        setTimeLeft(calculateTimeLeft());
+        const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
+        return () => clearInterval(timer);
+    }, [targetDate]);
 
-function GoldDust() {
+    const Pad = ({ num, label }: { num: number; label: string }) => (
+        <div className="flex flex-col items-center justify-center bg-[#0C121D] border border-[#222E46] rounded-xl p-4 md:p-6 shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative overflow-hidden">
+            <div className="absolute top-1 right-2 opacity-20"><Sparkles size={10} color="#7BA7D9" /></div>
+            <span className="text-3xl md:text-5xl font-bold font-serif text-white mb-1 shadow-sm leading-none" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                {String(num).padStart(2, '0')}
+            </span>
+            <span className="text-[9px] md:text-[10px] tracking-[0.25em] text-[#A1B5D8] font-bold uppercase mt-1">
+                {label}
+            </span>
+        </div>
+    );
+
     return (
-        <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
-            {INITIAL_DUST.map((d, i) => (
-                <motion.div
-                    key={i}
-                    className="absolute bg-[#D4AF37] rounded-full blur-[1px] opacity-40"
-                    style={{ width: 4, height: 4 }}
-                    initial={{ x: d.x, y: '110%', scale: d.scale, opacity: 0 }}
-                    animate={{ y: '-10%', opacity: [0, 0.6, 0] }}
-                    transition={{
-                        duration: d.duration,
-                        repeat: Infinity,
-                        delay: d.delay,
-                        ease: 'linear',
-                    }}
-                />
-            ))}
+        <div className="grid grid-cols-2 gap-3 md:gap-4 max-w-xs mx-auto">
+            <Pad num={timeLeft.days} label="Days" />
+            <Pad num={timeLeft.hours} label="Hours" />
+            <Pad num={timeLeft.minutes} label="Minutes" />
+            <Pad num={timeLeft.seconds} label="Seconds" />
         </div>
     );
 }
 
 // ── Section wrapper ───────────────────────
-function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function Section({ children, className = '' }: { children: React.ReactNode; className?: string; }) {
     return (
         <motion.section
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className={className}
         >
             {children}
@@ -134,198 +127,228 @@ export default function RoyalGoldTemplate({ formData, eventType, onRsvpClick, rs
     const eventLabel = event?.label || 'Event';
     const isCoupleEvent = event?.isCoupleEvent ?? false;
 
-    const names = isCoupleEvent && formData.person2Name
-        ? `${formData.person1Name} & ${formData.person2Name}`
-        : formData.person1Name;
-
     const galleryImages =
         formData.images && formData.images.length > 0 ? formData.images : SAMPLE_IMAGES;
 
-    const handleAddToCalendar = () => {
-        const icsContent = generateICS(formData, eventLabel);
-        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${eventLabel.toLowerCase().replace(/\s+/g, '-')}-invitation.ics`;
-        a.click();
-        URL.revokeObjectURL(url);
-    };
-
     const handleShareWhatsApp = () => {
-        const text = `You're invited! ${names} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(formData.date)}${formData.time ? ' at ' + formatTime(formData.time) : ''}.\n\nView Invitation & RSVP here:\n${window.location.href}`;
+        const namesShared = isCoupleEvent && formData.person2Name ? `${formData.person1Name} & ${formData.person2Name}` : formData.person1Name;
+        const text = `You're invited! ${namesShared} ${isCoupleEvent ? 'are' : 'is'} celebrating ${isCoupleEvent ? 'their' : 'a'} ${eventLabel.toLowerCase()} on ${formatDate(formData.date)}${formData.time ? ' at ' + formatTime(formData.time) : ''}.\n\nView Invitation & RSVP here:\n${window.location.href}`;
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     };
 
     return (
-        <div className="w-full relative bg-[#111111] text-[#E5E5E5] overflow-hidden rounded-md shadow-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            {/* Background Decor */}
-            <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] rounded-full bg-[#D4AF37]/10 blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#FFD700]/10 blur-[100px] pointer-events-none" />
+        <div className="w-full relative text-[#E5E5E5] overflow-hidden rounded-md" style={{ fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif", background: 'radial-gradient(ellipse at center, #0B1121 0%, #04060B 100%)' }}>
 
-            <GoldDust />
+            {/* Subtle Starry Particle Overlay */}
+            <div className="absolute inset-0 pointer-events-none opacity-20" style={{
+                backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+                backgroundSize: '40px 40px',
+                backgroundPosition: '0 0, 20px 20px'
+            }} />
 
-            <div className="max-w-lg mx-auto p-6 md:p-10 relative z-10 pb-16">
+            <div className="max-w-md mx-auto p-0 relative z-10 pb-16">
 
-                {/* ── Hero ──────────────────────────────────── */}
-                <Section className="text-center pt-12 pb-8">
-                    {formData.person1Image && formData.person2Image ? (
+                {/* ── Outer Stroke Border framing the entire card ── */}
+                <div className="m-4 border border-[#222E46] rounded-[2.5rem] relative overflow-hidden bg-[#070A11]/60 backdrop-blur-sm">
+
+                    {/* Glowing Core */}
+                    <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[30%] bg-[#7BA7D9]/20 blur-[100px] pointer-events-none rounded-full" />
+
+                    {/* ── 1. Hero ──────────────────────────────────── */}
+                    <Section className="text-center pt-16 pb-12 px-6 flex flex-col items-center">
+
+                        {/* Top Profile (Person 1) */}
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-                            className="flex justify-center mb-8"
+                            transition={{ duration: 1 }}
+                            className="w-32 h-32 rounded-full border border-[rgba(123,167,217,0.3)] p-1 shadow-[0_0_30px_rgba(123,167,217,0.1)] mb-10 overflow-hidden relative"
                         >
-                            <div className="relative w-40 h-24">
-                                <img
-                                    src={formData.person1Image}
-                                    alt={formData.person1Name}
-                                    className="absolute left-0 w-24 h-24 rounded-full object-cover border-[3px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.4)] z-10"
-                                />
-                                <img
-                                    src={formData.person2Image}
-                                    alt={formData.person2Name || ''}
-                                    className="absolute right-0 w-24 h-24 rounded-full object-cover border-[3px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.4)] z-0"
-                                />
+                            <div className="w-full h-full rounded-full overflow-hidden">
+                                {formData.person1Image ? (
+                                    <img src={formData.person1Image} alt={formData.person1Name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full bg-[#1A2639] flex items-center justify-center"><Heart className="text-[#A1B5D8]" /></div>
+                                )}
                             </div>
                         </motion.div>
-                    ) : formData.person1Image ? (
-                        <motion.div
-                            initial={{ scale: 0, rotate: -15 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-                            className="w-24 h-24 mx-auto mb-8 rounded-full border-[3px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.4)] overflow-hidden"
-                        >
-                            <img src={formData.person1Image} alt={formData.person1Name} className="w-full h-full object-cover" />
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            initial={{ scale: 0, rotate: -45 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-                            className="w-16 h-16 mx-auto mb-8 rounded-full border border-[#D4AF37]/50 flex items-center justify-center bg-[#D4AF37]/5"
-                        >
-                            <Sparkles size={28} className="text-[#D4AF37]" />
-                        </motion.div>
-                    )}
 
-                    <p className="text-xs uppercase tracking-[0.4em] text-[#D4AF37] font-semibold mb-4">
-                        {event?.tagline || 'You are graciously invited'}
-                    </p>
-
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-normal leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#C5A028] via-[#FFDF73] to-[#C5A028]" style={{ fontFamily: "'Great Vibes', cursive", padding: '10px 0' }}>
-                        {names}
-                    </h1>
-
-                    <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6" />
-
-                    <div className="flex flex-col items-center gap-2">
-                        <p className="text-xl tracking-wide text-[#FFDF73]">{formatDate(formData.date)}</p>
-                        {formData.time && (
-                            <p className="text-sm tracking-widest text-[#A0A0A0] uppercase">{formatTime(formData.time)}</p>
-                        )}
-                    </div>
-
-                    {formData.parents && typeof formData.parents === 'object' && (
-                        <p className="text-[11px] uppercase tracking-widest text-[#888888] mt-8">
-                            With blessings from <br />
-                            <span className="text-[#D4AF37] mt-2 block">{Object.values(formData.parents).filter(Boolean).join(' & ')}</span>
+                        {/* "You are invited to" */}
+                        <p className="text-2xl text-[#8EACD9] mb-4" style={{ fontFamily: "'Great Vibes', cursive" }}>
+                            {event?.tagline || 'You are invited to'}
                         </p>
-                    )}
-                </Section>
 
-                {/* ── Gallery ─────────────────────────── */}
-                <Section className="mt-8 relative p-1">
-                    <div className="absolute inset-0 border border-[#D4AF37]/30 rounded-xl" />
-                    <div className="rounded-xl overflow-hidden bg-black">
-                        <CinematicGallery images={galleryImages} maxPhotos={5} tier="Premium" />
-                    </div>
-                </Section>
+                        {/* "The Wedding Of" */}
+                        <p className="text-[10px] tracking-[0.3em] font-black uppercase text-[#D5E1F2] mb-12 opacity-80">
+                            {isCoupleEvent ? 'The Wedding of' : `The ${eventLabel} of`}
+                        </p>
 
-                {/* ── Countdown ─────────────────────────────── */}
-                <Section className="mt-12 text-center p-8 bg-[#1A1A1A] border border-[#333] rounded-2xl relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-50" />
-                    <h2 className="text-2xl text-[#E5E5E5] mb-4 tracking-widest uppercase text-sm">
-                        {event?.countdownLabel || 'The Countdown Begins'}
-                    </h2>
-                    {/* We use a wrapper to force white text on the countdown if it doesn't inherit */}
-                    <div className="text-white">
-                        <CountdownTimer targetDate={formData.date + 'T12:00:00'} />
-                    </div>
-                </Section>
+                        {/* Names */}
+                        <div className="flex flex-col items-center justify-center w-full relative mb-12">
+                            <h1 className="text-6xl md:text-7xl font-normal leading-none text-white tracking-widest drop-shadow-md z-10" style={{ fontFamily: "'Great Vibes', cursive", textShadow: '0 4px 20px rgba(255,255,255,0.1)' }}>
+                                {formData.person1Name}
+                            </h1>
 
-                {/* ── Venue Map ─────────────────────────────── */}
-                {(formData.location || formData.address) && (
-                    <Section className="mt-12 p-1 border border-[#D4AF37]/30 rounded-2xl bg-[#111]">
-                        <VenueMap
-                            locationName={formData.location || 'The Venue'}
-                            address={formData.address || formData.location || ''}
-                            coords={formData.coords}
-                        />
+                            {isCoupleEvent && formData.person2Name && (
+                                <>
+                                    <span className="text-4xl text-[#7BA7D9] my-6" style={{ fontFamily: "'Great Vibes', cursive" }}>&</span>
+                                    <h1 className="text-6xl md:text-7xl font-normal leading-none text-white tracking-widest drop-shadow-md z-10" style={{ fontFamily: "'Great Vibes', cursive", textShadow: '0 4px 20px rgba(255,255,255,0.1)' }}>
+                                        {formData.person2Name}
+                                    </h1>
+                                </>
+                            )}
+                        </div>
+
+                        {/* Event Date Text */}
+                        <div className="w-full bg-gradient-to-r from-transparent via-[#E04B5A] to-transparent h-[1px] opacity-40 mb-8" />
+                        <p className="text-lg text-[#E0E7F1] italic font-serif">
+                            {formatDate(formData.date)}
+                        </p>
+                        {formData.time && (
+                            <p className="text-xs text-[#A1B5D8] tracking-[0.2em] uppercase font-bold mt-3">
+                                {formatTime(formData.time)}
+                            </p>
+                        )}
+                        <div className="w-full bg-gradient-to-r from-transparent via-[#E04B5A] to-transparent h-[1px] opacity-40 mt-8" />
+
+                        {/* Bottom Profile (Person 2) if exists */}
+                        {isCoupleEvent && formData.person2Name && (
+                            <motion.div
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1, delay: 0.3 }}
+                                className="w-32 h-32 rounded-full border border-[rgba(123,167,217,0.3)] p-1 shadow-[0_0_30px_rgba(123,167,217,0.1)] mt-12 overflow-hidden"
+                            >
+                                <div className="w-full h-full rounded-full overflow-hidden">
+                                    {formData.person2Image ? (
+                                        <img src={formData.person2Image} alt={formData.person2Name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full bg-[#1A2639] flex items-center justify-center"><Heart className="text-[#A1B5D8]" /></div>
+                                    )}
+                                </div>
+                            </motion.div>
+                        )}
                     </Section>
-                )}
 
-                {/* ── Shagun ────────────────────────────────── */}
-                <Section className="mt-12 bg-[#1A1A1A] border border-[#333] rounded-2xl p-6 text-white text-center">
-                    <h2 className="text-lg text-[#D4AF37] mb-2 tracking-widest uppercase">Blessings & Gifts</h2>
-                    <Shagun
-                        upiId="wedding.invitation@okaxis"
-                        recipientName={names}
-                    />
-                </Section>
+                    {/* ── Red Divider with Cross ── */}
+                    <div className="relative flex items-center justify-center w-full py-4 -my-4 z-20">
+                        <div className="absolute w-full h-px bg-[#E04B5A] opacity-50" />
+                        <div className="relative bg-[#E04B5A] w-10 h-10 rounded-full flex items-center justify-center border-4 border-[#070A11] shadow-[0_0_15px_rgba(224,75,90,0.5)]">
+                            <span className="text-white text-xl font-light leading-none mb-1">+</span>
+                        </div>
+                    </div>
 
-                {/* ── Action Buttons ────────────────────────── */}
-                <Section className="mt-12 grid grid-cols-2 gap-4">
-                    <button
-                        onClick={() => {
-                            if (rsvpDone) return;
-                            if (onRsvpClick) onRsvpClick();
-                            else setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending');
-                        }}
-                        className={`flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm transition-all border ${(rsvpDone === 'attending' || rsvpStatus === 'attending')
-                            ? 'bg-[#D4AF37] text-black border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.3)]'
-                            : rsvpDone === 'declined'
-                                ? 'bg-[transparent] text-red-500 border-red-500'
-                                : 'bg-transparent text-[#D4AF37] border-[#D4AF37]/50 hover:bg-[#D4AF37]/10'
-                            }`}
-                    >
-                        <CheckCircle2 size={18} />
-                        {rsvpDone === 'attending' || rsvpStatus === 'attending' ? 'Accepted' : rsvpDone === 'declined' ? 'Declined' : 'Accept Invite'}
-                    </button>
+                    {/* ── Countdown ─────────────────────────────── */}
+                    <Section className="py-16 px-6 text-center">
+                        <div className="relative inline-block mb-10">
+                            <h2 className="text-5xl md:text-6xl text-white font-normal" style={{ fontFamily: "'Great Vibes', cursive" }}>
+                                Countdown
+                            </h2>
+                            {/* Decorative planet/lens flare icon */}
+                            <div className="absolute top-[-10px] right-[-20px] w-8 h-8 rounded-full bg-gradient-to-tr from-white to-[#FFA8B4] opacity-80 shadow-[0_0_10px_#FFA8B4]" />
+                        </div>
 
-                    <button
-                        onClick={handleAddToCalendar}
-                        className="flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm bg-[#1A1A1A] text-[#A0A0A0] border border-[#333] hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-all"
-                    >
-                        <CalendarPlus size={18} />
-                        Save Date
-                    </button>
+                        <div className="flex items-center justify-center gap-3 mb-12">
+                            <div className="w-16 h-[1px] bg-[#334155]" />
+                            <Sparkles size={12} className="text-[#7BA7D9]" />
+                            <div className="w-16 h-[1px] bg-[#334155]" />
+                        </div>
 
-                    <button
-                        onClick={() => window.open(formData.coords ? `https://www.google.com/maps/dir/?api=1&destination=${formData.coords.lat},${formData.coords.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formData.address || formData.location || '')}`, '_blank')}
-                        className="flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm bg-[#1A1A1A] text-[#A0A0A0] border border-[#333] hover:border-[#D4AF37]/50 hover:text-[#D4AF37] transition-all"
-                    >
-                        <MapPin size={18} />
-                        Directions
-                    </button>
+                        <MidnightCountdown targetDate={formData.date + 'T12:00:00'} />
 
-                    <button
-                        onClick={handleShareWhatsApp}
-                        className="flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-sm bg-[#1A1A1A] text-[#A0A0A0] border border-[#333] hover:border-[#25D366] hover:text-[#25D366] transition-all"
-                    >
-                        <Share2 size={18} />
-                        WhatsApp
-                    </button>
-                </Section>
+                        <p className="text-[12px] italic text-[#A1B5D8] mt-12 font-serif">
+                            We are excited to see you at our special event
+                        </p>
+                    </Section>
+
+                    {/* ── Red Divider with Cross ── */}
+                    <div className="relative flex items-center justify-center w-full py-4 -my-4 z-20">
+                        <div className="absolute w-full h-px bg-[#E04B5A] opacity-50" />
+                        <div className="relative bg-[#E04B5A] w-10 h-10 rounded-full flex items-center justify-center border-4 border-[#070A11] shadow-[0_0_15px_rgba(224,75,90,0.5)]">
+                            <span className="text-white text-xl font-light leading-none mb-1">+</span>
+                        </div>
+                    </div>
+
+                    {/* ── The Happy Couple / Title Section ─────────────────────────────── */}
+                    <Section className="py-16 px-4 text-center">
+                        <h2 className="text-4xl md:text-5xl text-white font-normal mb-6" style={{ fontFamily: "'Great Vibes', cursive" }}>
+                            {isCoupleEvent ? 'The Happy Couple' : 'Our Story'}
+                        </h2>
+                        <p className="text-[#7BA7D9] italic text-lg" style={{ fontFamily: "'Great Vibes', cursive" }}>
+                            {isCoupleEvent ? 'Two hearts, one moonlit journey' : 'A night to remember forever'}
+                        </p>
+
+                        <div className="mt-12 mx-auto rounded-3xl overflow-hidden border border-[#222E46] bg-black p-1 shadow-2xl relative">
+                            <div className="rounded-2xl overflow-hidden">
+                                <CinematicGallery images={galleryImages} maxPhotos={5} tier="Premium" />
+                            </div>
+                        </div>
+                    </Section>
+
+                    {/* ── Venue Map ─────────────────────────────── */}
+                    {(formData.location || formData.address) && (
+                        <Section className="pb-16 px-6">
+                            <div className="flex items-center justify-center gap-3 mb-8">
+                                <div className="w-16 h-[1px] bg-[#334155]" />
+                                <MapPin size={12} className="text-[#E04B5A]" />
+                                <div className="w-16 h-[1px] bg-[#334155]" />
+                            </div>
+                            <h2 className="text-xs text-[#A1B5D8] mb-6 tracking-[0.3em] uppercase font-bold text-center">The Venue</h2>
+                            <div className="border border-[#222E46] rounded-[2rem] p-2 bg-[#0C121D] shadow-xl overflow-hidden">
+                                <VenueMap
+                                    locationName={formData.location || 'Venue'}
+                                    address={formData.address || formData.location || ''}
+                                    coords={formData.coords}
+                                />
+                            </div>
+                        </Section>
+                    )}
+
+                    {/* ── Action Buttons ────────────────────────── */}
+                    <Section className="px-6 pb-20">
+                        <button
+                            onClick={() => {
+                                if (rsvpDone) return;
+                                if (onRsvpClick) onRsvpClick();
+                                else setRsvpStatus(prev => prev === 'attending' ? 'none' : 'attending');
+                            }}
+                            className={`w-full flex items-center justify-center gap-3 py-5 a rounded-full font-bold text-sm tracking-widest uppercase transition-all duration-300 ${(rsvpDone === 'attending' || rsvpStatus === 'attending')
+                                ? 'bg-gradient-to-r from-[#2ecc71] to-[#27ae60] text-white shadow-[0_0_30px_rgba(46,204,113,0.3)] scale-[0.98]'
+                                : rsvpDone === 'declined'
+                                    ? 'bg-gradient-to-r from-[#e74c3c] to-[#c0392b] text-white shadow-[0_0_30px_rgba(231,76,60,0.3)] scale-[0.98]'
+                                    : 'bg-gradient-to-xl bg-[#E04B5A] text-white shadow-[0_10px_30px_rgba(224,75,90,0.4)] hover:shadow-[0_15px_40px_rgba(224,75,90,0.6)] hover:scale-[1.02]'
+                                }`}
+                        >
+                            {(rsvpDone === 'attending' || rsvpStatus === 'attending') ? <CheckCircle2 size={18} /> : null}
+                            {rsvpDone === 'attending' || rsvpStatus === 'attending' ? 'RSVP Confirmed' : rsvpDone === 'declined' ? 'Declined' : 'Confirm Attendance'}
+                        </button>
+
+                        <div className="grid grid-cols-2 gap-4 mt-6">
+                            <button
+                                onClick={handleShareWhatsApp}
+                                className="flex items-center justify-center gap-3 py-4 rounded-full font-bold text-xs uppercase tracking-widest border border-[#334155] bg-[#0C121D] text-[#A1B5D8] hover:border-[#7BA7D9] transition-colors"
+                            >
+                                <Share2 size={16} />
+                                Share
+                            </button>
+
+                            <button
+                                onClick={() => window.open(formData.coords ? `https://www.google.com/maps/dir/?api=1&destination=${formData.coords.lat},${formData.coords.lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formData.address || formData.location || '')}`, '_blank')}
+                                className="flex items-center justify-center gap-3 py-4 rounded-full font-bold text-xs uppercase tracking-widest border border-[#334155] bg-[#0C121D] text-[#A1B5D8] hover:border-[#7BA7D9] transition-colors"
+                            >
+                                <MapPin size={16} />
+                                Directions
+                            </button>
+                        </div>
+                    </Section>
+                </div>
 
                 {/* ── Footer ────────────────────────────────── */}
-                <Section className="text-center mt-20 mb-8">
-                    <div className="flex items-center justify-center gap-4 mb-6">
-                        <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#D4AF37]/50" />
-                        <Sparkles size={12} className="text-[#D4AF37]" />
-                        <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#D4AF37]/50" />
-                    </div>
-                    <p className="text-lg text-[#A0A0A0] italic tracking-wide">{event?.footerText || "We eagerly await your presence."}</p>
+                <Section className="text-center mt-6 mb-10 text-[#4B6386]">
+                    <p className="text-[10px] uppercase tracking-[0.4em] font-bold">
+                        Crafted by Initiation.AI
+                    </p>
                 </Section>
             </div>
         </div>
